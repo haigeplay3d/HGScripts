@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HGScripts router</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #161b1f;
+      color: #fff;
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+      font-size: 13px;
+    }
+    .boot {
+      padding: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="boot" class="boot">正在选择 HGScripts 面板...</div>
+  <script src="assets/js/CSInterface.js"></script>
+  <script>
+    (function () {
+      var fallback = "index_2023_safe.html";
+      var full = "index_full.html";
+      var legacyFull = "index_legacy_full.html";
+      var boot = document.getElementById("boot");
+
+      function write(message) {
+        boot.innerHTML = String(message || "");
+      }
+
+      function versionMajor(versionText) {
+        var match = String(versionText || "").match(/(\d+)(?:\.\d+)?/);
+        if (!match) {
+          return 0;
+        }
+        return parseInt(match[1], 10) || 0;
+      }
+
+      try {
+        var cs = new CSInterface();
+        var env = cs.getHostEnvironment ? cs.getHostEnvironment() : null;
+        var appVersion = env && env.appVersion ? env.appVersion : "";
+        var major = versionMajor(appVersion);
+
+        if (major >= 30) {
+          write("正在打开完整面板...");
+          window.location.replace(full);
+          return;
+        }
+
+        write("正在尝试旧版 Illustrator 完整面板...");
+        window.location.replace(legacyFull + "?legacy=1");
+      } catch (err) {
+        write("正在打开安全面板...");
+        window.location.replace(fallback);
+      }
+    })();
+  </script>
+</body>
+</html>
+
