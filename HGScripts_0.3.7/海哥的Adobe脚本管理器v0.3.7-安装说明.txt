@@ -1,0 +1,77 @@
+海哥的Adobe脚本管理器 v0.3.7 Windows 安装说明
+
+推荐安装方式
+
+请优先运行：
+
+安装-海哥的Adobe脚本管理器v0.3.7.exe
+
+安装器使用现代 Windows 界面，会复制 HGScripts 面板、开启 Adobe CEP 支持，并可安装 Windows Illustrator C++ 加速插件。
+
+安装过程中会显示“安装状态与目录”看板，用来确认当前安装包版本、已安装版本和管理器目录、
+CEP 面板位置、统一 HGScriptsNative.aip 的完整目标路径、CSXS 调试开关，以及检测到的 Illustrator 和 .aip 状态。
+
+本正式包暂不支持 macOS。macOS 版本暂不提供安装包、手动安装说明或技术支持。
+
+
+安装步骤
+
+1. 关闭 Illustrator。
+2. 双击运行 安装-海哥的Adobe脚本管理器v0.3.7.exe。
+3. 按安装器提示完成安装。
+4. 重新打开 Illustrator。
+5. 在菜单中打开：窗口 > 扩展 > 海哥的Adobe脚本管理器
+
+英文界面一般是：
+
+Window > Extensions > 海哥的Adobe脚本管理器
+
+
+放入自己的脚本
+
+HGScripts 按“脚本目录”管理脚本，不需要逐个导入文件。
+
+安装后自带内置脚本目录，Illustrator 版一般在：
+
+%APPDATA%\Adobe\CEP\extensions\HGScripts\user_scripts\illustrator
+
+把自己的 .jsx / .js 脚本放进去，会作为默认脚本显示。
+
+也可以自己新建一个文件夹，例如“我的 AI 脚本”，把零散脚本集中放进去，然后在面板里点“添加目录”选择这个文件夹。添加后会自动加载，不需要手动刷新。
+
+不建议直接选择桌面，最好单独建一个脚本文件夹，这样脚本列表更干净。
+
+
+关于 C++ 加速插件
+
+安装器可安装 Windows Illustrator C++ 加速插件。
+
+支持 Illustrator 2023、2024、2025、2026。
+Illustrator 2021 只使用 CEP 面板和普通 JSX 脚本，不安装 HGScripts .aip。
+macOS 暂不支持；Windows .aip 加速插件也不能用于 macOS。
+
+
+如果菜单没有出现
+
+1. 确认安装时勾选了“开启 Adobe CEP 支持”。
+2. 完全退出并重新打开 Illustrator。
+3. 确认 CEP 面板目录中存在 HGScripts 面板文件。
+
+
+卸载方法
+
+1. 关闭 Illustrator。
+2. 双击运行 卸载-海哥的Adobe脚本管理器.exe。
+3. 按卸载器提示完成卸载。
+
+卸载器会先显示“卸载目标确认”页面，并优先使用安装记录中的真实管理器目录。
+卸载器会用单行完整路径列出将检查和删除的统一 HGScriptsNative.aip；会删除正式版 CEP 面板目录、管理器目录、安装器放入 Illustrator Plug-ins\HGScripts 的统一 .aip，并兼容清理旧正式名 HGColorTools.aip 和旧版独立 .aip 文件；不会删除用户自己添加的外部脚本目录或无关 Adobe 插件。
+
+
+重要说明
+
+- 当前正式发布不再提供单独的手动安装包 zip。
+- 当前正式发布提供 1 个安装 exe、1 个卸载 exe 和 1 个 txt 安装说明。
+- macOS 暂不支持。
+- 如需查看公开源码或手动复制文件，请使用 GitHub 导出目录。
+- 本发布不包含 C++ 源码、Visual Studio 工程、调试符号、runtime、memory、本机路径或个人运行数据。

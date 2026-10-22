@@ -1,0 +1,86 @@
+{
+  "当前画板创建黑色背景矩形.jsx": {
+    "default": "script.svg",
+    "icon": "artboard-black-bg.svg"
+  },
+  "导出选择对象为长边1024AI.jsx": {
+    "default": "script.svg",
+    "icon": "export-selection-long-edge-1024.svg"
+  },
+  "复制选择对象到新画板.jsx": {
+    "default": "script.svg",
+    "icon": "copy-selection-to-artboard.svg"
+  },
+  "记录对象相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "record-artboard-position.svg"
+  },
+  "记录对象相对画板位置_视觉中心.jsx": {
+    "default": "script.svg",
+    "icon": "record-visual-position.svg"
+  },
+  "描边色同步到填充色.jsx": {
+    "default": "script.svg",
+    "icon": "stroke-to-fill.svg"
+  },
+  "生成UPC-A条形码.jsx": {
+    "default": "script.svg",
+    "icon": "barcode-upc-a.svg"
+  },
+  "填充色同步到描边色.jsx": {
+    "default": "script.svg",
+    "icon": "fill-to-stroke.svg"
+  },
+  "同色转白其余转黑.jsx": {
+    "default": "script.svg",
+    "icon": "same-color-white-others-black.svg"
+  },
+  "同色转黑其余转白.jsx": {
+    "default": "script.svg",
+    "icon": "same-color-black-others-white.svg"
+  },
+  "为选择对象创建外框.jsx": {
+    "default": "script.svg",
+    "icon": "selection-outline-rectangle.svg"
+  },
+  "选择对象转白色.jsx": {
+    "default": "script.svg",
+    "icon": "selection-to-white.svg"
+  },
+  "选择对象转黑色.jsx": {
+    "default": "script.svg",
+    "icon": "selection-to-black.svg"
+  },
+  "选择同色对象.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-color.svg"
+  },
+  "选择空对象_极速版.jsx": {
+    "default": "script.svg",
+    "icon": "select-empty-paths.svg"
+  },
+  "选择转白其余转黑.jsx": {
+    "default": "script.svg",
+    "icon": "selection-white-others-black.svg"
+  },
+  "选择转黑其余转白.jsx": {
+    "default": "script.svg",
+    "icon": "selection-black-others-white.svg"
+  },
+  "应用相对画板位置到选择对象.jsx": {
+    "default": "script.svg",
+    "icon": "apply-artboard-position.svg"
+  },
+  "应用相对画板位置到选择对象_视觉中心.jsx": {
+    "default": "script.svg",
+    "icon": "apply-visual-position.svg"
+  },
+  "AI坐标转换工具.jsx": {
+    "default": "script.svg",
+    "icon": "ai-coordinate-converter.svg"
+  },
+  "ai坐标转其它_gemini.jsx": {
+    "default": "script.svg",
+    "icon": "ai-coordinate-export.svg"
+  }
+}

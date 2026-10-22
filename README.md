@@ -1,6 +1,6 @@
 # HGScripts
 
-当前版本：**v0.3.6** · 2026-10-22
+当前版本：**v0.3.7** · 2026-10-23
 
 一个面向 Adobe 用户的脚本管理面板，用来集中管理、搜索、收藏、查看说明、编辑和运行脚本。当前以 Illustrator 为主，同时保留 Photoshop / InDesign 的基础支持。
 
@@ -8,20 +8,20 @@
 
 Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
-- [安装 HGScripts v0.3.6](HGScripts_0.3.6/安装-海哥的Adobe脚本管理器v0.3.6.exe?raw=1)
-- [安装帮助](HGScripts_0.3.6/docs/install_windows.md)
-- [独立卸载器](HGScripts_0.3.6/卸载-海哥的Adobe脚本管理器.exe?raw=1)
-- [安装包 SHA256 校验值](HGScripts_0.3.6/SHA256SUMS.txt)
+- [安装 HGScripts v0.3.7](HGScripts_0.3.7/安装-海哥的Adobe脚本管理器v0.3.7.exe?raw=1)
+- [安装帮助](HGScripts_0.3.7/docs/install_windows.md)
+- [独立卸载器](HGScripts_0.3.7/卸载-海哥的Adobe脚本管理器.exe?raw=1)
+- [安装包 SHA256 校验值](HGScripts_0.3.7/SHA256SUMS.txt)
 
 安装后重新打开 Illustrator，在「窗口 > 扩展」中打开「海哥的Adobe脚本管理器」。
 
-## v0.3.6 更新
+## v0.3.7 更新
 
-- **选择对象黑白互换**：交换选中对象已有填充、描边的精确纯黑与纯白，灰色和彩色保持原样。
-- **纸杯展开**：输入上下口直径，以及实际高度 H 或斜坡长度 S，生成可编辑纸样；支持预览、搭接、出血、等份辅助线、尺寸标注和独立图案区域。
-- **拼音 / 首字母搜索**：例如输入 `zbzk`，即可找到“纸杯展开”。
+- **修复运行报错**：修复运行脚本后统计行的 `formatElapsed is not defined` 报错，运行记录与耗时统计恢复正常。
+- **界面缩放**：设置页可选 100%–200% 界面缩放，立即生效并自动保存，高分辨率屏幕文字偏小时可调大。
+- **中文输入法恢复**：安装器不再按系统缩放写入 `--force-device-scale-factor`（旧写法导致旧版 CEF 中文输入法无法上屏），固定为 `1`，配合界面缩放使用。
 
-查看 [完整更新日志](HGScripts_0.3.6/CHANGELOG.md)、[本版说明](HGScripts_0.3.6/docs/release_notes_0.3.6.md) 和 [新功能上手](HGScripts_0.3.6/docs/whats_new_0.3.6.md)。
+查看 [完整更新日志](HGScripts_0.3.7/CHANGELOG.md) 和 [本版说明](HGScripts_0.3.7/docs/release_notes_0.3.7.md)。
 
 ## 兼容与使用
 
@@ -31,6 +31,6 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 ## 源码与反馈
 
-本版公开内容在 [HGScripts_0.3.6](HGScripts_0.3.6/)：包含面板、JSX、用户说明及编译好的 AIP，不包含 C++ 源码、Adobe SDK、VS 工程、调试符号或本机运行数据。旧版本目录仅供历史参考。
+本版公开内容在 [HGScripts_0.3.7](HGScripts_0.3.7/)：包含面板、JSX、用户说明及编译好的 AIP，不包含 C++ 源码、Adobe SDK、VS 工程、调试符号或本机运行数据。旧版本目录仅供历史参考。
 
 作者：[@haigeplay3d](https://github.com/haigeplay3d)。反馈时请提供 Adobe 版本、操作步骤和错误现象。
