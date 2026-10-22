@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>&#28023;&#21733;&#30340;Adobe&#33050;&#26412;&#31649;&#29702; v0.3.5</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div id="bootStatus" style="position:relative;z-index:99999;display:block;padding:10px;color:#ffffff;background:#8a2c2c;font:12px/1.5 'Microsoft YaHei UI','Microsoft YaHei','Segoe UI',Arial,sans-serif;">
+    正在启动 HGScripts...
+  </div>
+  <main class="shell">
+    <header class="topbar">
+      <div class="topbar-main">
+        <input id="searchInput" type="text" placeholder="&#25628;&#32034;&#33050;&#26412;" spellcheck="false" autocomplete="off">
+        <select id="cppModeSelect" class="cpp-mode-select" title="C++ / JSX &#36816;&#34892;&#27169;&#24335;"><option value="auto">&#33258;&#21160;</option><option value="cpp">C++</option><option value="jsx">JSX</option></select>
+        <button id="refreshBtn" title="&#31435;&#21363;&#21047;&#26032;&#33050;&#26412;&#21015;&#34920;">&#21047;&#26032;</button>
+        <button id="panelSizeBtn" class="host-toggle-btn" title="&#20999;&#25442;&#22823;/&#23567;&#38754;&#26495;"><img id="hostIcon" class="host-icon" src="assets/icons/host-illustrator.svg" alt="Ai"><span id="panelSizeLabel" class="visually-hidden">&#23637;&#24320;</span></button>
+      </div>
+      <div class="topbar-actions">
+        <div class="sort-control">
+          <button id="sortMenuBtn" class="sort-menu-btn" title="&#25490;&#24207;">&#26368;&#36817;&#20351;&#29992;</button>
+          <div id="sortMenu" class="sort-menu" role="menu" aria-label="&#25490;&#24207;">
+            <button type="button" data-sort="lastRunDesc">&#26368;&#36817;&#20351;&#29992;</button>
+            <button type="button" data-sort="mtimeDesc">&#26368;&#36817;&#20462;&#25913;</button>
+            <button type="button" data-sort="initialAsc">&#39318;&#23383;&#27597; A-Z</button>
+            <button type="button" data-sort="initialDesc">&#39318;&#23383;&#27597; Z-A</button>
+            <button type="button" data-sort="nameAsc">&#21517;&#31216; A-Z</button>
+            <button type="button" data-sort="nameDesc">&#21517;&#31216; Z-A</button>
+          </div>
+          <select id="sortSelect" class="visually-hidden" tabindex="-1" aria-hidden="true">
+            <option value="lastRunDesc">&#26368;&#36817;&#20351;&#29992;</option>
+            <option value="mtimeDesc">&#26368;&#36817;&#20462;&#25913;</option>
+            <option value="initialAsc">&#39318;&#23383;&#27597; A-Z</option>
+            <option value="initialDesc">&#39318;&#23383;&#27597; Z-A</option>
+            <option value="nameAsc">&#21517;&#31216; A-Z</option>
+            <option value="nameDesc">&#21517;&#31216; Z-A</option>
+          </select>
+        </div>
+        <button id="favoritesFilterBtn" class="quick-filter-btn" title="&#21482;&#26174;&#31034;&#25910;&#34255;&#33050;&#26412;">&#25910;&#34255;</button>
+        <button id="defaultSourceBtn" class="quick-filter-btn" title="&#20999;&#25442;&#21040;&#40664;&#35748;&#33050;&#26412;&#30446;&#24405;">&#40664;&#35748;</button>
+        <button id="quickCreateScriptBtn" class="primary-create" title="&#26032;&#24314; JSX &#33050;&#26412;">&#26032;&#24314;</button>
+        <button id="toggleSourcesBtn" title="&#31649;&#29702;&#33050;&#26412;&#30446;&#24405;">&#28155;&#21152;&#30446;&#24405;</button>
+      </div>
+      <span id="folderHint" class="topbar-status">&#27491;&#22312;&#35835;&#21462;&#33050;&#26412;&#30446;&#24405;...</span>
+    </header>
+
+    <section id="sourcebar" class="sourcebar">
+      <div id="sourceTabs" class="source-tabs"><button class="source-tab active">&#20840;&#37096;</button></div>
+    </section>
+
+    <section id="contentPanel" class="content">
+      <div id="scriptList" class="script-list"></div>
+      <div id="mainSplitter" class="main-splitter" title="&#25302;&#21160;&#35843;&#25972;&#33050;&#26412;&#21015;&#34920;&#23485;&#24230;"></div>
+      <aside class="detail">
+        <div class="detail-head">
+          <h2 id="detailTitle">&#36873;&#25321;&#19968;&#20010;&#33050;&#26412;</h2>
+          <span id="detailMeta"></span>
+        </div>
+        <div class="rename-row panel-actions">
+          <input id="renameInput" type="text" spellcheck="false" disabled>
+          <button id="renameBtn" disabled title="&#37325;&#21629;&#21517;&#33050;&#26412;&#24182;&#21516;&#27493;&#21516;&#21517;&#35828;&#26126;">&#37325;&#21629;&#21517;</button>
+        </div>
+        <div class="actions panel-actions">
+          <button id="runBtn" disabled>&#36816;&#34892;</button>
+          <button id="openBtn" disabled>&#22806;&#37096;&#25171;&#24320;</button>
+          <button id="revealBtn" disabled>&#23450;&#20301;</button>
+        </div>
+        <div class="doc-toolbar">
+          <span>&#20351;&#29992;&#35828;&#26126;</span>
+          <button id="saveDocBtn" disabled title="&#20445;&#23384;&#21516;&#21517; Markdown &#35828;&#26126;">&#20445;&#23384;&#35828;&#26126;</button>
+        </div>
+        <textarea id="detailDoc" class="doc" spellcheck="false" disabled>&#21516;&#21517; .md &#20250;&#26174;&#31034;&#22312;&#36825;&#37324;&#12290;</textarea>
+      </aside>
+      <section id="codeEditor" class="code-editor">
+        <header class="editor-head"><div><input id="editorTitleInput" class="editor-title-input" type="text" spellcheck="false" disabled title="&#20462;&#25913;&#33050;&#26412;&#21517;&#21518;&#25353; Enter &#30830;&#35748;&#65292;Esc &#21462;&#28040;"><p id="editorPath"></p></div></header>
+        <div class="editor-toolbar">
+          <button id="runCodeBtn" disabled>&#36816;&#34892;</button>
+          <button id="closeEditorBtn" title="&#20851;&#38381;&#20869;&#37096;&#32534;&#36753;&#22120;">&#20851;&#38381;</button>
+          <button id="saveCodeBtn" disabled>&#20445;&#23384;</button>
+          <button id="saveRunCodeBtn" disabled>&#20445;&#23384;&#24182;&#36816;&#34892;</button>
+          <button id="reloadCodeBtn" disabled>&#37325;&#26032;&#35835;&#21462;</button>
+          <button id="duplicateCodeBtn" disabled>&#21019;&#24314;&#21103;&#26412;</button>
+          <span id="editorState">&#26410;&#25171;&#24320;&#33050;&#26412;</span>
+        </div>
+        <div id="aceEditor" class="ace-editor"></div>
+        <div id="consoleResizer" class="console-resizer" title="&#25302;&#21160;&#35843;&#25972;&#25511;&#21046;&#21488;&#39640;&#24230;"></div>
+        <section class="console-panel"><div class="console-toolbar"><span>&#25511;&#21046;&#21488;</span><button id="copyConsoleBtn">&#22797;&#21046;&#20840;&#37096;</button><button id="copyErrorConsoleBtn">&#22797;&#21046;&#25253;&#38169;</button><button id="clearConsoleBtn">&#28165;&#31354;</button></div><div id="consoleOutput" class="console-output">&#31561;&#24453;&#36816;&#34892;&#32467;&#26524;&#12290;</div></section>
+      </section>
+    </section>
+
+    <section id="settingsView" class="app-view settings-view"><header class="view-head"><div><h2>&#35774;&#32622;</h2><p>&#25554;&#20214;&#30028;&#38754;&#21644;&#36816;&#34892;&#20559;&#22909;</p></div><button id="closeSettingsViewBtn" title="&#36820;&#22238;&#33050;&#26412;&#21015;&#34920;">&#36820;&#22238;</button></header><div class="view-body settings-panel"><label for="languageSelect">&#35821;&#35328;</label><select id="languageSelect"><option value="auto">&#33258;&#21160;</option><option value="zh-CN">&#20013;&#25991;</option><option value="en-US">English</option></select><p id="languageHint" class="setting-hint">&#24403;&#21069;&#20165;&#25552;&#20379;&#20013;&#25991;&#30028;&#38754;&#12290;</p><button id="saveLanguageBtn">&#20445;&#23384;&#35821;&#35328;&#35774;&#32622;</button></div></section>
+
+    <section id="aboutView" class="app-view about-view"><header class="view-head"><div><h2>&#20851;&#20110;</h2><p>HGScripts</p></div><button id="closeAboutViewBtn" title="&#36820;&#22238;&#33050;&#26412;&#21015;&#34920;">&#36820;&#22238;</button></header><div class="view-body about-panel"><dl><dt>&#25554;&#20214;&#21517;&#31216;</dt><dd>&#28023;&#21733;&#30340;Adobe&#33050;&#26412;&#31649;&#29702; / HGScripts</dd><dt>&#29256;&#26412;</dt><dd id="aboutVersion">v0.3.5</dd><dt>&#26356;&#26032;&#26085;&#26399;</dt><dd>2026-06-25</dd><dt>Email</dt><dd>haigeplay3d@gmail.com</dd><dt>WeChat</dt><dd>haigeplay3d</dd><dt>GitHub</dt><dd><a id="githubLink" href="https://github.com/haigeplay3d/HGScripts">https://github.com/haigeplay3d/HGScripts</a></dd><dt>&#21442;&#32771;&#39033;&#30446;</dt><dd>LAScripts, ScripshonTrees</dd><dt>&#35828;&#26126;</dt><dd>&#20813;&#36153;&#24320;&#28304;&#21457;&#24067;&#65292;&#24403;&#21069;&#20197; Illustrator &#20026;&#20027;&#65292;&#27491;&#22312;&#20934;&#22791; Photoshop / InDesign &#25903;&#25345;&#12290;</dd></dl></div></section>
+
+    <footer class="footerbar"><span id="toast" class="toast">&#20934;&#22791;&#23601;&#32490;</span><span id="selectedMetaBar" class="selected-meta">&#26410;&#36873;&#25321;&#33050;&#26412;</span></footer>
+  </main>
+
+  <section id="sourceModal" class="modal-backdrop">
+    <div class="source-modal">
+      <header class="modal-head"><h2>&#30446;&#24405;&#31649;&#29702;</h2><button id="closeSourcesBtn" title="&#20851;&#38381;&#30446;&#24405;&#31649;&#29702;">&#20851;&#38381;</button></header>
+      <div class="source-form">
+        <input id="sourceNameInput" type="text" placeholder="&#30446;&#24405;&#21035;&#21517;" spellcheck="false">
+        <input id="folderInput" type="text" placeholder="&#31896;&#36148;&#33050;&#26412;&#30446;&#24405;&#36335;&#24452;&#65292;Enter &#28155;&#21152;" spellcheck="false">
+        <button id="addSourceBtn" title="&#36873;&#25321;&#25110;&#28155;&#21152;&#19968;&#20010;&#33050;&#26412;&#30446;&#24405;">&#28155;&#21152;&#30446;&#24405;</button>
+        <button id="saveSourceBtn" title="&#20445;&#23384;&#24403;&#21069;&#36873;&#20013;&#30446;&#24405;&#30340;&#21035;&#21517;&#21644;&#36335;&#24452;">&#20445;&#23384;&#20462;&#25913;</button>
+        <button id="removeSourceBtn" title="&#20174;&#21015;&#34920;&#31227;&#38500;&#24403;&#21069;&#36873;&#20013;&#30446;&#24405;&#65292;&#19981;&#21024;&#38500;&#30005;&#33041;&#19978;&#30340;&#25991;&#20214;">&#20174;&#21015;&#34920;&#31227;&#38500;</button>
+      </div>
+      <div class="settings-form">
+        <label>&#25195;&#25551;&#28145;&#24230; <select id="scanDepthInput" title="0 = &#20165;&#24403;&#21069;&#30446;&#24405;&#65292;&#19981;&#25195;&#25551;&#23376;&#30446;&#24405;"><option value="0">0&#65306;&#20165;&#24403;&#21069;&#30446;&#24405;</option><option value="1">1&#65306;+1 &#23618;&#23376;&#30446;&#24405;</option><option value="2">2&#65306;+2 &#23618;&#23376;&#30446;&#24405;</option><option value="3">3&#65306;+3 &#23618;&#23376;&#30446;&#24405;</option><option value="4">4&#65306;+4 &#23618;&#23376;&#30446;&#24405;</option><option value="5">5&#65306;+5 &#23618;&#23376;&#30446;&#24405;</option><option value="6">6&#65306;+6 &#23618;&#23376;&#30446;&#24405;</option><option value="7">7&#65306;+7 &#23618;&#23376;&#30446;&#24405;</option><option value="8">8&#65306;+8 &#23618;&#23376;&#30446;&#24405;</option><option value="9">9&#65306;+9 &#23618;&#23376;&#30446;&#24405;</option><option value="10">10&#65306;+10 &#23618;&#23376;&#30446;&#24405;</option></select></label>
+        <input id="ignoredDirsInput" type="text" placeholder="&#24573;&#30053;&#30446;&#24405;&#65292;&#22914; node_modules,.git,.svn,.hg" spellcheck="false">
+        <button id="saveSettingsBtn">&#20445;&#23384;&#35774;&#32622;</button>
+      </div>
+      <section class="added-sources">
+        <div class="added-sources-title">&#24050;&#28155;&#21152;&#30446;&#24405;</div>
+        <div id="sourceList" class="source-list"></div>
+      </section>
+    </div>
+  </section>
+
+  <section id="createModal" class="modal-backdrop"><div class="create-modal"><header class="modal-head"><h2>&#26032;&#24314;&#33050;&#26412;</h2><button id="closeCreateBtn" title="&#20851;&#38381;&#26032;&#24314;&#33050;&#26412;">&#20851;&#38381;</button></header><div class="create-form"><input id="newScriptNameInput" type="text" placeholder="&#26032;&#33050;&#26412;&#21517;" spellcheck="false"><label title="&#21516;&#26102;&#21019;&#24314;&#21516;&#21517; Markdown &#35828;&#26126;"><input id="newScriptDocInput" type="checkbox" checked>&#20351;&#29992;&#35828;&#26126;</label><button id="createScriptBtn" title="&#26032;&#24314; JSX &#33050;&#26412;">&#21019;&#24314;</button></div></div></section>
+
+  <section id="switchModal" class="modal-backdrop"><div class="switch-modal"><header class="modal-head"><h2 id="switchTitle">&#24403;&#21069;&#33050;&#26412;&#26410;&#20445;&#23384;</h2></header><div class="switch-actions"><button id="switchSaveBtn">&#20445;&#23384;&#21518;&#20999;&#25442;</button><button id="switchDiscardBtn">&#30452;&#25509;&#20999;&#25442;</button><button id="switchCancelBtn">&#21462;&#28040;</button></div></div></section>
+
+  <nav id="contextMenu" class="context-menu"><button data-action="run">&#36816;&#34892;</button><button data-action="internalEdit">&#32534;&#36753;&#33050;&#26412;</button><button data-action="editDoc">&#32534;&#36753;&#35828;&#26126;</button><button data-action="reveal">&#23450;&#20301;&#21040;&#36164;&#28304;&#31649;&#29702;&#22120;</button><hr><button data-action="delete">&#21024;&#38500;&#33050;&#26412;</button></nav>
+
+  <script src="assets/js/CSInterface.js"></script>
+  <script src="assets/js/app.js?v=0.3.5-release-20260625"></script>
+</body>
+</html>

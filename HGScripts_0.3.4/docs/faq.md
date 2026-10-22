@@ -19,4 +19,4 @@ HGScripts 添加的是脚本目录，不是单个脚本文件。如果选择桌�
 C:\Program Files\Adobe\Adobe Illustrator 2023\Plug-ins\HGScripts
 ```
 
-再安装 HGScripts v0.3.3，并勾选 Windows Illustrator C++ 加速插件。v0.3.3 已按 2023、2024、2025、2026 分别打包对应 `.aip`。
+再安装 HGScripts v0.3.4，并勾选 Windows Illustrator C++ 加速插件。v0.3.4 已按 2023、2024、2025、2026 分别打包对应 `.aip`。

@@ -7,6 +7,32 @@
     var filtered = [];
     var selectedIndex = -1;
     var lastResult = "";
+    var language = "zh-CN";
+    var EN_SCRIPT_TITLES = {
+        "AI坐标转换工具": "AI Coordinate Converter",
+        "为选择对象创建外框": "Create Frame Around Selection",
+        "六个对象两行三列最大化": "Maximize 6 Objects in 2x3 Grid",
+        "单一色转其它色": "Single Color to Another Color",
+        "同色转白其余转黑": "Same Color to White, Others to Black",
+        "同色转黑其余转白": "Same Color to Black, Others to White",
+        "填充色同步到描边色": "Sync Fill Color to Stroke",
+        "复制选择对象到新画板": "Copy Selection to New Artboard",
+        "导出选择对象为长边1024AI": "Export Selection as 1024 Long-Edge AI",
+        "尺寸无小数": "Remove Decimal Dimensions",
+        "手选基准缩放": "Manual Reference Scale",
+        "描边色同步到填充色": "Sync Stroke Color to Fill",
+        "清理真正无用的空对象": "Clean Truly Useless Empty Objects",
+        "生成UPC-A条形码": "Generate UPC-A Barcode",
+        "选择同色对象-严格版": "Select Same-Color Objects - Strict",
+        "选择同色对象-宽松版": "Select Same-Color Objects - Loose",
+        "选择对象转白色": "Turn Selection White",
+        "选择对象转自定义颜色": "Turn Selection to Custom Color",
+        "选择对象转黑色": "Turn Selection Black",
+        "选择对象长边设为1024": "Set Selection Long Edge to 1024",
+        "选择空对象_极速版": "Select Empty Objects - Fast",
+        "选择转白其余转黑": "Selection to White, Others to Black",
+        "选择转黑其余转白": "Selection to Black, Others to White"
+    };
 
     function byId(id) {
         return document.getElementById(id);
@@ -44,6 +70,19 @@
         byId("output").innerHTML = escapeHtml(lastResult);
     }
 
+    function isEnglish() {
+        return language === "en-US";
+    }
+
+    function text(zh, en) {
+        return isEnglish() ? en : zh;
+    }
+
+    function displayName(item) {
+        var base = String((item && item.base) || "").replace(/\.(jsx?|JSX?)$/, "");
+        return isEnglish() && EN_SCRIPT_TITLES[base] ? EN_SCRIPT_TITLES[base] + ".jsx" : item.name;
+    }
+
     function escapeHtml(value) {
         return String(value || "")
             .replace(/&/g, "&amp;")
@@ -74,7 +113,7 @@
 
     function getSources() {
         var fallback = [{
-            name: "默认脚本",
+            name: text("默认脚本", "Default Scripts"),
             folder: path.join(root, "user_scripts", "illustrator"),
             enabled: true
         }];
@@ -89,7 +128,7 @@
             for (var i = 0; i < parsed.length; i++) {
                 if (parsed[i] && parsed[i].enabled !== false && parsed[i].folder) {
                     result.push({
-                        name: parsed[i].name || "脚本来源",
+                        name: parsed[i].name || text("脚本来源", "Script Source"),
                         folder: parsed[i].folder,
                         enabled: true
                     });
@@ -104,6 +143,22 @@
 
     function getSettings() {
         return readJsonFile(path.join(root, "data", "settings.json")) || {};
+    }
+
+    function refreshLanguage() {
+        var settings = getSettings();
+        var mode = String(settings.languageMode || "auto");
+        if (mode === "en-US") {
+            language = "en-US";
+        } else if (mode === "zh-CN") {
+            language = "zh-CN";
+        } else {
+            language = /^zh/i.test(String(navigator.language || "")) ? "zh-CN" : "en-US";
+        }
+        byId("search").placeholder = text("搜索脚本", "Search scripts");
+        byId("refreshBtn").textContent = text("刷新", "Refresh");
+        byId("runBtn").textContent = text("运行选中脚本", "Run Selected");
+        byId("copyBtn").textContent = text("复制结果", "Copy Result");
     }
 
     function getScanDepth() {
@@ -173,6 +228,7 @@
             if (/\.jsx?$/i.test(name)) {
                 scripts.push({
                     name: name,
+                    base: name.replace(/\.[^.]+$/, ""),
                     source: sourceName,
                     fullPath: full
                 });
@@ -189,14 +245,14 @@
             walk(sources[i].folder, sources[i].name, 0, scanDepth);
         }
         applyFilter();
-        setStatus("已加载 " + scripts.length + " 个 Illustrator 脚本");
+        setStatus(text("已加载 ", "Loaded ") + scripts.length + text(" 个 Illustrator 脚本", " Illustrator scripts"));
     }
 
     function applyFilter() {
         var q = String(byId("search").value || "").toLowerCase();
         filtered = [];
         for (var i = 0; i < scripts.length; i++) {
-            var hay = (scripts[i].name + " " + scripts[i].fullPath + " " + scripts[i].source).toLowerCase();
+            var hay = (scripts[i].name + " " + displayName(scripts[i]) + " " + scripts[i].fullPath + " " + scripts[i].source).toLowerCase();
             if (!q || hay.indexOf(q) >= 0) {
                 filtered.push(scripts[i]);
             }
@@ -208,13 +264,13 @@
         var list = byId("list");
         var html = "";
         if (!filtered.length) {
-            list.innerHTML = '<div style="padding:12px;color:#aeb7bd;">没有找到脚本</div>';
+            list.innerHTML = '<div style="padding:12px;color:#aeb7bd;">' + text("没有找到脚本", "No scripts found") + '</div>';
             return;
         }
         for (var i = 0; i < filtered.length; i++) {
             var cls = "item" + (i === selectedIndex ? " selected" : "");
             html += '<button class="' + cls + '" data-index="' + i + '">' +
-                '<span class="name">' + escapeHtml(filtered[i].name) + '</span>' +
+                '<span class="name">' + escapeHtml(displayName(filtered[i])) + '</span>' +
                 '<span class="path">' + escapeHtml(filtered[i].source + " - " + filtered[i].fullPath) + '</span>' +
                 '</button>';
         }
@@ -224,7 +280,7 @@
             buttons[b].onclick = function () {
                 selectedIndex = parseInt(this.getAttribute("data-index"), 10);
                 renderList();
-                setStatus("已选中: " + filtered[selectedIndex].name);
+                setStatus(text("已选中: ", "Selected: ") + displayName(filtered[selectedIndex]));
             };
             buttons[b].ondblclick = function () {
                 selectedIndex = parseInt(this.getAttribute("data-index"), 10);
@@ -236,16 +292,16 @@
     function parseResult(raw) {
         try {
             var obj = JSON.parse(raw);
-            var text = obj.message || raw;
+            var message = obj.message || raw;
             if (!obj.ok) {
                 if (obj.file) {
-                    text += "\n文件: " + obj.file;
+                    message += "\n" + text("文件: ", "File: ") + obj.file;
                 }
                 if (obj.line) {
-                    text += "\n行号: " + obj.line;
+                    message += "\n" + text("行号: ", "Line: ") + obj.line;
                 }
             }
-            return text;
+            return message;
         } catch (err) {
             return raw;
         }
@@ -253,23 +309,23 @@
 
     function runSelected() {
         if (selectedIndex < 0 || !filtered[selectedIndex]) {
-            setStatus("请先选择一个脚本");
+            setStatus(text("请先选择一个脚本", "Please select a script first"));
             return;
         }
         var item = filtered[selectedIndex];
-        setStatus("正在运行: " + item.name);
-        setOutput("运行中...\n" + item.fullPath);
+        setStatus(text("正在运行: ", "Running: ") + displayName(item));
+        setOutput(text("运行中...", "Running...") + "\n" + item.fullPath);
         writeLog("run: " + item.fullPath);
         try {
-            cs.evalScript("HGScripts.runScript(" + jsxString(item.fullPath) + ", \"auto\")", function (result) {
+            cs.evalScript("HGScripts.runScript(" + jsxString(item.fullPath) + ", \"auto\", \"\", \"\", \"\", " + jsxString(language) + ")", function (result) {
                 var text = parseResult(result);
                 setOutput(text);
-                setStatus("运行完成: " + item.name);
+                setStatus(text("运行完成: ", "Run finished: ") + displayName(item));
                 writeLog("result: " + result);
             });
         } catch (err) {
-            setOutput("运行失败: " + err);
-            setStatus("运行失败: " + item.name);
+            setOutput(text("运行失败: ", "Run failed: ") + err);
+            setStatus(text("运行失败: ", "Run failed: ") + displayName(item));
             writeLog("run failed: " + err);
         }
     }
@@ -283,9 +339,9 @@
             ta.select();
             document.execCommand("copy");
             document.body.removeChild(ta);
-            setStatus("结果已复制");
+            setStatus(text("结果已复制", "Result copied"));
         } catch (err) {
-            setStatus("复制失败: " + err);
+            setStatus(text("复制失败: ", "Copy failed: ") + err);
         }
     }
 
@@ -295,16 +351,17 @@
             fs = require("fs");
             path = require("path");
             root = cs.getSystemPath(SystemPath.EXTENSION);
+            refreshLanguage();
             writeLog("boot begin, root=" + root);
             byId("refreshBtn").onclick = scanScripts;
             byId("runBtn").onclick = runSelected;
             byId("copyBtn").onclick = copyResult;
             byId("search").oninput = applyFilter;
             scanScripts();
-            setOutput("安全面板已启动。双击脚本也可以运行。");
+            setOutput(text("安全面板已启动。双击脚本也可以运行。", "Safe panel started. Double-click a script to run it."));
             writeLog("boot done");
         } catch (err) {
-            setStatus("安全面板启动失败");
+            setStatus(text("安全面板启动失败", "Safe panel failed to start"));
             setOutput(String(err && err.stack ? err.stack : err));
             try {
                 if (fs && path && root) {

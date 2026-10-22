@@ -175,6 +175,237 @@
     { id: "diagnostic", label: "诊断", aliases: ["诊断", "记录", "恢复", "测试", "实验", "调试"] },
     { id: "photoshop", label: "PS", aliases: ["photoshop", "ps", "图层", "蒙版", "剪贴板", "beauty"] }
   ];
+  var UI_TEXT = {
+    "zh-CN": {
+      searchPlaceholder: "搜索脚本",
+      cppModeTitle: "C++ / JSX 运行模式",
+      refresh: "刷新",
+      refreshTitle: "立即刷新脚本列表",
+      expand: "展开",
+      collapse: "收起",
+      sort: "最近使用",
+      sortTitle: "排序",
+      sortLastRun: "最近使用",
+      sortMtime: "最近修改",
+      sortInitialAsc: "首字母 A-Z",
+      sortInitialDesc: "首字母 Z-A",
+      sortNameAsc: "名称 A-Z",
+      sortNameDesc: "名称 Z-A",
+      favorites: "收藏",
+      favoritesTitle: "只显示收藏脚本",
+      defaultSource: "默认",
+      defaultSourceTitle: "切换到默认脚本目录",
+      newScript: "新建",
+      addFolder: "添加目录",
+      folderLoading: "正在读取脚本目录...",
+      all: "全部",
+      splitterTitle: "拖动调整脚本列表宽度",
+      selectScript: "选择一个脚本",
+      rename: "重命名",
+      renameTitle: "重命名脚本并同步同名说明",
+      run: "运行",
+      openExternal: "外部打开",
+      reveal: "定位",
+      docTitle: "使用说明",
+      saveDoc: "保存说明",
+      saveDocTitle: "保存同名 Markdown 说明",
+      docPlaceholder: "同名 .md 会显示在这里。",
+      close: "关闭",
+      save: "保存",
+      saveRun: "保存并运行",
+      reload: "重新读取",
+      duplicate: "创建副本",
+      noScriptOpen: "未打开脚本",
+      console: "控制台",
+      copyAll: "复制全部",
+      copyError: "复制报错",
+      clear: "清空",
+      waitingResult: "等待运行结果。",
+      settings: "设置",
+      settingsSub: "插件界面和运行偏好",
+      back: "返回",
+      language: "语言",
+      auto: "自动",
+      chinese: "中文",
+      saveLanguage: "保存语言设置",
+      languageSaved: "语言已保存：",
+      languageRefreshReason: "语言切换",
+      languageHintPrefix: "当前界面语言已启用。选项：",
+      languageHintHost: "，Illustrator/CEP：",
+      languageHintEffective: "，实际语言：",
+      languageHintSuffix: "。",
+      about: "关于",
+      pluginName: "插件名称",
+      version: "版本",
+      updateDate: "更新日期",
+      referenceProjects: "参考项目",
+      description: "说明",
+      aboutDescription: "免费开源发布，当前以 Illustrator 为主，正在准备 Photoshop / InDesign 支持。",
+      ready: "准备就绪",
+      noSelection: "未选择脚本",
+      sourceManager: "目录管理",
+      sourceAlias: "目录别名",
+      folderPath: "粘贴脚本目录路径，Enter 添加",
+      saveChanges: "保存修改",
+      removeFromList: "从列表移除",
+      scanDepth: "扫描深度",
+      scanCurrentOnly: "0：仅当前目录",
+      scanChildPrefix: "：+",
+      scanChildSuffix: " 层子目录",
+      ignoredDirs: "忽略目录，如 node_modules,.git,.svn,.hg",
+      saveSettings: "保存设置",
+      addedSources: "已添加目录",
+      newScriptName: "新脚本名",
+      docCheckbox: "使用说明",
+      create: "创建",
+      unsavedScript: "当前脚本未保存",
+      unsavedDoc: "当前说明未保存",
+      saveThenSwitch: "保存后切换",
+      switchDirectly: "直接切换",
+      cancel: "取消",
+      editScript: "编辑脚本",
+      editDoc: "编辑说明",
+      revealExplorer: "定位到资源管理器",
+      deleteScript: "删除脚本",
+      panelSizeTitle: "切换大/小面板",
+      closeEditorTitle: "关闭内部编辑器",
+      consoleResizerTitle: "拖动调整控制台高度",
+      backTitle: "返回脚本列表"
+    },
+    "en-US": {
+      searchPlaceholder: "Search scripts",
+      cppModeTitle: "C++ / JSX run mode",
+      refresh: "Refresh",
+      refreshTitle: "Refresh the script list now",
+      expand: "Expand",
+      collapse: "Collapse",
+      sort: "Recent",
+      sortTitle: "Sort",
+      sortLastRun: "Recently used",
+      sortMtime: "Recently modified",
+      sortInitialAsc: "Initial A-Z",
+      sortInitialDesc: "Initial Z-A",
+      sortNameAsc: "Name A-Z",
+      sortNameDesc: "Name Z-A",
+      favorites: "Favorites",
+      favoritesTitle: "Show favorite scripts only",
+      defaultSource: "Default",
+      defaultSourceTitle: "Switch to the default script folder",
+      newScript: "New",
+      addFolder: "Add Folder",
+      folderLoading: "Reading script folders...",
+      all: "All",
+      splitterTitle: "Drag to resize the script list",
+      selectScript: "Select a script",
+      rename: "Rename",
+      renameTitle: "Rename the script and matching docs",
+      run: "Run",
+      openExternal: "Open",
+      reveal: "Reveal",
+      docTitle: "Guide",
+      saveDoc: "Save Guide",
+      saveDocTitle: "Save the matching Markdown guide",
+      docPlaceholder: "The matching .md guide appears here.",
+      close: "Close",
+      save: "Save",
+      saveRun: "Save & Run",
+      reload: "Reload",
+      duplicate: "Duplicate",
+      noScriptOpen: "No script open",
+      console: "Console",
+      copyAll: "Copy All",
+      copyError: "Copy Error",
+      clear: "Clear",
+      waitingResult: "Waiting for run results.",
+      settings: "Settings",
+      settingsSub: "Panel UI and run preferences",
+      back: "Back",
+      language: "Language",
+      auto: "Auto",
+      chinese: "Chinese",
+      saveLanguage: "Save Language",
+      languageSaved: "Language saved: ",
+      languageRefreshReason: "Language changed",
+      languageHintPrefix: "Panel language is active. Setting: ",
+      languageHintHost: ", Illustrator/CEP: ",
+      languageHintEffective: ", effective: ",
+      languageHintSuffix: ".",
+      about: "About",
+      pluginName: "Plugin name",
+      version: "Version",
+      updateDate: "Updated",
+      referenceProjects: "Reference projects",
+      description: "Description",
+      aboutDescription: "Free and open source. Illustrator is the primary host; Photoshop and InDesign support is being prepared.",
+      ready: "Ready",
+      noSelection: "No script selected",
+      sourceManager: "Folder Manager",
+      sourceAlias: "Folder alias",
+      folderPath: "Paste a script folder path, Enter to add",
+      saveChanges: "Save Changes",
+      removeFromList: "Remove from List",
+      scanDepth: "Scan depth",
+      scanCurrentOnly: "0: current folder only",
+      scanChildPrefix: ": +",
+      scanChildSuffix: " child folders",
+      ignoredDirs: "Ignored folders, e.g. node_modules,.git,.svn,.hg",
+      saveSettings: "Save Settings",
+      addedSources: "Added Folders",
+      newScriptName: "New script name",
+      docCheckbox: "Guide",
+      create: "Create",
+      unsavedScript: "Current script is not saved",
+      unsavedDoc: "Current guide is not saved",
+      saveThenSwitch: "Save then Switch",
+      switchDirectly: "Switch Directly",
+      cancel: "Cancel",
+      editScript: "Edit Script",
+      editDoc: "Edit Guide",
+      revealExplorer: "Reveal in Explorer",
+      deleteScript: "Delete Script",
+      panelSizeTitle: "Toggle wide/narrow panel",
+      closeEditorTitle: "Close the internal editor",
+      consoleResizerTitle: "Drag to resize the console",
+      backTitle: "Back to script list"
+    }
+  };
+  var EN_SCRIPT_TITLES = {
+    "ai坐标转其它_gemini": "AI Coordinate Converter (Legacy Gemini)",
+    "AI坐标转换工具": "AI Coordinate Converter",
+    "为选择对象创建外框": "Create Frame Around Selection",
+    "六个对象两行三列最大化": "Maximize 6 Objects in 2x3 Grid",
+    "单一色转其它色": "Single Color to Another Color",
+    "单一色转自定义色_其它转自定义色": "Single Color and Others to Custom Colors",
+    "同色转白其余转黑": "Same Color to White, Others to Black",
+    "同色转黑其余转白": "Same Color to Black, Others to White",
+    "填充色同步到描边色": "Sync Fill Color to Stroke",
+    "复制选择对象到新画板": "Copy Selection to New Artboard",
+    "导出选择对象为长边1024AI": "Export Selection as 1024 Long-Edge AI",
+    "尺寸无小数": "Remove Decimal Dimensions",
+    "应用对象中心相对画板位置": "Apply Object Center Relative to Artboard",
+    "当前画板创建黑色背景矩形": "Create Black Background on Current Artboard",
+    "手选基准对齐画板-右对齐": "Manual Reference Align to Artboard - Right",
+    "手选基准对齐画板-垂直居中": "Manual Reference Align to Artboard - Vertical Center",
+    "手选基准对齐画板-左对齐": "Manual Reference Align to Artboard - Left",
+    "手选基准对齐画板-底部对齐": "Manual Reference Align to Artboard - Bottom",
+    "手选基准对齐画板-水平居中": "Manual Reference Align to Artboard - Horizontal Center",
+    "手选基准对齐画板-顶部对齐": "Manual Reference Align to Artboard - Top",
+    "手选基准缩放": "Manual Reference Scale",
+    "描边色同步到填充色": "Sync Stroke Color to Fill",
+    "清理真正无用的空对象": "Clean Truly Useless Empty Objects",
+    "生成UPC-A条形码": "Generate UPC-A Barcode",
+    "记录对象中心相对画板位置": "Record Object Center Relative to Artboard",
+    "选择同色对象-严格版": "Select Same-Color Objects - Strict",
+    "选择同色对象-宽松版": "Select Same-Color Objects - Loose",
+    "选择对象上方创建白色矩形": "Create White Rectangle Above Selection",
+    "选择对象转白色": "Turn Selection White",
+    "选择对象转自定义颜色": "Turn Selection to Custom Color",
+    "选择对象转黑色": "Turn Selection Black",
+    "选择对象长边设为1024": "Set Selection Long Edge to 1024",
+    "选择空对象_极速版": "Select Empty Objects - Fast",
+    "选择转白其余转黑": "Selection to White, Others to Black",
+    "选择转黑其余转白": "Selection to Black, Others to White"
+  };
   var settings = loadSettings();
   migrateSettingsStorage();
   var hostLanguage = detectHostLanguage();
@@ -355,7 +586,6 @@
     bindEvents();
     renderSources();
     renderSettings();
-    applyLanguageMode(false);
     applyConsoleHeight();
     applyMainSplitWidth();
     restoreStartupPanelSize();
@@ -944,16 +1174,9 @@
     if (!el.sortMenuBtn || !el.sortMenu || !el.sortSelect) {
       return;
     }
-    var label = "";
-    var options = el.sortSelect.options || [];
-    for (var i = 0; i < options.length; i++) {
-      if (options[i].value === el.sortSelect.value) {
-        label = options[i].textContent || options[i].innerText || "";
-        break;
-      }
-    }
-    el.sortMenuBtn.textContent = label || "排序";
-    el.sortMenuBtn.title = "排序: " + (label || "");
+    var label = getSortLabel(el.sortSelect.value);
+    el.sortMenuBtn.textContent = label || t("sortTitle");
+    el.sortMenuBtn.title = t("sortTitle") + ": " + (label || "");
     var buttons = el.sortMenu.querySelectorAll("button[data-sort]");
     for (var j = 0; j < buttons.length; j++) {
       buttons[j].classList.toggle("active", buttons[j].getAttribute("data-sort") === el.sortSelect.value);
@@ -1468,13 +1691,13 @@
     if (el.languageSelect) {
       el.languageSelect.value = settings.languageMode;
     }
+    translateStaticUi();
     renderLanguageHint();
+    renderCppMode();
+    renderSources();
+    refresh(t("languageRefreshReason"));
     if (showNotice) {
-      if (settings.languageMode === "zh-CN") {
-        setToast("\u8BED\u8A00\u5DF2\u4FDD\u5B58\uFF1A\u4E2D\u6587", "ok");
-      } else {
-        setToast("\u5F53\u524D\u53EA\u6709\u4E2D\u6587\u754C\u9762\uFF0C\u5176\u5B83\u8BED\u8A00\u7B49\u5F85\u5F00\u53D1\u3002", "warn");
-      }
+      setToast(t("languageSaved") + (effectiveLanguage === "zh-CN" ? t("chinese") : "English"), "ok");
     }
   }
 
@@ -1482,17 +1705,103 @@
     if (!el.languageHint) {
       return;
     }
-    var hostText = hostLanguage === "zh-CN" ? "\u4E2D\u6587" : "English";
-    var modeText = settings.languageMode === "auto" ? "\u81EA\u52A8" : (settings.languageMode === "zh-CN" ? "\u4E2D\u6587" : "English");
-    var effectiveText = effectiveLanguage === "zh-CN" ? "\u4E2D\u6587" : "English";
-    el.languageHint.textContent = "\u5F53\u524D\u4EC5\u63D0\u4F9B\u4E2D\u6587\u754C\u9762\u3002\u9009\u9879\uFF1A" + modeText + "\uFF0CIllustrator/CEP\uFF1A" + hostText + "\uFF0C\u9884\u8BA1\u8BED\u8A00\uFF1A" + effectiveText + "\u3002";
+    var hostText = hostLanguage === "zh-CN" ? t("chinese") : "English";
+    var modeText = settings.languageMode === "auto" ? t("auto") : (settings.languageMode === "zh-CN" ? t("chinese") : "English");
+    var effectiveText = effectiveLanguage === "zh-CN" ? t("chinese") : "English";
+    el.languageHint.textContent = t("languageHintPrefix") + modeText + t("languageHintHost") + hostText + t("languageHintEffective") + effectiveText + t("languageHintSuffix");
+  }
+
+  function translateStaticUi() {
+    setAttr(el.searchInput, "placeholder", t("searchPlaceholder"));
+    setAttr(el.cppModeSelect, "title", t("cppModeTitle"));
+    setText(el.refreshBtn, t("refresh"));
+    setAttr(el.refreshBtn, "title", t("refreshTitle"));
+    setAttr(el.panelSizeBtn, "title", t("panelSizeTitle"));
+    setText(el.panelSizeLabel, state.panelMode === "wide" ? t("collapse") : t("expand"));
+    setText(el.sortMenuBtn, getSortLabel(getSortMode()));
+    setAttr(el.sortMenuBtn, "title", t("sortTitle"));
+    setAttr(el.sortMenu, "aria-label", t("sortTitle"));
+    syncSortLabels();
+    setText(el.favoritesFilterBtn, t("favorites"));
+    setAttr(el.favoritesFilterBtn, "title", t("favoritesTitle"));
+    setText(el.defaultSourceBtn, t("defaultSource"));
+    setAttr(el.defaultSourceBtn, "title", t("defaultSourceTitle"));
+    setText(el.quickCreateScriptBtn, t("newScript"));
+    setText(el.toggleSourcesBtn, t("addFolder"));
+    setAttr(el.toggleSourcesBtn, "title", t("addFolder"));
+    setText(el.folderHint, t("folderLoading"));
+    setAttr(el.mainSplitter, "title", t("splitterTitle"));
+    setText(el.detailTitle, state.selectedPath ? el.detailTitle.textContent : t("selectScript"));
+    setText(el.renameBtn, t("rename"));
+    setAttr(el.renameBtn, "title", t("renameTitle"));
+    setText(el.runBtn, t("run"));
+    setText(el.openBtn, t("openExternal"));
+    setText(el.revealBtn, t("reveal"));
+    setText(queryOne(".doc-toolbar span"), t("docTitle"));
+    setText(el.saveDocBtn, t("saveDoc"));
+    setAttr(el.saveDocBtn, "title", t("saveDocTitle"));
+    if (el.detailDoc && !state.selectedPath) {
+      el.detailDoc.value = t("docPlaceholder");
+    }
+    setText(el.runCodeBtn, t("run"));
+    setText(el.closeEditorBtn, t("close"));
+    setAttr(el.closeEditorBtn, "title", t("closeEditorTitle"));
+    setText(el.saveCodeBtn, t("save"));
+    setText(el.saveRunCodeBtn, t("saveRun"));
+    setText(el.reloadCodeBtn, t("reload"));
+    setText(el.duplicateCodeBtn, t("duplicate"));
+    setText(el.editorState, state.editorPath ? el.editorState.textContent : t("noScriptOpen"));
+    setAttr(el.consoleResizer, "title", t("consoleResizerTitle"));
+    setText(queryOne(".console-toolbar span"), t("console"));
+    setText(el.copyConsoleBtn, t("copyAll"));
+    setText(el.copyErrorConsoleBtn, t("copyError"));
+    setText(el.clearConsoleBtn, t("clear"));
+    if (el.consoleOutput && (el.consoleOutput.textContent === "等待运行结果。" || el.consoleOutput.textContent === "Waiting for run results.")) {
+      el.consoleOutput.textContent = t("waitingResult");
+    }
+    setText(queryOne("#settingsView .view-head h2"), t("settings"));
+    setText(queryOne("#settingsView .view-head p"), t("settingsSub"));
+    setText(el.closeSettingsViewBtn, t("back"));
+    setAttr(el.closeSettingsViewBtn, "title", t("backTitle"));
+    setText(queryOne(".settings-panel label[for='languageSelect']"), t("language"));
+    syncLanguageLabels();
+    setText(el.saveLanguageBtn, t("saveLanguage"));
+    setText(queryOne("#aboutView .view-head h2"), t("about"));
+    setText(el.closeAboutViewBtn, t("back"));
+    setAttr(el.closeAboutViewBtn, "title", t("backTitle"));
+    syncAboutLabels();
+    setText(el.toast, el.toast && (el.toast.textContent === "准备就绪" || el.toast.textContent === "Ready") ? t("ready") : el.toast.textContent);
+    if (!state.selectedPath) {
+      setText(el.selectedMetaBar, t("noSelection"));
+    }
+    setText(queryOne(".source-modal .modal-head h2"), t("sourceManager"));
+    setText(el.closeSourcesBtn, t("close"));
+    setAttr(el.sourceNameInput, "placeholder", t("sourceAlias"));
+    setAttr(el.folderInput, "placeholder", t("folderPath"));
+    setText(el.addSourceBtn, t("addFolder"));
+    setText(el.saveSourceBtn, t("saveChanges"));
+    setText(el.removeSourceBtn, t("removeFromList"));
+    setAttr(el.ignoredDirsInput, "placeholder", t("ignoredDirs"));
+    setText(el.saveSettingsBtn, t("saveSettings"));
+    setText(queryOne(".added-sources-title"), t("addedSources"));
+    syncScanDepthLabels();
+    setText(queryOne(".create-modal .modal-head h2"), t("newScript"));
+    setText(el.closeCreateBtn, t("close"));
+    setAttr(el.newScriptNameInput, "placeholder", t("newScriptName"));
+    syncCreateDocLabel();
+    setText(el.createScriptBtn, t("create"));
+    setText(el.switchTitle, state.pendingSwitchKind === "doc" ? t("unsavedDoc") : t("unsavedScript"));
+    setText(el.switchSaveBtn, t("saveThenSwitch"));
+    setText(el.switchDiscardBtn, t("switchDirectly"));
+    setText(el.switchCancelBtn, t("cancel"));
+    syncContextMenuLabels();
   }
 
   function addSourceTab(id, label, active) {
     var button = document.createElement("button");
     button.className = "source-tab" + (active ? " active" : "");
-    button.textContent = label;
-    button.title = id === "all" ? "显示所有脚本目录" : (id === "favorites" ? "只显示收藏脚本" : label);
+    button.textContent = id === "all" ? t("all") : (id === "favorites" ? t("favorites") : label);
+    button.title = id === "all" ? (isEnglishUi() ? "Show all script folders" : "显示所有脚本目录") : (id === "favorites" ? t("favoritesTitle") : label);
     button.addEventListener("click", function () {
       state.activeSourceId = id;
       saveSources();
@@ -1710,6 +2019,7 @@
     var targetFolder = source.folder;
     var scriptPath = path.join(targetFolder, base + ".jsx");
     var docPath = path.join(targetFolder, base + ".md");
+    var enDocPath = path.join(targetFolder, base + ".en.md");
 
     if (fs.existsSync(scriptPath)) {
       setToast("\u5DF2\u5B58\u5728\u540C\u540D JSX\uFF0C\u65B0\u5EFA\u5DF2\u53D6\u6D88", "error");
@@ -1721,6 +2031,9 @@
       fs.writeFileSync(scriptPath, getNewScriptTemplate(base), "utf8");
       if (el.newScriptDocInput.checked && !fs.existsSync(docPath)) {
         fs.writeFileSync(docPath, getDefaultDocTemplate({ base: base }), "utf8");
+        if (isEnglishUi() && !fs.existsSync(enDocPath)) {
+          fs.writeFileSync(enDocPath, getDefaultDocTemplate({ base: base, english: true }), "utf8");
+        }
       }
       el.newScriptNameInput.value = "";
       closeCreateModal();
@@ -1776,10 +2089,11 @@
   }
 
   function getNewScriptTemplate(name) {
+    var emptyDocMessage = isEnglishUi() ? "Please open an Illustrator document first" : "\u8BF7\u5148\u6253\u5F00\u4E00\u4E2A Illustrator \u6587\u6863";
     return "#target illustrator\n\n" +
       "function main() {\n" +
       "    if (app.documents.length === 0) {\n" +
-      "        alert(\"\u8BF7\u5148\u6253\u5F00\u4E00\u4E2A Illustrator \u6587\u6863\");\n" +
+      "        alert(\"" + emptyDocMessage + "\");\n" +
       "        return;\n" +
       "    }\n\n" +
       "    var doc = app.activeDocument;\n" +
@@ -1905,16 +2219,19 @@
       if (relativeDir === ".") {
         relativeDir = "";
       }
-      var docPath = path.join(scriptFolder, base + ".md");
+      var docPaths = getDocPaths(scriptFolder, base);
+      var docPath = docPaths.active;
       var doc = "";
-      var hasDoc = fs.existsSync(docPath);
+      var hasZhDoc = fs.existsSync(docPaths.zh);
+      var hasEnDoc = fs.existsSync(docPaths.en);
+      var hasDoc = fs.existsSync(docPath) || hasZhDoc || hasEnDoc;
       var scriptMeta = readScriptMeta(fullPath);
 
-      if (hasDoc) {
+      if (fs.existsSync(docPath)) {
         try {
           doc = fs.readFileSync(docPath, "utf8");
         } catch (errDoc) {
-          doc = "\u8BF4\u660E\u6587\u4EF6\u8BFB\u53D6\u5931\u8D25: " + errDoc.message;
+          doc = (isEnglishUi() ? "Failed to read guide: " : "\u8BF4\u660E\u6587\u4EF6\u8BFB\u53D6\u5931\u8D25: ") + errDoc.message;
         }
       }
       var item = {
@@ -1929,6 +2246,10 @@
         ext: ext,
         fullPath: fullPath,
         docPath: docPath,
+        zhDocPath: docPaths.zh,
+        enDocPath: docPaths.en,
+        hasZhDoc: hasZhDoc,
+        hasEnDoc: hasEnDoc,
         hasDoc: hasDoc,
         doc: doc,
         badges: scriptMeta.badges,
@@ -1986,7 +2307,7 @@
       sortList(list);
     }
     state.filtered = list;
-    setIdleStatus(list.length + " / " + state.files.length + " 个脚本");
+    setIdleStatus(list.length + " / " + state.files.length + (isEnglishUi() ? " scripts" : " 个脚本"));
     renderSourceList(getDefaultSource() || state.sources[0]);
     renderCommandCenter(activeSourceId, query);
     el.scriptList.innerHTML = "";
@@ -2008,7 +2329,7 @@
         "</div>" +
         "<div class=\"script-tags\"></div>";
       row.querySelector(".script-index").textContent = index + 1;
-      row.querySelector(".script-title").textContent = item.name;
+      row.querySelector(".script-title").textContent = getScriptDisplayName(item);
       var icon = row.querySelector(".script-icon");
       if (LEGACY_COMPAT_MODE) {
         renderLegacyInlineScriptIcon(icon);
@@ -2036,7 +2357,7 @@
       if (item.hasDoc) {
         var docButton = document.createElement("button");
         docButton.className = "doc-icon-btn";
-        docButton.title = "编辑说明";
+        docButton.title = t("editDoc");
         docButton.innerHTML = "<img class=\"doc-icon-img\" src=\"" + DOC_ICON_SRC + "\" alt=\"\" aria-hidden=\"true\">";
         docButton.addEventListener("click", function (event) {
           event.stopPropagation();
@@ -2090,9 +2411,9 @@
   function sortList(list) {
     var mode = getSortMode();
     if (mode === "nameAsc") {
-      list.sort(function (a, b) { return a.name.localeCompare(b.name, "zh-Hans-CN"); });
+      list.sort(function (a, b) { return getScriptDisplayName(a).localeCompare(getScriptDisplayName(b), isEnglishUi() ? "en-US" : "zh-Hans-CN"); });
     } else if (mode === "nameDesc") {
-      list.sort(function (a, b) { return b.name.localeCompare(a.name, "zh-Hans-CN"); });
+      list.sort(function (a, b) { return getScriptDisplayName(b).localeCompare(getScriptDisplayName(a), isEnglishUi() ? "en-US" : "zh-Hans-CN"); });
     } else if (mode === "initialAsc") {
       list.sort(function (a, b) { return compareByInitial(a, b); });
     } else if (mode === "initialDesc") {
@@ -2182,9 +2503,9 @@
       var chip = document.createElement("button");
       chip.className = "scene-chip" + (state.activeSceneId === scene.id ? " active" : "");
       chip.setAttribute("data-scene-id", scene.id);
-      chip.title = "筛选: " + scene.label;
+      chip.title = (isEnglishUi() ? "Filter: " : "筛选: ") + getSceneLabel(scene.id);
       chip.innerHTML = "<span></span><em></em>";
-      chip.querySelector("span").textContent = scene.label;
+      chip.querySelector("span").textContent = getSceneLabel(scene.id);
       chip.querySelector("em").textContent = counts[scene.id] || 0;
       el.sceneChips.appendChild(chip);
     }
@@ -2205,7 +2526,7 @@
     if (!picks.length) {
       var hint = document.createElement("span");
       hint.className = "quick-empty";
-      hint.textContent = "运行或收藏脚本后，这里会出现快捷入口";
+      hint.textContent = isEnglishUi() ? "Run or favorite scripts to show quick entries here" : "运行或收藏脚本后，这里会出现快捷入口";
       el.quickPicks.appendChild(hint);
       return;
     }
@@ -2217,8 +2538,8 @@
       button.setAttribute("data-script-path", item.fullPath);
       button.title = item.fullPath;
       button.innerHTML = "<strong></strong><span></span>";
-      button.querySelector("strong").textContent = item.base;
-      button.querySelector("span").textContent = state.favorites[item.key] ? "收藏" : (stat.count ? "运行 " + stat.count + " 次" : getSceneLabel(getItemSceneId(item)));
+      button.querySelector("strong").textContent = getScriptDisplayBase(item);
+      button.querySelector("span").textContent = state.favorites[item.key] ? t("favorites") : (stat.count ? (isEnglishUi() ? "Run " + stat.count + " times" : "运行 " + stat.count + " 次") : getSceneLabel(getItemSceneId(item)));
       el.quickPicks.appendChild(button);
     }
   }
@@ -2235,13 +2556,15 @@
       return 1;
     }
     var title = String(item.base || item.name || "").toLowerCase();
+    var displayTitle = String(getScriptDisplayBase(item) || "").toLowerCase();
     var pathText = String(item.relativePath || "").toLowerCase();
     var sourceText = String(item.sourceName || "").toLowerCase();
     var sceneText = getSceneSearchText(item).toLowerCase();
     var docText = String(item.doc || "").toLowerCase();
     var score = 0;
-    if (title === query) score += 200;
+    if (title === query || displayTitle === query) score += 200;
     if (title.indexOf(query) >= 0) score += 120;
+    if (displayTitle.indexOf(query) >= 0) score += 120;
     if (sceneText.indexOf(query) >= 0) score += 80;
     if (pathText.indexOf(query) >= 0) score += 50;
     if (sourceText.indexOf(query) >= 0) score += 30;
@@ -2253,7 +2576,7 @@
 
   function getSceneSearchText(item) {
     var scene = getSceneConfig(getItemSceneId(item));
-    return scene ? scene.label + " " + scene.aliases.join(" ") : "";
+    return scene ? getSceneLabel(scene.id) + " " + scene.label + " " + scene.aliases.join(" ") : "";
   }
 
   function getItemSceneId(item) {
@@ -2307,7 +2630,23 @@
 
   function getSceneLabel(sceneId) {
     var scene = getSceneConfig(sceneId);
-    return scene ? scene.label : "脚本";
+    if (!scene) {
+      return isEnglishUi() ? "Script" : "脚本";
+    }
+    var labels = {
+      all: t("all"),
+      favorites: t("favorites"),
+      recent: isEnglishUi() ? "Recent" : "最近",
+      select: isEnglishUi() ? "Select" : "选择",
+      color: isEnglishUi() ? "Color" : "颜色",
+      size: isEnglishUi() ? "Size" : "尺寸",
+      align: isEnglishUi() ? "Align" : "对齐",
+      artboard: isEnglishUi() ? "Artboard" : "画板",
+      export: isEnglishUi() ? "Export" : "导出",
+      diagnostic: isEnglishUi() ? "Diagnostics" : "诊断",
+      photoshop: "PS"
+    };
+    return labels[scene.id] || scene.label;
   }
 
   function getFavoriteTime(item) {
@@ -2344,7 +2683,7 @@
     if (!item || state.running) {
       return;
     }
-    setToast("\u5DF2\u9009\u62E9\u811A\u672C: " + item.name, "");
+    setToast((isEnglishUi() ? "Selected script: " : "\u5DF2\u9009\u62E9\u811A\u672C: ") + getScriptDisplayName(item), "");
   }
 
   function renderListActiveOnly() {
@@ -2442,7 +2781,7 @@
       return;
     }
     if (!item) {
-      el.selectedMetaBar.textContent = "\u672A\u9009\u62E9\u811A\u672C";
+      el.selectedMetaBar.textContent = t("noSelection");
       return;
     }
     var folderText = item.relativeDir ? item.sourceName + " / " + item.relativeDir : item.sourceName;
@@ -2452,12 +2791,12 @@
 
   function getRunText(item) {
     var stat = getRunStat(item.key);
-    return stat.lastRun ? " / 上次运行 " + formatTime(new Date(stat.lastRun)) + " / 运行 " + stat.count + " 次" : "";
+    return stat.lastRun ? (isEnglishUi() ? " / Last run " + formatTime(new Date(stat.lastRun)) + " / Run " + stat.count + " times" : " / 上次运行 " + formatTime(new Date(stat.lastRun)) + " / 运行 " + stat.count + " 次") : "";
   }
 
   function showDetail(item) {
     var runText = getRunText(item);
-    el.detailTitle.textContent = item.name;
+    el.detailTitle.textContent = getScriptDisplayName(item);
     el.detailMeta.textContent = item.fullPath;
     updateSelectedMeta(item, runText);
     el.renameInput.value = item.name;
@@ -2525,14 +2864,14 @@
   function setFavoriteForItem(item) {
     if (state.favorites[item.key]) {
       delete state.favorites[item.key];
-      setToast("\u5DF2\u53D6\u6D88\u6536\u85CF: " + item.name, "");
+      setToast((isEnglishUi() ? "Removed from favorites: " : "\u5DF2\u53D6\u6D88\u6536\u85CF: ") + getScriptDisplayName(item), "");
     } else {
       state.favorites[item.key] = {
         name: item.name,
         sourceName: item.sourceName,
         time: Date.now()
       };
-      setToast("\u5DF2\u6536\u85CF: " + item.name, "ok");
+      setToast((isEnglishUi() ? "Added to favorites: " : "\u5DF2\u6536\u85CF: ") + getScriptDisplayName(item), "ok");
     }
     setStoredValue(FAVORITES_KEY, state.favorites);
     showDetail(item);
@@ -2550,17 +2889,18 @@
     }
 
     try {
-      fs.writeFileSync(item.docPath, el.detailDoc.value, "utf8");
+      var savePath = isEnglishUi() ? item.enDocPath : item.zhDocPath;
+      fs.writeFileSync(savePath, el.detailDoc.value, "utf8");
       state.docDirty = false;
       state.docPath = item.fullPath;
-      setToast("\u8BF4\u660E\u5DF2\u4FDD\u5B58: " + path.basename(item.docPath), "ok");
+      setToast((isEnglishUi() ? "Guide saved: " : "\u8BF4\u660E\u5DF2\u4FDD\u5B58: ") + path.basename(savePath), "ok");
       refresh("\u4FDD\u5B58\u8BF4\u660E");
       selectItem(item.fullPath, { force: true });
       if (callback) {
         callback(true);
       }
     } catch (err) {
-      setToast("\u8BF4\u660E\u4FDD\u5B58\u5931\u8D25: " + err.message, "error");
+      setToast((isEnglishUi() ? "Failed to save guide: " : "\u8BF4\u660E\u4FDD\u5B58\u5931\u8D25: ") + err.message, "error");
       if (callback) {
         callback(false);
       }
@@ -2587,21 +2927,29 @@
     var targetFolder = item.scriptFolder || item.sourceFolder;
     var nextScriptPath = path.join(targetFolder, nextName.name);
     var nextDocPath = path.join(targetFolder, nextName.base + ".md");
+    var nextEnDocPath = path.join(targetFolder, nextName.base + ".en.md");
     if (fs.existsSync(nextScriptPath)) {
       setToast("已存在同名脚本，重命名已取消", "error");
       return;
     }
-    if (item.hasDoc && fs.existsSync(nextDocPath)) {
+    if (item.hasZhDoc && fs.existsSync(nextDocPath)) {
       setToast("\u5DF2\u5B58\u5728\u540C\u540D\u8BF4\u660E\u6587\u4EF6\uFF0C\u91CD\u547D\u540D\u5DF2\u53D6\u6D88", "error");
+      return;
+    }
+    if (item.hasEnDoc && fs.existsSync(nextEnDocPath)) {
+      setToast(isEnglishUi() ? "A matching English guide already exists. Rename canceled." : "\u5DF2\u5B58\u5728\u540C\u540D\u82F1\u6587\u8BF4\u660E\u6587\u4EF6\uFF0C\u91CD\u547D\u540D\u5DF2\u53D6\u6D88", "error");
       return;
     }
 
     try {
       fs.renameSync(item.fullPath, nextScriptPath);
-      if (item.hasDoc) {
-        fs.renameSync(item.docPath, nextDocPath);
+      if (item.hasZhDoc && fs.existsSync(item.zhDocPath)) {
+        fs.renameSync(item.zhDocPath, nextDocPath);
+      }
+      if (item.hasEnDoc && fs.existsSync(item.enDocPath)) {
+        fs.renameSync(item.enDocPath, nextEnDocPath);
       } else if (el.detailDoc.value.trim() && el.detailDoc.value !== getDefaultDocTemplate(item)) {
-        fs.writeFileSync(nextDocPath, el.detailDoc.value, "utf8");
+        fs.writeFileSync(isEnglishUi() ? nextEnDocPath : nextDocPath, el.detailDoc.value, "utf8");
       }
       moveMetadata(item.key, makeFileKey(nextScriptPath), nextName.name, item.sourceName);
       state.selectedPath = nextScriptPath;
@@ -2662,11 +3010,15 @@
     var nextBase = getCopyBaseName(folder, item.base, item.ext);
     var nextScriptPath = path.join(folder, nextBase + item.ext);
     var nextDocPath = path.join(folder, nextBase + ".md");
+    var nextEnDocPath = path.join(folder, nextBase + ".en.md");
 
     try {
       fs.copyFileSync(item.fullPath, nextScriptPath);
-      if (item.hasDoc && fs.existsSync(item.docPath)) {
-        fs.copyFileSync(item.docPath, nextDocPath);
+      if (item.hasZhDoc && fs.existsSync(item.zhDocPath)) {
+        fs.copyFileSync(item.zhDocPath, nextDocPath);
+      }
+      if (item.hasEnDoc && fs.existsSync(item.enDocPath)) {
+        fs.copyFileSync(item.enDocPath, nextEnDocPath);
       }
       setToast("\u5DF2\u521B\u5EFA\u526F\u672C: " + nextBase + item.ext, "ok");
       refresh("\u521B\u5EFA\u526F\u672C");
@@ -2799,13 +3151,18 @@
       return;
     }
     try {
-      var hadDoc = item.hasDoc && fs.existsSync(item.docPath);
+      var hadZhDoc = item.hasZhDoc && fs.existsSync(item.zhDocPath);
+      var hadEnDoc = item.hasEnDoc && fs.existsSync(item.enDocPath);
       moveToRecycleBin(item.fullPath);
-      if (hadDoc) {
-        moveToRecycleBin(item.docPath);
+      if (hadZhDoc) {
+        moveToRecycleBin(item.zhDocPath);
+      }
+      if (hadEnDoc) {
+        moveToRecycleBin(item.enDocPath);
       }
       state.selectedPath = "";
-      setToast((hadDoc ? "脚本和说明" : "脚本") + "已移到回收站: " + item.name, "ok");
+      var deletedText = (hadZhDoc || hadEnDoc) ? (isEnglishUi() ? "Script and guides moved to Recycle Bin: " : "脚本和说明已移到回收站: ") : (isEnglishUi() ? "Script moved to Recycle Bin: " : "脚本已移到回收站: ");
+      setToast(deletedText + getScriptDisplayName(item), "ok");
       refresh("\u5220\u9664\u811A\u672C");
       clearDetail();
     } catch (err) {
@@ -2835,11 +3192,11 @@
     state.runningPath = item.fullPath;
     prepareRunStatusFiles(runToken, item);
     setRunning(true);
-    setPriorityStatus("\u8FD0\u884C\u4E2D: " + item.name, formatSize(item.size), "running");
-    setToast("\u6B63\u5728\u8FD0\u884C: " + item.name, "running");
+      setPriorityStatus((isEnglishUi() ? "Running: " : "\u8FD0\u884C\u4E2D: ") + getScriptDisplayName(item), formatSize(item.size), "running");
+      setToast((isEnglishUi() ? "Running: " : "\u6B63\u5728\u8FD0\u884C: ") + getScriptDisplayName(item), "running");
     renderListActiveOnly();
-    appendConsole("\u25B6 \u8FD0\u884C " + item.name + "\n" + displayPath);
-    var script = "HGScripts.runScript(" + jsxString(scriptPath) + ", " + jsxString(state.cppMode) + ", " + jsxString(runToken) + ", " + jsxString(RUN_STATUS_PATH) + ", " + jsxString(RUN_REQUEST_PATH) + ")";
+    appendConsole("\u25B6 " + (isEnglishUi() ? "Run " : "\u8FD0\u884C ") + getScriptDisplayName(item) + "\n" + displayPath);
+    var script = "HGScripts.runScript(" + jsxString(scriptPath) + ", " + jsxString(state.cppMode) + ", " + jsxString(runToken) + ", " + jsxString(RUN_STATUS_PATH) + ", " + jsxString(RUN_REQUEST_PATH) + ", " + jsxString(effectiveLanguage) + ")";
     startRunStatusPolling(runToken, item, startedAt, displayPath);
     armRunUiFallback(runToken, item, startedAt);
     cs.evalScript(script, function (result) {
@@ -2851,7 +3208,7 @@
         parsed.file = displayPath;
       }
       if (displayPath && scriptPath !== displayPath && parsed.ok) {
-        parsed.message = "\u5DF2\u6267\u884C " + item.name;
+        parsed.message = (isEnglishUi() ? "Executed " : "\u5DF2\u6267\u884C ") + getScriptDisplayName(item);
       }
       finishRunFromParsed(runToken, item, parsed, startedAt, result);
     });
@@ -3267,21 +3624,21 @@
   }
 
   function getCppModeLabel(mode) {
-    if (mode === "cpp") return "仅 C++";
-    if (mode === "jsx") return "强制 JSX";
-    return "自动";
+    if (mode === "cpp") return isEnglishUi() ? "C++ only" : "仅 C++";
+    if (mode === "jsx") return isEnglishUi() ? "Force JSX" : "强制 JSX";
+    return t("auto");
   }
 
   function getCppModeHint(mode) {
-    if (mode === "cpp") return "C++模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
-    if (mode === "jsx") return "强制 JSX: 不调用 AIP/C++";
-    return "自动模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
+    if (mode === "cpp") return isEnglishUi() ? "C++ mode: prefer AIP/C++ acceleration, then fall back to JSX" : "C++模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
+    if (mode === "jsx") return isEnglishUi() ? "Force JSX: do not call AIP/C++" : "强制 JSX: 不调用 AIP/C++";
+    return isEnglishUi() ? "Auto mode: prefer AIP/C++ acceleration, then fall back to JSX" : "自动模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
   }
 
   function getCppModeStatusText(mode) {
-    if (mode === "cpp") return "C++: AIP 优先";
-    if (mode === "jsx") return "JSX: 不调用 AIP";
-    return "自动: AIP 优先";
+    if (mode === "cpp") return isEnglishUi() ? "C++: AIP first" : "C++: AIP 优先";
+    if (mode === "jsx") return isEnglishUi() ? "JSX: no AIP" : "JSX: 不调用 AIP";
+    return isEnglishUi() ? "Auto: AIP first" : "自动: AIP 优先";
   }
 
   function renderCppMode() {
@@ -3291,7 +3648,7 @@
     var mode = normalizeCppMode(state.cppMode);
     el.cppModeSelect.value = mode;
     el.cppModeSelect.className = "cpp-mode-select mode-" + mode;
-    el.cppModeSelect.title = "C++ / JSX 运行模式: " + getCppModeHint(mode);
+    el.cppModeSelect.title = t("cppModeTitle") + ": " + getCppModeHint(mode);
   }
 
   function setButtonRunning(button, isRunning) {
@@ -3302,7 +3659,7 @@
       if (!button.getAttribute("data-normal-text")) {
         button.setAttribute("data-normal-text", button.textContent);
       }
-      button.textContent = "\u8FD0\u884C\u4E2D...";
+      button.textContent = isEnglishUi() ? "Running..." : "\u8FD0\u884C\u4E2D...";
       button.classList.add("running");
       button.disabled = true;
       return;
@@ -3328,10 +3685,10 @@
 
   function updateEditorState() {
     if (!state.editorPath) {
-      el.editorState.textContent = "未打开脚本";
+      el.editorState.textContent = t("noScriptOpen");
       return;
     }
-    el.editorState.textContent = state.editorDirty ? "未保存" : "已保存";
+    el.editorState.textContent = state.editorDirty ? (isEnglishUi() ? "Unsaved" : "未保存") : (isEnglishUi() ? "Saved" : "已保存");
     el.editorState.className = state.editorDirty ? "dirty" : "";
   }
 
@@ -3424,7 +3781,7 @@
       var text = String(result || "");
       return {
         ok: text.indexOf("OK:") === 0,
-        message: decodeText(text || "\u811A\u672C\u6267\u884C\u7ED3\u675F\uFF0C\u4F46\u6CA1\u6709\u8FD4\u56DE\u7ED3\u679C"),
+        message: decodeText(text || (isEnglishUi() ? "The script finished but returned no result" : "\u811A\u672C\u6267\u884C\u7ED3\u675F\uFF0C\u4F46\u6CA1\u6709\u8FD4\u56DE\u7ED3\u679C")),
         file: "",
         line: "",
         number: "",
@@ -3441,26 +3798,26 @@
     if (!result.ok) {
       var hint = getRunErrorHint(result);
       if (hint) {
-        lines.push("\u63D0\u793A: " + escapeHtml(hint));
+        lines.push((isEnglishUi() ? "Hint: " : "\u63D0\u793A: ") + escapeHtml(hint));
       }
     }
     if (result.file) {
-      lines.push("\u6587\u4EF6: " + escapeHtml(result.file));
+      lines.push((isEnglishUi() ? "File: " : "\u6587\u4EF6: ") + escapeHtml(result.file));
     }
     if (result.line) {
-      lines.push("\u884C\u53F7: " + result.line);
+      lines.push((isEnglishUi() ? "Line: " : "\u884C\u53F7: ") + result.line);
     }
     if (result.context && result.context.length) {
       lines.push("<pre class=\"console-code\">" + formatErrorContext(result.context) + "</pre>");
     }
     if (result.line) {
-      lines.push("<button class=\"console-line-link\" data-line=\"" + result.line + "\">\u8DF3\u5230\u7B2C " + result.line + " \u884C</button>");
+      lines.push("<button class=\"console-line-link\" data-line=\"" + result.line + "\">" + (isEnglishUi() ? "Jump to line " + result.line : "\u8DF3\u5230\u7B2C " + result.line + " \u884C") + "</button>");
     }
     if (result.number) {
-      lines.push("\u9519\u8BEF\u7801: " + result.number);
+      lines.push((isEnglishUi() ? "Error code: " : "\u9519\u8BEF\u7801: ") + result.number);
     }
     if (typeof result.elapsedMs === "number") {
-      lines.push("\u8017\u65F6: " + formatDuration(result.elapsedMs));
+      lines.push((isEnglishUi() ? "Elapsed: " : "\u8017\u65F6: ") + formatDuration(result.elapsedMs));
     }
     return lines.join("\n");
   }
@@ -3472,24 +3829,24 @@
     if (!result.ok) {
       var hint = getRunErrorHint(result);
       if (hint) {
-        lines.push("\u63D0\u793A: " + hint);
+        lines.push((isEnglishUi() ? "Hint: " : "\u63D0\u793A: ") + hint);
       }
     }
     if (result.file) {
-      lines.push("\u6587\u4EF6: " + result.file);
+      lines.push((isEnglishUi() ? "File: " : "\u6587\u4EF6: ") + result.file);
     }
     if (result.line) {
-      lines.push("\u884C\u53F7: " + result.line);
+      lines.push((isEnglishUi() ? "Line: " : "\u884C\u53F7: ") + result.line);
     }
     if (result.context && result.context.length) {
       lines.push("");
       lines.push(formatErrorContextPlain(result.context));
     }
     if (result.number) {
-      lines.push("\u9519\u8BEF\u7801: " + result.number);
+      lines.push((isEnglishUi() ? "Error code: " : "\u9519\u8BEF\u7801: ") + result.number);
     }
     if (typeof result.elapsedMs === "number") {
-      lines.push("\u8017\u65F6: " + formatDuration(result.elapsedMs));
+      lines.push((isEnglishUi() ? "Elapsed: " : "\u8017\u65F6: ") + formatDuration(result.elapsedMs));
     }
     return lines.join("\n");
   }
@@ -3498,18 +3855,18 @@
     var message = String(result.message || "");
     var number = String(result.number || "");
     if (number === "25" || /\u5E94\u4E3A|Expected|SyntaxError/i.test(message)) {
-      return "这是语法错误，优先检查标出的行附近是否少了括号、引号、分号，或函数名被写断。";
+      return isEnglishUi() ? "This is a syntax error. Check the highlighted line for missing brackets, quotes, semicolons, or a broken function name." : "这是语法错误，优先检查标出的行附近是否少了括号、引号、分号，或函数名被写断。";
     }
     if (/undefined|is not defined/i.test(message)) {
-      return "有变量或函数未定义，检查名称拼写、作用域，或相关函数是否在运行前声明。";
+      return isEnglishUi() ? "A variable or function is undefined. Check spelling, scope, or whether it is declared before use." : "有变量或函数未定义，检查名称拼写、作用域，或相关函数是否在运行前声明。";
     }
     if (/No such file|not found|does not exist/i.test(message)) {
-      return "脚本引用的文件或目录不存在，检查路径、文件名和磁盘是否可访问。";
+      return isEnglishUi() ? "A referenced file or folder does not exist. Check the path, file name, and disk access." : "脚本引用的文件或目录不存在，检查路径、文件名和磁盘是否可访问。";
     }
     if (/permission|access|denied/i.test(message)) {
-      return "当前路径可能没有读写权限，可以换到普通工作目录后重试。";
+      return isEnglishUi() ? "The current path may not be writable. Try a normal working folder." : "当前路径可能没有读写权限，可以换到普通工作目录后重试。";
     }
-    return result.line ? "查看行号和上下文，通常问题就在标出的行或上一两行。" : "";
+    return result.line ? (isEnglishUi() ? "Check the line number and context. The issue is usually on the highlighted line or nearby." : "查看行号和上下文，通常问题就在标出的行或上一两行。") : "";
   }
 
   function normalizeErrorContext(context) {
@@ -3959,6 +4316,12 @@
   }
 
   function getDefaultDocTemplate(item) {
+    if (item && item.english) {
+      return "## Purpose\n\n\n## How to Use\n1. \n2. \n3. \n\n## Notes\n- ";
+    }
+    if (isEnglishUi()) {
+      return "## Purpose\n\n\n## How to Use\n1. \n2. \n3. \n\n## Notes\n- ";
+    }
     return "## \u7528\u9014\n\n\n## \u4F7F\u7528\u6D41\u7A0B\n1. \n2. \n3. \n\n## \u6CE8\u610F\u4E8B\u9879\n- ";
   }
 
@@ -4575,20 +4938,27 @@
   }
 
   function openWindowsFolderDialog(startPath, title) {
-    var script = [
-      "Add-Type -AssemblyName System.Windows.Forms",
-      "[System.Windows.Forms.Application]::EnableVisualStyles()",
-      "[Console]::OutputEncoding = New-Object -TypeName System.Text.UTF8Encoding -ArgumentList $false",
-      "$dlg = New-Object System.Windows.Forms.OpenFileDialog",
-      "$dlg.Title = " + psString(title),
-      "$dlg.CheckFileExists = $false",
-      "$dlg.ValidateNames = $false",
-      "$dlg.FileName = " + psString("\u9009\u62E9\u6B64\u6587\u4EF6\u5939"),
-      "$dlg.Filter = " + psString("\u6587\u4EF6\u5939|*.folder"),
-      setPowerShellInitialDirectory(startPath),
-      "if ($dlg.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { [Console]::Write([System.IO.Path]::GetDirectoryName($dlg.FileName)) }"
-    ].join("\n");
-    return runPowerShellDialog(script);
+    var pickerExe = path.join(EXTENSION_ROOT, "bin", "HGFolderPicker.exe");
+    if (!fs.existsSync(pickerExe)) {
+      throw new Error("Windows folder picker executable missing: " + pickerExe);
+    }
+
+    var result = childProcess.execFileSync(pickerExe, [
+      startPath || DEFAULT_FOLDER,
+      title || "\u9009\u62E9\u6587\u4EF6\u5939"
+    ], {
+      encoding: "utf8",
+      windowsHide: true
+    });
+
+    result = String(result || "").replace(/^\uFEFF/, "").trim();
+    if (result.indexOf("OK:") === 0) {
+      return normalizeFsPath(result.slice(3));
+    }
+    if (!result || result === "CANCEL") {
+      return "";
+    }
+    throw new Error("Windows folder picker returned: " + result);
   }
 
   function setPowerShellInitialDirectory(startPath) {
@@ -4755,7 +5125,7 @@
     if (ms < 1000) {
       return ms + " ms";
     }
-    return Math.round(ms / 100) / 10 + " 秒";
+    return Math.round(ms / 100) / 10 + (isEnglishUi() ? " sec" : " 秒");
   }
 
   function formatSize(bytes) {
@@ -4782,6 +5152,159 @@
       detail = "文件正在被其它程序占用";
     }
     return prefix + (detail ? ": " + detail : "");
+  }
+
+  function isEnglishUi() {
+    return effectiveLanguage !== "zh-CN";
+  }
+
+  function t(key) {
+    var lang = isEnglishUi() ? "en-US" : "zh-CN";
+    return (UI_TEXT[lang] && UI_TEXT[lang][key]) ||
+      (UI_TEXT["zh-CN"] && UI_TEXT["zh-CN"][key]) ||
+      key;
+  }
+
+  function setText(node, value) {
+    if (node) {
+      node.textContent = value;
+    }
+  }
+
+  function setAttr(node, name, value) {
+    if (node) {
+      node.setAttribute(name, value);
+    }
+  }
+
+  function queryOne(selector) {
+    return selector ? document.querySelector(selector) : null;
+  }
+
+  function syncSortLabels() {
+    var labels = {
+      lastRunDesc: t("sortLastRun"),
+      mtimeDesc: t("sortMtime"),
+      initialAsc: t("sortInitialAsc"),
+      initialDesc: t("sortInitialDesc"),
+      nameAsc: t("sortNameAsc"),
+      nameDesc: t("sortNameDesc")
+    };
+    if (el.sortSelect) {
+      for (var i = 0; i < el.sortSelect.options.length; i++) {
+        var opt = el.sortSelect.options[i];
+        opt.textContent = labels[opt.value] || opt.textContent;
+      }
+    }
+    if (el.sortMenu) {
+      var buttons = el.sortMenu.querySelectorAll("button[data-sort]");
+      for (var j = 0; j < buttons.length; j++) {
+        var sort = buttons[j].getAttribute("data-sort");
+        buttons[j].textContent = labels[sort] || buttons[j].textContent;
+      }
+    }
+  }
+
+  function getSortLabel(mode) {
+    var labels = {
+      lastRunDesc: t("sortLastRun"),
+      mtimeDesc: t("sortMtime"),
+      initialAsc: t("sortInitialAsc"),
+      initialDesc: t("sortInitialDesc"),
+      nameAsc: t("sortNameAsc"),
+      nameDesc: t("sortNameDesc")
+    };
+    return labels[mode] || t("sortTitle");
+  }
+
+  function syncLanguageLabels() {
+    if (!el.languageSelect) {
+      return;
+    }
+    for (var i = 0; i < el.languageSelect.options.length; i++) {
+      var opt = el.languageSelect.options[i];
+      if (opt.value === "auto") opt.textContent = t("auto");
+      if (opt.value === "zh-CN") opt.textContent = t("chinese");
+    }
+  }
+
+  function syncScanDepthLabels() {
+    if (!el.scanDepthInput) {
+      return;
+    }
+    for (var i = 0; i < el.scanDepthInput.options.length; i++) {
+      var opt = el.scanDepthInput.options[i];
+      if (opt.value === "0") {
+        opt.textContent = t("scanCurrentOnly");
+      } else {
+        opt.textContent = opt.value + t("scanChildPrefix") + opt.value + t("scanChildSuffix");
+      }
+    }
+  }
+
+  function syncCreateDocLabel() {
+    var label = queryOne(".create-form label");
+    if (!label || !el.newScriptDocInput) {
+      return;
+    }
+    var input = el.newScriptDocInput;
+    label.innerHTML = "";
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(t("docCheckbox")));
+  }
+
+  function syncContextMenuLabels() {
+    if (!el.contextMenu) {
+      return;
+    }
+    var labels = {
+      run: t("run"),
+      internalEdit: t("editScript"),
+      editDoc: t("editDoc"),
+      reveal: t("revealExplorer"),
+      delete: t("deleteScript")
+    };
+    var buttons = el.contextMenu.querySelectorAll("button[data-action]");
+    for (var i = 0; i < buttons.length; i++) {
+      var action = buttons[i].getAttribute("data-action");
+      buttons[i].textContent = labels[action] || buttons[i].textContent;
+    }
+  }
+
+  function syncAboutLabels() {
+    var terms = document.querySelectorAll("#aboutView dt");
+    var labels = [t("pluginName"), t("version"), t("updateDate"), "Email", "WeChat", "GitHub", t("referenceProjects"), t("description")];
+    for (var i = 0; i < terms.length && i < labels.length; i++) {
+      terms[i].textContent = labels[i];
+    }
+    var dds = document.querySelectorAll("#aboutView dd");
+    if (dds.length >= 8) {
+      dds[7].textContent = t("aboutDescription");
+    }
+  }
+
+  function getScriptDisplayBase(item) {
+    if (!item) {
+      return "";
+    }
+    if (isEnglishUi() && EN_SCRIPT_TITLES[item.base]) {
+      return EN_SCRIPT_TITLES[item.base];
+    }
+    return item.base || "";
+  }
+
+  function getScriptDisplayName(item) {
+    var base = getScriptDisplayBase(item);
+    return base + (item && item.ext ? item.ext : "");
+  }
+
+  function getDocPaths(scriptFolder, base) {
+    var zhPath = path.join(scriptFolder, base + ".md");
+    return {
+      zh: zhPath,
+      en: path.join(scriptFolder, base + ".en.md"),
+      active: isEnglishUi() && fs.existsSync(path.join(scriptFolder, base + ".en.md")) ? path.join(scriptFolder, base + ".en.md") : zhPath
+    };
   }
 
   setTimeout(function () {

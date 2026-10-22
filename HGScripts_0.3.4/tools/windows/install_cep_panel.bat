@@ -40,9 +40,13 @@ if errorlevel 1 goto copy_error
 copy /Y "%SOURCE_DIR%\data\settings.json" "%TARGET_DIR%\data\settings.json" >nul
 if errorlevel 1 goto copy_error
 
-echo [3/3] Copying bundled scripts
+echo [3/4] Copying bundled scripts
 robocopy "%SOURCE_DIR%\user_scripts" "%TARGET_DIR%\user_scripts" /E /R:2 /W:1 >nul
 if errorlevel 8 goto copy_error
+
+echo [4/4] Adjusting display scale
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Set-CepManifestDpiScale.ps1" -ManifestPath "%TARGET_DIR%\CSXS\manifest.xml"
+if errorlevel 1 goto dpi_error
 
 echo.
 echo Installation completed.
@@ -57,6 +61,14 @@ exit /b 0
 echo.
 echo [ERROR] Copy failed. Please close Adobe apps and check folder permissions.
 echo Target: %TARGET_DIR%
+echo.
+pause
+exit /b 1
+
+:dpi_error
+echo.
+echo [ERROR] Display scale adjustment failed. Please run again after closing Adobe apps.
+echo Target: %TARGET_DIR%\CSXS\manifest.xml
 echo.
 pause
 exit /b 1

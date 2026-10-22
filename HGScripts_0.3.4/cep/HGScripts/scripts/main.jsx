@@ -96,6 +96,19 @@ HGScripts.result = function (ok, message, file, line, number, context) {
         "\",\"context\":[" + contextJson.join(",") + "]}";
   };
 
+HGScripts.getLanguage = function () {
+    try {
+        var lang = $.global.HGSCRIPTS_LANGUAGE || "";
+        return /^en/i.test(String(lang)) ? "en-US" : "zh-CN";
+    } catch (err) {
+        return "zh-CN";
+    }
+};
+
+HGScripts.text = function (zh, en) {
+    return HGScripts.getLanguage() === "en-US" ? en : zh;
+};
+
 HGScripts.writeRunJson = function (filePath, payload) {
     try {
         if (!filePath) {
@@ -135,15 +148,16 @@ HGScripts.writeRunJson = function (filePath, payload) {
     } catch (err) {}
 };
 
-HGScripts.runScript = function (scriptPath, cppMode, runId, statusPath, requestPath) {
+HGScripts.runScript = function (scriptPath, cppMode, runId, statusPath, requestPath, languageMode) {
     try {
+        $.global.HGSCRIPTS_LANGUAGE = /^en/i.test(String(languageMode || "")) ? "en-US" : "zh-CN";
         if (!scriptPath) {
-            return HGScripts.result(false, "脚本路径为空");
+            return HGScripts.result(false, HGScripts.text("脚本路径为空", "Script path is empty"));
         }
 
         var file = new File(scriptPath);
         if (!file.exists) {
-            return HGScripts.result(false, "找不到脚本: " + scriptPath, scriptPath);
+            return HGScripts.result(false, HGScripts.text("找不到脚本: ", "Script not found: ") + scriptPath, scriptPath);
         }
 
         $.global.HGSCRIPTS_CPP_MODE = HGScripts.normalizeCppMode(cppMode);
@@ -176,10 +190,10 @@ HGScripts.runScript = function (scriptPath, cppMode, runId, statusPath, requestP
             scriptName: decodeURI(file.name),
             scriptPath: file.fsName,
             source: "jsx",
-            message: "已执行 " + decodeURI(file.name),
+            message: HGScripts.text("已执行 ", "Executed ") + decodeURI(file.name),
             updatedAt: new Date().getTime()
         });
-        return HGScripts.result(true, "已执行 " + decodeURI(file.name), file.fsName);
+        return HGScripts.result(true, HGScripts.text("已执行 ", "Executed ") + decodeURI(file.name), file.fsName);
     } catch (err) {
         var message = err && err.message ? err.message : String(err);
         var line = err && err.line ? err.line : "";
@@ -204,7 +218,7 @@ HGScripts.runScript = function (scriptPath, cppMode, runId, statusPath, requestP
 HGScripts.getActiveDocumentFolder = function () {
     try {
         if (!app.documents.length) {
-            return "ERROR: 当前没有打开的文档";
+            return HGScripts.text("ERROR: 当前没有打开的文档", "ERROR: No document is open");
         }
         var doc = app.activeDocument;
         var fullName = null;
@@ -212,7 +226,7 @@ HGScripts.getActiveDocumentFolder = function () {
             fullName = doc.fullName;
         } catch (errFullName) {}
         if (!fullName) {
-            return "ERROR: 当前文档尚未保存，无法获取所在文件夹";
+            return HGScripts.text("ERROR: 当前文档尚未保存，无法获取所在文件夹", "ERROR: The current document is not saved, so its folder cannot be detected");
         }
         return fullName.parent.fsName;
     } catch (err) {
