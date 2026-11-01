@@ -5,8 +5,8 @@ Thumbs.db
 *.log
 
 # Adobe CEP runtime data
-HGScripts_*/HGScripts/data/runtime/
-HGScripts_*/HGScripts/data/position_memory.json
+HGScripts_*/cep/HGScripts/data/runtime/
+HGScripts_*/cep/HGScripts/data/position_memory.json
 
 # Development-only folders
 something_dev/

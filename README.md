@@ -10,9 +10,9 @@
 
 Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
-- [安装 HGScripts v0.3.7](HGScripts_0.3.7/安装-海哥的Adobe脚本管理器v0.3.7.exe?raw=1)
+- [安装 HGScripts v0.3.7](HGScripts_0.3.7/HGScripts-v0.3.7-Setup.exe?raw=1)
 - [安装帮助](HGScripts_0.3.7/docs/install_windows.md)
-- [独立卸载器](HGScripts_0.3.7/卸载-海哥的Adobe脚本管理器.exe?raw=1)
+- [独立卸载器](HGScripts_0.3.7/HGScripts-Uninstall.exe?raw=1)
 - [安装包 SHA256 校验值](HGScripts_0.3.7/SHA256SUMS.txt)
 
 安装后重新打开 Illustrator，在「窗口 > 扩展」中打开「海哥的Adobe脚本管理器」。
