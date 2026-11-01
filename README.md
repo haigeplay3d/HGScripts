@@ -8,14 +8,15 @@
 
 ## 下载与安装
 
-Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
+### [下载 HGScripts v0.3.7 Windows 安装器](HGScripts_0.3.7/HGScripts-v0.3.7-Setup.exe?raw=1)
 
-- [安装 HGScripts v0.3.7](HGScripts_0.3.7/HGScripts-v0.3.7-Setup.exe?raw=1)
-- [安装帮助](HGScripts_0.3.7/docs/install_windows.md)
-- [独立卸载器](HGScripts_0.3.7/HGScripts-Uninstall.exe?raw=1)
-- [安装包 SHA256 校验值](HGScripts_0.3.7/SHA256SUMS.txt)
+**只需下载这一个 `Setup.exe` 文件，无需下载整个仓库。** 安装器已包含所需的面板、脚本和插件文件。
 
-安装后重新打开 Illustrator，在「窗口 > 扩展」中打开「海哥的Adobe脚本管理器」。
+1. 保存工作，并关闭正在运行的 Adobe 软件。
+2. 点击上方链接，下载并运行 `HGScripts-v0.3.7-Setup.exe`，按提示完成安装。
+3. 重新打开 Illustrator，在「窗口 > 扩展」中打开「海哥的Adobe脚本管理器」。
+
+[详细安装／卸载说明](HGScripts_0.3.7/docs/install_windows.md) · [独立卸载器](HGScripts_0.3.7/HGScripts-Uninstall.exe?raw=1) · [安装包 SHA256 校验值](HGScripts_0.3.7/SHA256SUMS.txt)
 
 ## Illustrator 脚本目录
 
