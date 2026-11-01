@@ -1,0 +1,44 @@
+海哥的Adobe脚本管理器 v0.3.7
+Windows 安装说明
+
+使用建议
+
+单独脚本可以直接使用，但强烈建议使用 HGScripts 面板统一管理和运行；其中部分脚本具有 C++ 加速。
+
+安装
+
+1. 关闭 Illustrator。
+2. 双击 HGScripts-v0.3.7-Setup.exe，按提示完成安装。
+3. 重新打开 Illustrator，选择：
+   窗口 > 扩展 > 海哥的Adobe脚本管理器
+   英文菜单：Window > Extensions > 海哥的Adobe脚本管理器
+
+添加自己的脚本
+
+方式一：把 .jsx / .js 文件放入内置脚本目录：
+%APPDATA%\Adobe\CEP\extensions\HGScripts\user_scripts\illustrator
+
+方式二：把脚本集中放在一个独立文件夹，在面板中点击“添加目录”选择它。
+无需逐个导入，也无需手动刷新。
+
+卸载
+
+1. 关闭 Illustrator。
+2. 再次运行同一个 HGScripts-v0.3.7-Setup.exe。
+3. 点击“卸载 HGScripts”，确认目标后按提示操作。
+
+也可通过 Windows“设置 > 应用 > 安装的应用”卸载。
+卸载不会删除你自己添加的外部脚本目录。
+
+兼容与常见问题
+
+- 本安装包仅支持 Windows，暂不支持 macOS。
+- Illustrator 2021 及以后可使用 CEP 面板和普通 JSX 脚本。
+- C++ 加速插件仅支持 Illustrator 2023、2024、2025、2026。
+- 如果扩展菜单没有出现，请确认安装时勾选了“开启 Adobe CEP 支持”，然后完全退出并重新打开 Illustrator。
+
+开源与联系
+
+开源地址：https://github.com/haigeplay3d/HGScripts
+邮箱：haigeplay3d@gmail.com
+微信：haigeplay3d

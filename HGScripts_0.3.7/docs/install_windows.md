@@ -1,7 +1,7 @@
 # HGScripts 安装帮助
 
-版本：v0.3.6
-更新日期：2026-10-22
+版本：v0.3.7
+更新日期：2026-11-01
 
 ## Windows 推荐安装
 
@@ -33,15 +33,17 @@ Illustrator 2021 可以使用 HGScripts CEP 面板和普通 JSX 脚本；C++ 加
 
 ## Windows 卸载
 
-关闭 Illustrator 后，运行同目录里的卸载工具：
+关闭 Illustrator 后，再次运行同一个安装器：
 
 ```text
-HGScripts-Uninstall.exe
+HGScripts-v0.3.7-Setup.exe
 ```
 
-卸载器会删除正式版 CEP 面板目录、管理器目录和安装器放入 Illustrator `Plug-ins\HGScripts` 的 HGScripts `.aip` 文件；不会删除你自己添加的外部脚本目录。
+在首页点击“卸载 HGScripts”，核对卸载目标后点击“开始卸载”。也可以通过 Windows“设置 > 应用 > 安装的应用”（旧版 Windows 为“应用和功能”）找到 HGScripts 并卸载。
 
-新版卸载器会先显示“卸载目标确认”看板。它会优先读取安装记录中的真实管理器目录，页面上会用单行完整路径列出将删除的 CEP 目录、管理器目录和统一 Illustrator `.aip` 文件目标；同时会说明不会删除你自己添加的脚本目录或其它无关 Adobe 插件。
+卸载模式会删除正式版 CEP 面板目录、管理器目录和安装器放入 Illustrator `Plug-ins\HGScripts` 的 HGScripts `.aip` 文件；不会删除你自己添加的外部脚本目录。
+
+卸载页会先显示“卸载目标确认”看板。它会优先读取安装记录中的真实管理器目录，页面上会用单行完整路径列出将删除的 CEP 目录、管理器目录和统一 Illustrator `.aip` 文件目标；同时会说明不会删除你自己添加的脚本目录或其它无关 Adobe 插件。
 
 ## 放入自己的脚本
 
@@ -61,9 +63,9 @@ HGScripts 按“脚本目录”管理脚本，不需要逐个导入文件。
 
 ## Windows 发布包说明
 
-当前正式版不再提供单独的手动安装包 zip。普通用户只需要使用 EXE 安装器；需要移除时使用同目录的卸载 EXE。
+当前正式版不再提供单独的手动安装包 zip。普通用户只需要下载一个 EXE：默认用于安装／更新，点击首页“卸载 HGScripts”即可切换到卸载模式。
 
-GitHub 导出目录包含同版 Windows 安装器、卸载器和安装说明，也提供源码、文档和 `.aip` 成品。CEP 面板本体位于 `cep/HGScripts`，Windows Illustrator `.aip` 成品位于 `plugins/illustrator-win`。
+GitHub 导出目录包含同版 Windows 合一安装器和安装说明，也提供源码、文档和 `.aip` 成品。CEP 面板本体位于 `cep/HGScripts`，Windows Illustrator `.aip` 成品位于 `plugins/illustrator-win`。
 
 ## 安装 Illustrator C++ 加速插件
 
