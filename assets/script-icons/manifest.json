@@ -1,0 +1,343 @@
+{
+  "size": [
+    128,
+    128
+  ],
+  "mode": "RGBA",
+  "count": 37,
+  "icons": [
+    {
+      "slug": "black-white-swap",
+      "title": "纯黑纯白互换",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象黑白互换.jsx",
+      "png": "assets/script-icons/black-white-swap.png",
+      "svg": "assets/script-icons/black-white-swap.svg",
+      "png_sha256": "759bec606def2b49c2aa39e93c5dcd9e1b787876d93ee210b4199affd5cc3c2f",
+      "svg_sha256": "01d2164a6908e48615ab6bf47874c81bcca45e52ea5cc003e058646f5449036d"
+    },
+    {
+      "slug": "sample-color-custom",
+      "title": "同色改为自定义色",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转其它色.jsx",
+      "png": "assets/script-icons/sample-color-custom.png",
+      "svg": "assets/script-icons/sample-color-custom.svg",
+      "png_sha256": "022fc1f995abca1a919b9d094b10a3d80833a8d85e1b12e8b3d5197b2a409c8a",
+      "svg_sha256": "1dadc6f6cdf6eaff8f88759404b263ed4ea1237f8bf884d1a6b21e998f18be3d"
+    },
+    {
+      "slug": "sample-others-custom",
+      "title": "样本色与其它色分别替换",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转自定义色_其它转自定义色.jsx",
+      "png": "assets/script-icons/sample-others-custom.png",
+      "svg": "assets/script-icons/sample-others-custom.svg",
+      "png_sha256": "af1a152f483e9a8c1f178ddd518ce79d947a6d61428ea6a4d224856cb9829ba4",
+      "svg_sha256": "a39f58cb9badc8d160d98edf6db57c8374b7c67ea62652827204f936b1b9305b"
+    },
+    {
+      "slug": "sample-white-mask",
+      "title": "同色转白遮罩",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转白其余转黑.jsx",
+      "png": "assets/script-icons/sample-white-mask.png",
+      "svg": "assets/script-icons/sample-white-mask.svg",
+      "png_sha256": "db280666ea655706cd680c70f87546a1b4729ab99971519e3b6acca22c4ab3a8",
+      "svg_sha256": "f4d3df50db6971358c27e5bfc4bd521d2ca2352fbf9ff022c07a2f0eb4500b09"
+    },
+    {
+      "slug": "sample-black-mask",
+      "title": "同色转黑遮罩",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转黑其余转白.jsx",
+      "png": "assets/script-icons/sample-black-mask.png",
+      "svg": "assets/script-icons/sample-black-mask.svg",
+      "png_sha256": "72f3461446bf6b9731727d8c8cfeb84333358833b0d6b85e3ce2ea090fb6d25b",
+      "svg_sha256": "72f7f84e20b11590ef55808628f1c8e9b1422f442a180d8ac2c5ddfc9dbbee96"
+    },
+    {
+      "slug": "selected-white",
+      "title": "选中对象转白",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转白色.jsx",
+      "png": "assets/script-icons/selected-white.png",
+      "svg": "assets/script-icons/selected-white.svg",
+      "png_sha256": "ddceedd2348d783c502f6c8e4882daf806d82913aa3b4b38939c212952ef0609",
+      "svg_sha256": "292cff092c24863de5435757cb9d2eea8fa01c9c875f960fc375e0fa93d37215"
+    },
+    {
+      "slug": "selected-custom-color",
+      "title": "选中对象自定义改色",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转自定义颜色.jsx",
+      "png": "assets/script-icons/selected-custom-color.png",
+      "svg": "assets/script-icons/selected-custom-color.svg",
+      "png_sha256": "158d573c1cc5a4ec5bf64e49a17c2c6719cd4664b42abfd64f5c63636560825d",
+      "svg_sha256": "a84b87d58ab3af81900ceee7e2138a495c9196dce71309bab445352bb6ebba4f"
+    },
+    {
+      "slug": "selected-black",
+      "title": "选中对象转黑",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转黑色.jsx",
+      "png": "assets/script-icons/selected-black.png",
+      "svg": "assets/script-icons/selected-black.svg",
+      "png_sha256": "36fca0cd1fe87702b37feb45720d1135a06b96a472e34d8f4152786875d3221d",
+      "svg_sha256": "26ec07e93ca61396f6d3207a1b8c0f1dfe8ea30eeec0c44d3cddbddb2d566616"
+    },
+    {
+      "slug": "selection-white-mask",
+      "title": "选中区域转白遮罩",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转白其余转黑.jsx",
+      "png": "assets/script-icons/selection-white-mask.png",
+      "svg": "assets/script-icons/selection-white-mask.svg",
+      "png_sha256": "d241533252a51f1c952e47b4c5e19007b3eae742bc800a9cfb5e61c161a3874a",
+      "svg_sha256": "730e720167b345a58c405318ee59e2fac38ba0b7d0b6c836ecaafcf222307b4c"
+    },
+    {
+      "slug": "selection-black-mask",
+      "title": "选中区域转黑遮罩",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转黑其余转白.jsx",
+      "png": "assets/script-icons/selection-black-mask.png",
+      "svg": "assets/script-icons/selection-black-mask.svg",
+      "png_sha256": "5f720a9a66746008cd65b6270443f1f464a8666a0d20cf7a0aa2df2cdd15aae7",
+      "svg_sha256": "67bf6a8f449ffae47e735251f35d93c99b476332e98536ced51a476be969a89c"
+    },
+    {
+      "slug": "fill-to-stroke",
+      "title": "填充色同步到描边",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/填充色同步到描边色.jsx",
+      "png": "assets/script-icons/fill-to-stroke.png",
+      "svg": "assets/script-icons/fill-to-stroke.svg",
+      "png_sha256": "18856be161bcf69176448b38b59d3566e0c4541dc70ca79bab00768f5a4b26e0",
+      "svg_sha256": "fe4421fc6e868aea6d1613a623273e1c13581c586463cc6b46417c8ecad114e9"
+    },
+    {
+      "slug": "stroke-to-fill",
+      "title": "描边色同步到填充",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/描边色同步到填充色.jsx",
+      "png": "assets/script-icons/stroke-to-fill.png",
+      "svg": "assets/script-icons/stroke-to-fill.svg",
+      "png_sha256": "7e8dab6c100f303d3e927432dd932955ce573d03fda9d20d6edf4b04437ada18",
+      "svg_sha256": "0ee14f3fb5c8d4d52708215d5a35e14761e51bafde858c58547f1ebc22b937ea"
+    },
+    {
+      "slug": "select-same-strict",
+      "title": "严格选择同色对象",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-严格版.jsx",
+      "png": "assets/script-icons/select-same-strict.png",
+      "svg": "assets/script-icons/select-same-strict.svg",
+      "png_sha256": "f9ab685e0fb24367b1d2885794fa688a24b8b80aec3f6e3117cb639b3091c392",
+      "svg_sha256": "ccf7401ddc6bbaab5195695e636ee3f1e979634f88b5fa11176bd28dbaf2cd14"
+    },
+    {
+      "slug": "select-same-loose",
+      "title": "宽松选择同色对象",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-宽松版.jsx",
+      "png": "assets/script-icons/select-same-loose.png",
+      "svg": "assets/script-icons/select-same-loose.svg",
+      "png_sha256": "4ab4edb8d3be15c397f2b79e830721b43d7e6ed78f2f0137cecbc895efc25cf2",
+      "svg_sha256": "31b41a88f8e11e4f4292c39c769b2f64bb88bdbf8f30b0fe6315ce9ccae8ba39"
+    },
+    {
+      "slug": "select-empty",
+      "title": "快速选择空路径",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择空对象_极速版.jsx",
+      "png": "assets/script-icons/select-empty.png",
+      "svg": "assets/script-icons/select-empty.svg",
+      "png_sha256": "d20f0d6a1f26d7496a83e9f8bcde918fd37feb7a16356aca1b7a38c782aa9338",
+      "svg_sha256": "2f0c555ebe0dc6f256a6a687ef591fec36ce96cc3b4ac2b66becdb46857e09f8"
+    },
+    {
+      "slug": "clean-empty",
+      "title": "保守清理空对象",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/清理真正无用的空对象.jsx",
+      "png": "assets/script-icons/clean-empty.png",
+      "svg": "assets/script-icons/clean-empty.svg",
+      "png_sha256": "0bb0076037dc5edbe5643c88878894795cbf1dfabcb184beb5e468927132a8dd",
+      "svg_sha256": "4e9677ed98781fffeac09422eacf5ebfa66c7a4a174a02f9b390c9395d5295c6"
+    },
+    {
+      "slug": "align-right",
+      "title": "基准对象右对齐",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-右对齐.jsx",
+      "png": "assets/script-icons/align-right.png",
+      "svg": "assets/script-icons/align-right.svg",
+      "png_sha256": "df70769f4cc9bdd5cc58649a9adfa79e4411d2ee5aed73ec9828f0649b106702",
+      "svg_sha256": "77fe89b2bb0ab6aa01cf58d8104c6d5e9da006a28d9106bd9183e3fa0f99ff24"
+    },
+    {
+      "slug": "align-vertical-center",
+      "title": "基准对象垂直居中",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-垂直居中.jsx",
+      "png": "assets/script-icons/align-vertical-center.png",
+      "svg": "assets/script-icons/align-vertical-center.svg",
+      "png_sha256": "0067b2373670e3d0fadc3d40169bf68b830d41ddb3fc91a742ec1669045dec32",
+      "svg_sha256": "1b588fa0346226ad75f00407fa3671b7e5b2e74f3d9ba1ac8b5d331047913458"
+    },
+    {
+      "slug": "align-left",
+      "title": "基准对象左对齐",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-左对齐.jsx",
+      "png": "assets/script-icons/align-left.png",
+      "svg": "assets/script-icons/align-left.svg",
+      "png_sha256": "15e37808f545346fe256b29a89b85ab5a6befec8f5eb4de30b7513c223ab2aa4",
+      "svg_sha256": "dfae3e2af951023c8e1167a005b815f9b51a443c35120e13da6363579e85275f"
+    },
+    {
+      "slug": "align-bottom",
+      "title": "基准对象底部对齐",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-底部对齐.jsx",
+      "png": "assets/script-icons/align-bottom.png",
+      "svg": "assets/script-icons/align-bottom.svg",
+      "png_sha256": "c24be71e4b20e323f0165a3be23dc4813a93657125f3a6765b2012427331b895",
+      "svg_sha256": "0735d46dab2ff084eee2e002018d3ad4c4455cba957f3534fbb4d7de66f67206"
+    },
+    {
+      "slug": "align-horizontal-center",
+      "title": "基准对象水平居中",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-水平居中.jsx",
+      "png": "assets/script-icons/align-horizontal-center.png",
+      "svg": "assets/script-icons/align-horizontal-center.svg",
+      "png_sha256": "a3165edf5c76aa19b10b36d7c91a4c9419b3449789aa97a72b07b859093b4b7e",
+      "svg_sha256": "a1b1869c1f12bd4dc8622c49aaed3b56b26903fe0eaa377a6bd46656b564d440"
+    },
+    {
+      "slug": "align-top",
+      "title": "基准对象顶部对齐",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-顶部对齐.jsx",
+      "png": "assets/script-icons/align-top.png",
+      "svg": "assets/script-icons/align-top.svg",
+      "png_sha256": "878de3fbd3c421498bdf633faf61d96e1059060d4114f7ad1ce251a00714b2dc",
+      "svg_sha256": "1c7746cb665ccd299e1eae061ada433ea4b460e1f1367acd99ce7ee2c7af4b49"
+    },
+    {
+      "slug": "basis-scale",
+      "title": "按基准对象缩放父组",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准缩放.jsx",
+      "png": "assets/script-icons/basis-scale.png",
+      "svg": "assets/script-icons/basis-scale.svg",
+      "png_sha256": "861379b2183a7c0816110c55757ef01ca462b4d20a6613b7e96e6adeb3648aa0",
+      "svg_sha256": "f025ae4bd78e90e1f2231aa19ffdcdd73658e550b691b9f591602fbd0b4f90e8"
+    },
+    {
+      "slug": "round-size-up",
+      "title": "尺寸向上取整",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/尺寸无小数.jsx",
+      "png": "assets/script-icons/round-size-up.png",
+      "svg": "assets/script-icons/round-size-up.svg",
+      "png_sha256": "5035e69a802634679ac7cca0d603c4a3a72ea6b2b97702a93861abc0eb9f9517",
+      "svg_sha256": "a213f27a758913343557d3d855f5cf228c83ae88dc5fa2526538ed2069b997d1"
+    },
+    {
+      "slug": "long-edge-1024",
+      "title": "选区长边标准化",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象长边设为1024.jsx",
+      "png": "assets/script-icons/long-edge-1024.png",
+      "svg": "assets/script-icons/long-edge-1024.svg",
+      "png_sha256": "6b2b66a2ceb3c7de6777eafcdb3b05b3744519041919d849e1d2a1eb34f92897",
+      "svg_sha256": "c9b878b79674e24f79858f8f93365f3ee6fa175a80b5f54da27135ea9b1f1a18"
+    },
+    {
+      "slug": "six-grid",
+      "title": "六对象两行三列排版",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/六个对象两行三列最大化.jsx",
+      "png": "assets/script-icons/six-grid.png",
+      "svg": "assets/script-icons/six-grid.svg",
+      "png_sha256": "fd0f9b1b617d0cb91b85c7ad0e4a4afee4c3bdcf7132e9ba80bdbcc121b1567e",
+      "svg_sha256": "85690a1ef2e57384789514efc9f8ac76f17b1f03b55860824969cf2d5510f80f"
+    },
+    {
+      "slug": "record-position",
+      "title": "记录画板相对位置",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/记录对象中心相对画板位置.jsx",
+      "png": "assets/script-icons/record-position.png",
+      "svg": "assets/script-icons/record-position.svg",
+      "png_sha256": "68a5705443fa7fe597d8c506e6ecb4ab5e66350854cc2d6ae41b7a5f6346a3c3",
+      "svg_sha256": "36a07d92e7b9bcffb366cadebfc466071efc8c7de1334506e66d525971b00201"
+    },
+    {
+      "slug": "apply-position",
+      "title": "应用画板相对位置",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/应用对象中心相对画板位置.jsx",
+      "png": "assets/script-icons/apply-position.png",
+      "svg": "assets/script-icons/apply-position.svg",
+      "png_sha256": "6de6f33f1b30bfb99758f749fe1730e9b422b78e8a3fa42742dd27ce5d138125",
+      "svg_sha256": "d2a9558b975979a21cc4562b7481469f459a9d859190299468b1fb146c1f137f"
+    },
+    {
+      "slug": "coordinates-legacy",
+      "title": "坐标转换旧版",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/ai坐标转其它_gemini.jsx",
+      "png": "assets/script-icons/coordinates-legacy.png",
+      "svg": "assets/script-icons/coordinates-legacy.svg",
+      "png_sha256": "3026c3ff2c60c55fff05ad109892b82705eb4afd4c57af6654b49432d5a105fd",
+      "svg_sha256": "c20827626c2d775b77745b3ca40c91be8a7fcfb09509cd28a067782b03284b9d"
+    },
+    {
+      "slug": "coordinates",
+      "title": "坐标与UV参数转换",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/AI坐标转换工具.jsx",
+      "png": "assets/script-icons/coordinates.png",
+      "svg": "assets/script-icons/coordinates.svg",
+      "png_sha256": "fe3b6041007a9192bb707a56cf93dc6632dc0d4488a724b2d37cfdfd4c5673c8",
+      "svg_sha256": "30bfdd3899a8c1eb342994a755eefd5b9de57ff509565688c52bb0b59f0e390e"
+    },
+    {
+      "slug": "selection-frame",
+      "title": "创建选区外框",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/为选择对象创建外框.jsx",
+      "png": "assets/script-icons/selection-frame.png",
+      "svg": "assets/script-icons/selection-frame.svg",
+      "png_sha256": "f674dcd123282eeb7756ba7ee2ccd96f6aaa36efcf7b5302d7efd65873375328",
+      "svg_sha256": "17df32900c43216e61ddba0bf955e3d0842a9a829cccf7dbd45067adfac2bedb"
+    },
+    {
+      "slug": "white-overlay",
+      "title": "创建白色覆盖矩形",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象上方创建白色矩形.jsx",
+      "png": "assets/script-icons/white-overlay.png",
+      "svg": "assets/script-icons/white-overlay.svg",
+      "png_sha256": "6cb033f09b592508d3b5a344811a60456abe3aaf02c0b4eb0e98d2d33de74af4",
+      "svg_sha256": "3cf0c1498fa228544bfe69a754dffbd902d26b359921ca29a2bd47daa5f3d745"
+    },
+    {
+      "slug": "black-background",
+      "title": "创建画板黑色背景",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/当前画板创建黑色背景矩形.jsx",
+      "png": "assets/script-icons/black-background.png",
+      "svg": "assets/script-icons/black-background.svg",
+      "png_sha256": "8685ce4e67e9bb392dfcd0f796f74c7d0a351bd3f16f41c1aca665f75f949856",
+      "svg_sha256": "2ec6fe98744d91a32f12bf822d4c3992a17155c8b92e2531a27e7491256df9f3"
+    },
+    {
+      "slug": "copy-new-artboard",
+      "title": "复制对象到新画板",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/复制选择对象到新画板.jsx",
+      "png": "assets/script-icons/copy-new-artboard.png",
+      "svg": "assets/script-icons/copy-new-artboard.svg",
+      "png_sha256": "e9bdc625399fd0f5f918afe9f3a7421bd2d920d29ae73271bba90b6a5f9e7cd9",
+      "svg_sha256": "67358cc308fd1e2cc316c7cc5730775bf3a74f0effa8c7d61b5fde7fae77f2d4"
+    },
+    {
+      "slug": "export-ai-1024",
+      "title": "导出标准化AI素材",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/导出选择对象为长边1024AI.jsx",
+      "png": "assets/script-icons/export-ai-1024.png",
+      "svg": "assets/script-icons/export-ai-1024.svg",
+      "png_sha256": "fb50fa3152058b97d5e7c0c21d6f81ca3598acb57ac29515f9fb02cb1ac539b7",
+      "svg_sha256": "79921e244f8a0cfc2f1078fac84d669400e2fdc51badcf0c3931d301a1ed8490"
+    },
+    {
+      "slug": "paper-cup",
+      "title": "纸杯杯身展开",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/纸杯展开.jsx",
+      "png": "assets/script-icons/paper-cup.png",
+      "svg": "assets/script-icons/paper-cup.svg",
+      "png_sha256": "9cf7c83401989c029293a01e5114855df20074fda69ffcd42a015e718b3d4d01",
+      "svg_sha256": "e9e656bf3b88285700705adf30f0c93caf1a44bc65a14c9d6eda8cf698f4ab81"
+    },
+    {
+      "slug": "upca-barcode",
+      "title": "生成矢量条形码",
+      "script": "HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/生成UPC-A条形码.jsx",
+      "png": "assets/script-icons/upca-barcode.png",
+      "svg": "assets/script-icons/upca-barcode.svg",
+      "png_sha256": "ddeb8f73ef2768d767899854c3e6d3d67e09f41a0ea5127fd24216c1690b0b7b",
+      "svg_sha256": "bdfc84b66f215ca851c5137b5d88fad949fedc15a1599168778495dd40d90225"
+    }
+  ]
+}
