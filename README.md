@@ -31,6 +31,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象黑白互换.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象黑白互换.md)
 
+---
+
 #### <img src="assets/script-icons/sample-color-custom.png" width="32" height="32" alt=""> 单一色转其它色.jsx
 
 **把取样同色对象改成自定义色**
@@ -38,6 +40,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 以首个选中对象的单一颜色为样本，将文档中所有同色对象改成拾色器里选择的新颜色。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转其它色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转其它色.md)
+
+---
 
 #### <img src="assets/script-icons/sample-others-custom.png" width="32" height="32" alt=""> 单一色转自定义色_其它转自定义色.jsx
 
@@ -47,6 +51,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转自定义色_其它转自定义色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/单一色转自定义色_其它转自定义色.md)
 
+---
+
 #### <img src="assets/script-icons/sample-white-mask.png" width="32" height="32" alt=""> 同色转白其余转黑.jsx
 
 **按取样色生成白色区域遮罩**
@@ -54,6 +60,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 以选中对象或编组的颜色取样，把当前画板中的同色区域转白，其余已有颜色转黑。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转白其余转黑.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转白其余转黑.md)
+
+---
 
 #### <img src="assets/script-icons/sample-black-mask.png" width="32" height="32" alt=""> 同色转黑其余转白.jsx
 
@@ -63,6 +71,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转黑其余转白.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/同色转黑其余转白.md)
 
+---
+
 #### <img src="assets/script-icons/selected-white.png" width="32" height="32" alt=""> 选择对象转白色.jsx
 
 **选中对象转白**
@@ -70,6 +80,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 将当前选中对象已有的填充和描边改成白色，不影响未选对象，也不会新增颜色通道。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转白色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转白色.md)
+
+---
 
 #### <img src="assets/script-icons/selected-custom-color.png" width="32" height="32" alt=""> 选择对象转自定义颜色.jsx
 
@@ -79,6 +91,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转自定义颜色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转自定义颜色.md)
 
+---
+
 #### <img src="assets/script-icons/selected-black.png" width="32" height="32" alt=""> 选择对象转黑色.jsx
 
 **选中对象转黑**
@@ -86,6 +100,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 将当前选中对象已有的填充和描边改成黑色，不影响未选对象，也不会新增颜色通道。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转黑色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象转黑色.md)
+
+---
 
 #### <img src="assets/script-icons/selection-white-mask.png" width="32" height="32" alt=""> 选择转白其余转黑.jsx
 
@@ -95,6 +111,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转白其余转黑.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转白其余转黑.md)
 
+---
+
 #### <img src="assets/script-icons/selection-black-mask.png" width="32" height="32" alt=""> 选择转黑其余转白.jsx
 
 **按选区生成黑色区域遮罩**
@@ -102,6 +120,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 把当前画板内选中的对象转黑，其它有颜色的对象转白；按选区判断，不使用取样颜色。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转黑其余转白.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择转黑其余转白.md)
+
+---
 
 #### <img src="assets/script-icons/fill-to-stroke.png" width="32" height="32" alt=""> 填充色同步到描边色.jsx
 
@@ -111,6 +131,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/填充色同步到描边色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/填充色同步到描边色.md)
 
+---
+
 #### <img src="assets/script-icons/stroke-to-fill.png" width="32" height="32" alt=""> 描边色同步到填充色.jsx
 
 **描边色复制到填充**
@@ -118,6 +140,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 把选中对象的描边颜色同步到填充，让填充与描边一致，同时保留原描边。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/描边色同步到填充色.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/描边色同步到填充色.md)
+
+---
 
 ### 选择与清理
 
@@ -129,6 +153,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-严格版.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-严格版.md)
 
+---
+
 #### <img src="assets/script-icons/select-same-loose.png" width="32" height="32" alt=""> 选择同色对象-宽松版.jsx
 
 **按宽松单色规则选择**
@@ -136,6 +162,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 以首个选中对象为样本，按更宽松的单色规则选择对象；单色样本不强制填充对填充、描边对描边。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-宽松版.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择同色对象-宽松版.md)
+
+---
 
 #### <img src="assets/script-icons/select-empty.png" width="32" height="32" alt=""> 选择空对象_极速版.jsx
 
@@ -145,6 +173,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择空对象_极速版.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择空对象_极速版.md)
 
+---
+
 #### <img src="assets/script-icons/clean-empty.png" width="32" height="32" alt=""> 清理真正无用的空对象.jsx
 
 **保守清理无效空对象**
@@ -152,6 +182,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 自动删除确定无显示效果、无结构用途的空路径、空白文字和空组，保留剪切、参考线等有效对象。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/清理真正无用的空对象.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/清理真正无用的空对象.md)
+
+---
 
 ### 画板对齐与缩放
 
@@ -163,6 +195,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-右对齐.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-右对齐.md)
 
+---
+
 #### <img src="assets/script-icons/align-vertical-center.png" width="32" height="32" alt=""> 手选基准对齐画板-垂直居中.jsx
 
 **基准对象垂直居中画板**
@@ -170,6 +204,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 选中一个基准对象，移动其所属最外层父组，使基准对象垂直中心对齐所在画板垂直中心。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-垂直居中.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-垂直居中.md)
+
+---
 
 #### <img src="assets/script-icons/align-left.png" width="32" height="32" alt=""> 手选基准对齐画板-左对齐.jsx
 
@@ -179,6 +215,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-左对齐.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-左对齐.md)
 
+---
+
 #### <img src="assets/script-icons/align-bottom.png" width="32" height="32" alt=""> 手选基准对齐画板-底部对齐.jsx
 
 **基准对象底部对齐画板**
@@ -186,6 +224,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 选中一个基准对象，移动其所属最外层父组，使基准对象底部对齐所在画板底部。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-底部对齐.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-底部对齐.md)
+
+---
 
 #### <img src="assets/script-icons/align-horizontal-center.png" width="32" height="32" alt=""> 手选基准对齐画板-水平居中.jsx
 
@@ -195,6 +235,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-水平居中.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-水平居中.md)
 
+---
+
 #### <img src="assets/script-icons/align-top.png" width="32" height="32" alt=""> 手选基准对齐画板-顶部对齐.jsx
 
 **基准对象顶部对齐画板**
@@ -202,6 +244,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 选中一个基准对象，移动其所属最外层父组，使基准对象顶部对齐所在画板顶部。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-顶部对齐.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准对齐画板-顶部对齐.md)
+
+---
 
 #### <img src="assets/script-icons/basis-scale.png" width="32" height="32" alt=""> 手选基准缩放.jsx
 
@@ -211,6 +255,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准缩放.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/手选基准缩放.md)
 
+---
+
 #### <img src="assets/script-icons/round-size-up.png" width="32" height="32" alt=""> 尺寸无小数.jsx
 
 **宽高小数向上取整**
@@ -218,6 +264,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 将选中对象带小数的宽或高去掉小数后加一，原本为整数的维度不变，默认保持对象中心。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/尺寸无小数.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/尺寸无小数.md)
+
+---
 
 #### <img src="assets/script-icons/long-edge-1024.png" width="32" height="32" alt=""> 选择对象长边设为1024.jsx
 
@@ -227,6 +275,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象长边设为1024.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象长边设为1024.md)
 
+---
+
 #### <img src="assets/script-icons/six-grid.png" width="32" height="32" alt=""> 六个对象两行三列最大化.jsx
 
 **六对象自动排版并尽量放大**
@@ -234,6 +284,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 将 6 个对象按统一比例缩放，排成 2 行 3 列，并在当前画板内居中、尽量利用可用空间。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/六个对象两行三列最大化.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/六个对象两行三列最大化.md)
+
+---
 
 ### 位置与坐标
 
@@ -245,6 +297,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/记录对象中心相对画板位置.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/记录对象中心相对画板位置.md)
 
+---
+
 #### <img src="assets/script-icons/apply-position.png" width="32" height="32" alt=""> 应用对象中心相对画板位置.jsx
 
 **应用已记录的画板相对位置**
@@ -252,6 +306,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 将当前选中对象或整体选区移动到已记录的画板相对位置，多选时保持对象之间的相对关系。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/应用对象中心相对画板位置.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/应用对象中心相对画板位置.md)
+
+---
 
 #### <img src="assets/script-icons/coordinates-legacy.png" width="32" height="32" alt=""> ai坐标转其它_gemini.jsx
 
@@ -261,6 +317,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/ai坐标转其它_gemini.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/ai坐标转其它_gemini.md)
 
+---
+
 #### <img src="assets/script-icons/coordinates.png" width="32" height="32" alt=""> AI坐标转换工具.jsx
 
 **坐标、尺寸与 UV 参数转换**
@@ -268,6 +326,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 读取选中对象的位置、尺寸和画板比例，转换成 UV、Octane 等参数，供渲染、贴图或其它软件使用。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/AI坐标转换工具.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/AI坐标转换工具.md)
+
+---
 
 ### 图形与画板
 
@@ -279,6 +339,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/为选择对象创建外框.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/为选择对象创建外框.md)
 
+---
+
 #### <img src="assets/script-icons/white-overlay.png" width="32" height="32" alt=""> 选择对象上方创建白色矩形.jsx
 
 **在选中对象上方覆盖白色矩形**
@@ -286,6 +348,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 在首个选中对象的原位置创建同尺寸、白色无描边矩形并置于其上方，原对象保留。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/选择对象上方创建白色矩形.jsx)
+
+---
 
 #### <img src="assets/script-icons/black-background.png" width="32" height="32" alt=""> 当前画板创建黑色背景矩形.jsx
 
@@ -295,6 +359,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/当前画板创建黑色背景矩形.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/当前画板创建黑色背景矩形.md)
 
+---
+
 #### <img src="assets/script-icons/copy-new-artboard.png" width="32" height="32" alt=""> 复制选择对象到新画板.jsx
 
 **复制对象到右侧同尺寸新画板**
@@ -302,6 +368,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 在当前画板右侧新建同尺寸画板，把选中对象复制到相同相对位置并选中新副本，原对象保留。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/复制选择对象到新画板.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/复制选择对象到新画板.md)
+
+---
 
 ### 导出与生产
 
@@ -313,6 +381,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/导出选择对象为长边1024AI.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/导出选择对象为长边1024AI.md)
 
+---
+
 #### <img src="assets/script-icons/paper-cup.png" width="32" height="32" alt=""> 纸杯展开.jsx
 
 **生成可编辑的纸杯杯身展开图**
@@ -320,6 +390,8 @@ Windows 用户先保存工作并关闭 Adobe 软件，再下载并运行：
 根据上下口直径和实际高度 H 或斜坡长度 S 生成杯身轮廓，支持搭接、出血、辅助线和尺寸标注。
 
 [脚本](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/纸杯展开.jsx) · [详细说明](HGScripts_0.3.7/cep/HGScripts/user_scripts/illustrator/纸杯展开.md)
+
+---
 
 #### <img src="assets/script-icons/upca-barcode.png" width="32" height="32" alt=""> 生成UPC-A条形码.jsx
 

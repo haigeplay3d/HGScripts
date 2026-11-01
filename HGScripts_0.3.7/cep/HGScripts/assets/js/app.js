@@ -1,6 +1,7 @@
 (function () {
   "use strict";
 
+  var HGI = window.HGI18N || null;
   var fs = null;
   var path = null;
   var childProcess = null;
@@ -60,7 +61,7 @@
       return;
     }
     if (HOST_PROFILE.year === "2023" && !LEGACY_COMPAT_MODE) {
-      writeBootStatus("HGScripts v" + state.appVersion + " 已在 Illustrator 2023 启动。若下方仍是空白，请继续让 Codex 读取日志。", "warn");
+      writeBootStatus(t("bootStarted2023", { version: state.appVersion }), "warn");
       writeBootLog("boot status kept visible for Illustrator 2023");
       return;
     }
@@ -73,17 +74,17 @@
       writeBootLog("boot status hidden after UI paint: shell=" + shellHeight + ", topbar=" + topbarHeight);
       return;
     }
-    writeBootStatus("HGScripts 已启动，但旧版 Illustrator 面板高度异常。请拖大面板或重开面板。", "warn");
+    writeBootStatus(t("bootPaintFailed"), "warn");
     writeBootLog("UI paint check failed: shell=" + shellHeight + ", topbar=" + topbarHeight);
   }
 
   try {
-    writeBootStatus("正在加载 HGScripts 运行环境...");
+    writeBootStatus(t("bootLoading"));
     fs = require("fs");
     path = require("path");
     childProcess = require("child_process");
   } catch (errRequire) {
-    failBoot("HGScripts 无法启用 CEP Node.js 环境", errRequire);
+    failBoot(t("bootNodeFailed"), errRequire);
     return;
   }
 
@@ -91,7 +92,7 @@
     cs = new CSInterface();
     writeBootLog("CSInterface initialized");
   } catch (errCs) {
-    failBoot("HGScripts 无法初始化 CSInterface", errCs);
+    failBoot(t("bootCsFailed"), errCs);
     return;
   }
 
@@ -131,6 +132,9 @@
   var REFRESH_INTERVAL_MS = 1500;
   var LEGACY_COMPAT_MODE = /\blegacy=1\b/.test(String(window.location.search || ""));
   var SETTINGS_PATH = path.join(EXTENSION_ROOT, "data", "settings.json");
+  // 面板尺寸用文件持久化，不走 localStorage：CEP 的 localStorage 落在 Temp\cep_cache，
+  // 会被系统清理/未正常退出时丢数据，导致每次启动读不到记住的窗口大小。
+  var PANEL_SIZES_PATH = path.join(EXTENSION_ROOT, "data", "panel_sizes.json");
   var SCRIPT_ICONS_PATH = path.join(EXTENSION_ROOT, "data", "script_icons.json");
   var RUNTIME_FOLDER = path.join(EXTENSION_ROOT, "data", "runtime");
   var RECENT_SORT_LOG_PATH = path.join(RUNTIME_FOLDER, "recent_sort.log");
@@ -144,6 +148,7 @@
     indesign: "assets/icons/host-indesign.svg"
   };
   var DOC_ICON_SRC = "assets/icons/file-tips-filled.svg";
+  var CPP_BOOST_ICON_SRC = "assets/icons/cpp-boost.svg";
   var STAR_OUTLINE_ICON_SRC = "assets/icons/star-outline.svg";
   var STAR_FILLED_ICON_SRC = "assets/icons/star-filled.svg";
   var SCRIPT_EXTENSIONS = { ".jsx": true, ".js": true };
@@ -161,258 +166,18 @@
     ignoredDirs: ["node_modules", ".git", ".svn", ".hg"],
     languageMode: "auto"
   };
-  var COMMAND_SCENES = [
-    { id: "all", label: "全部", aliases: [] },
-    { id: "favorites", label: "常用", aliases: ["收藏", "常用", "星标"] },
-    { id: "recent", label: "最近", aliases: ["最近", "刚用", "上次"] },
-    { id: "select", label: "选择", aliases: ["选择", "选中", "对象", "空对象", "同色", "无填色", "无描边"] },
-    { id: "color", label: "颜色", aliases: ["颜色", "填充", "描边", "黑", "白", "同色", "转色", "改色"] },
-    { id: "size", label: "尺寸", aliases: ["尺寸", "缩放", "长边", "1024", "宽", "高", "整数", "小数"] },
-    { id: "align", label: "对齐", aliases: ["对齐", "居中", "左对齐", "右对齐", "顶部", "底部", "基准"] },
-    { id: "artboard", label: "画板", aliases: ["画板", "外框", "背景", "新画板"] },
-    { id: "export", label: "导出", aliases: ["导出", "保存", "输出", "复制到新画板"] },
-    { id: "diagnostic", label: "诊断", aliases: ["诊断", "记录", "恢复", "测试", "实验", "调试"] },
-    { id: "photoshop", label: "PS", aliases: ["photoshop", "ps", "图层", "蒙版", "剪贴板", "beauty"] }
-  ];
-  var UI_TEXT = {
-    "zh-CN": {
-      searchPlaceholder: "搜索脚本",
-      cppModeTitle: "C++ / JSX 运行模式",
-      refresh: "刷新",
-      refreshTitle: "立即刷新脚本列表",
-      expand: "展开",
-      collapse: "收起",
-      sort: "最近使用",
-      sortTitle: "排序",
-      sortLastRun: "最近使用",
-      sortMtime: "最近修改",
-      sortInitialAsc: "首字母 A-Z",
-      sortInitialDesc: "首字母 Z-A",
-      sortNameAsc: "名称 A-Z",
-      sortNameDesc: "名称 Z-A",
-      favorites: "收藏",
-      favoritesTitle: "只显示收藏脚本",
-      defaultSource: "默认",
-      defaultSourceTitle: "切换到默认脚本目录",
-      newScript: "新建",
-      addFolder: "添加目录",
-      folderLoading: "正在读取脚本目录...",
-      all: "全部",
-      splitterTitle: "拖动调整脚本列表宽度",
-      selectScript: "选择一个脚本",
-      rename: "重命名",
-      renameTitle: "重命名脚本并同步同名说明",
-      run: "运行",
-      openExternal: "外部打开",
-      reveal: "定位",
-      docTitle: "使用说明",
-      saveDoc: "保存说明",
-      saveDocTitle: "保存同名 Markdown 说明",
-      docPlaceholder: "同名 .md 会显示在这里。",
-      close: "关闭",
-      save: "保存",
-      saveRun: "保存并运行",
-      reload: "重新读取",
-      duplicate: "创建副本",
-      noScriptOpen: "未打开脚本",
-      console: "控制台",
-      copyAll: "复制全部",
-      copyError: "复制报错",
-      clear: "清空",
-      waitingResult: "等待运行结果。",
-      settings: "设置",
-      settingsSub: "插件界面和运行偏好",
-      back: "返回",
-      language: "语言",
-      auto: "自动",
-      chinese: "中文",
-      saveLanguage: "保存语言设置",
-      languageSaved: "语言已保存：",
-      languageRefreshReason: "语言切换",
-      languageHintPrefix: "当前界面语言已启用。选项：",
-      languageHintHost: "，Illustrator/CEP：",
-      languageHintEffective: "，实际语言：",
-      languageHintSuffix: "。",
-      about: "关于",
-      pluginName: "插件名称",
-      version: "版本",
-      updateDate: "更新日期",
-      referenceProjects: "参考项目",
-      description: "说明",
-      aboutDescription: "免费开源发布，当前以 Illustrator 为主，正在准备 Photoshop / InDesign 支持。",
-      ready: "准备就绪",
-      noSelection: "未选择脚本",
-      sourceManager: "目录管理",
-      sourceAlias: "目录别名",
-      folderPath: "粘贴脚本目录路径，Enter 添加",
-      saveChanges: "保存修改",
-      removeFromList: "从列表移除",
-      scanDepth: "扫描深度",
-      scanCurrentOnly: "0：仅当前目录",
-      scanChildPrefix: "：+",
-      scanChildSuffix: " 层子目录",
-      ignoredDirs: "忽略目录，如 node_modules,.git,.svn,.hg",
-      saveSettings: "保存设置",
-      addedSources: "已添加目录",
-      newScriptName: "新脚本名",
-      docCheckbox: "使用说明",
-      create: "创建",
-      unsavedScript: "当前脚本未保存",
-      unsavedDoc: "当前说明未保存",
-      saveThenSwitch: "保存后切换",
-      switchDirectly: "直接切换",
-      cancel: "取消",
-      editScript: "编辑脚本",
-      editDoc: "编辑说明",
-      revealExplorer: "定位到资源管理器",
-      deleteScript: "删除脚本",
-      panelSizeTitle: "切换大/小面板",
-      closeEditorTitle: "关闭内部编辑器",
-      consoleResizerTitle: "拖动调整控制台高度",
-      backTitle: "返回脚本列表"
-    },
-    "en-US": {
-      searchPlaceholder: "Search scripts",
-      cppModeTitle: "C++ / JSX run mode",
-      refresh: "Refresh",
-      refreshTitle: "Refresh the script list now",
-      expand: "Expand",
-      collapse: "Collapse",
-      sort: "Recent",
-      sortTitle: "Sort",
-      sortLastRun: "Recently used",
-      sortMtime: "Recently modified",
-      sortInitialAsc: "Initial A-Z",
-      sortInitialDesc: "Initial Z-A",
-      sortNameAsc: "Name A-Z",
-      sortNameDesc: "Name Z-A",
-      favorites: "Favorites",
-      favoritesTitle: "Show favorite scripts only",
-      defaultSource: "Default",
-      defaultSourceTitle: "Switch to the default script folder",
-      newScript: "New",
-      addFolder: "Add Folder",
-      folderLoading: "Reading script folders...",
-      all: "All",
-      splitterTitle: "Drag to resize the script list",
-      selectScript: "Select a script",
-      rename: "Rename",
-      renameTitle: "Rename the script and matching docs",
-      run: "Run",
-      openExternal: "Open",
-      reveal: "Reveal",
-      docTitle: "Guide",
-      saveDoc: "Save Guide",
-      saveDocTitle: "Save the matching Markdown guide",
-      docPlaceholder: "The matching .md guide appears here.",
-      close: "Close",
-      save: "Save",
-      saveRun: "Save & Run",
-      reload: "Reload",
-      duplicate: "Duplicate",
-      noScriptOpen: "No script open",
-      console: "Console",
-      copyAll: "Copy All",
-      copyError: "Copy Error",
-      clear: "Clear",
-      waitingResult: "Waiting for run results.",
-      settings: "Settings",
-      settingsSub: "Panel UI and run preferences",
-      back: "Back",
-      language: "Language",
-      auto: "Auto",
-      chinese: "Chinese",
-      saveLanguage: "Save Language",
-      languageSaved: "Language saved: ",
-      languageRefreshReason: "Language changed",
-      languageHintPrefix: "Panel language is active. Setting: ",
-      languageHintHost: ", Illustrator/CEP: ",
-      languageHintEffective: ", effective: ",
-      languageHintSuffix: ".",
-      about: "About",
-      pluginName: "Plugin name",
-      version: "Version",
-      updateDate: "Updated",
-      referenceProjects: "Reference projects",
-      description: "Description",
-      aboutDescription: "Free and open source. Illustrator is the primary host; Photoshop and InDesign support is being prepared.",
-      ready: "Ready",
-      noSelection: "No script selected",
-      sourceManager: "Folder Manager",
-      sourceAlias: "Folder alias",
-      folderPath: "Paste a script folder path, Enter to add",
-      saveChanges: "Save Changes",
-      removeFromList: "Remove from List",
-      scanDepth: "Scan depth",
-      scanCurrentOnly: "0: current folder only",
-      scanChildPrefix: ": +",
-      scanChildSuffix: " child folders",
-      ignoredDirs: "Ignored folders, e.g. node_modules,.git,.svn,.hg",
-      saveSettings: "Save Settings",
-      addedSources: "Added Folders",
-      newScriptName: "New script name",
-      docCheckbox: "Guide",
-      create: "Create",
-      unsavedScript: "Current script is not saved",
-      unsavedDoc: "Current guide is not saved",
-      saveThenSwitch: "Save then Switch",
-      switchDirectly: "Switch Directly",
-      cancel: "Cancel",
-      editScript: "Edit Script",
-      editDoc: "Edit Guide",
-      revealExplorer: "Reveal in Explorer",
-      deleteScript: "Delete Script",
-      panelSizeTitle: "Toggle wide/narrow panel",
-      closeEditorTitle: "Close the internal editor",
-      consoleResizerTitle: "Drag to resize the console",
-      backTitle: "Back to script list"
-    }
-  };
-  var EN_SCRIPT_TITLES = {
-    "ai坐标转其它_gemini": "AI Coordinate Converter (Legacy Gemini)",
-    "AI坐标转换工具": "AI Coordinate Converter",
-    "为选择对象创建外框": "Create Frame Around Selection",
-    "六个对象两行三列最大化": "Maximize 6 Objects in 2x3 Grid",
-    "单一色转其它色": "Single Color to Another Color",
-    "单一色转自定义色_其它转自定义色": "Single Color and Others to Custom Colors",
-    "同色转白其余转黑": "Same Color to White, Others to Black",
-    "同色转黑其余转白": "Same Color to Black, Others to White",
-    "填充色同步到描边色": "Sync Fill Color to Stroke",
-    "复制选择对象到新画板": "Copy Selection to New Artboard",
-    "导出选择对象为长边1024AI": "Export Selection as 1024 Long-Edge AI",
-    "尺寸无小数": "Remove Decimal Dimensions",
-    "纸杯展开": "Paper Cup Template",
-    "应用对象中心相对画板位置": "Apply Object Center Relative to Artboard",
-    "当前画板创建黑色背景矩形": "Create Black Background on Current Artboard",
-    "手选基准对齐画板-右对齐": "Manual Reference Align to Artboard - Right",
-    "手选基准对齐画板-垂直居中": "Manual Reference Align to Artboard - Vertical Center",
-    "手选基准对齐画板-左对齐": "Manual Reference Align to Artboard - Left",
-    "手选基准对齐画板-底部对齐": "Manual Reference Align to Artboard - Bottom",
-    "手选基准对齐画板-水平居中": "Manual Reference Align to Artboard - Horizontal Center",
-    "手选基准对齐画板-顶部对齐": "Manual Reference Align to Artboard - Top",
-    "手选基准缩放": "Manual Reference Scale",
-    "描边色同步到填充色": "Sync Stroke Color to Fill",
-    "清理真正无用的空对象": "Clean Truly Useless Empty Objects",
-    "生成UPC-A条形码": "Generate UPC-A Barcode",
-    "记录对象中心相对画板位置": "Record Object Center Relative to Artboard",
-    "选择同色对象-严格版": "Select Same-Color Objects - Strict",
-    "选择同色对象-宽松版": "Select Same-Color Objects - Loose",
-    "选择对象上方创建白色矩形": "Create White Rectangle Above Selection",
-    "选择对象黑白互换": "Swap Black and White in Selection",
-    "选择对象转白色": "Turn Selection White",
-    "选择对象转自定义颜色": "Turn Selection to Custom Color",
-    "选择对象转黑色": "Turn Selection Black",
-    "选择对象长边设为1024": "Set Selection Long Edge to 1024",
-    "选择空对象_极速版": "Select Empty Objects - Fast",
-    "选择转白其余转黑": "Selection to White, Others to Black",
-    "选择转黑其余转白": "Selection to Black, Others to White"
-  };
+  var COMMAND_SCENES = HGI ? HGI.SCENES : [];
+  // 中文文件名是稳定契约，默认新建脚本名不随界面语言变化 / Chinese file names are a stable contract.
+  var NEW_SCRIPT_FILENAME_BASE = "\u65B0\u5EFA\u811A\u672C"; // i18n-ignore: default file name, not UI text
   var settings = loadSettings();
   migrateSettingsStorage();
   var hostLanguage = detectHostLanguage();
   var effectiveLanguage = resolveEffectiveLanguage(settings.languageMode, hostLanguage);
+  if (HGI) {
+    HGI.setLanguage(effectiveLanguage);
+  }
 
-  var storedPanelSizes = loadJson(PANEL_SIZES_KEY, null);
+  var storedPanelSizes = loadPanelSizes();
   var state = {
     sources: loadSources(),
     activeSourceId: getStoredValue(ACTIVE_SOURCE_KEY, "all"),
@@ -447,6 +212,7 @@
     cppMode: normalizeCppMode(getStoredValue(CPP_MODE_KEY, "auto")),
     activeSceneId: "all",
     panelMode: "narrow",
+    startupSizing: false,
     panelSizes: storedPanelSizes || {
       narrow: { width: FIRST_RUN_PANEL_WIDTH, height: FIRST_RUN_PANEL_HEIGHT },
       wide: { width: WIDE_PANEL_WIDTH, height: WIDE_PANEL_HEIGHT }
@@ -455,8 +221,8 @@
     pendingSwitchCallback: null,
     pendingSwitchKind: "code",
     appVersion: "0.3.7",
-    idleCountText: "0 个脚本",
-    watchStatusText: "监听未启动",
+    idleCountText: t("statusZeroScripts"),
+    watchStatusText: t("statusWatchIdle"),
     statusMessage: "",
     statusRightText: "",
     statusLevel: "",
@@ -580,7 +346,7 @@
   }
 
   function init() {
-    writeBootStatus("正在初始化 HGScripts...");
+    writeBootStatus(t("bootInit"));
     writeBootLog("init begin");
     if (LEGACY_COMPAT_MODE && document.body) {
       document.body.className += (document.body.className ? " " : "") + "legacy-compat";
@@ -606,6 +372,8 @@
     bindEvents();
     renderSources();
     renderSettings();
+    translateStaticUi();
+    renderLanguageHint();
     applyUiZoom();
     applyConsoleHeight();
     applyMainSplitWidth();
@@ -615,11 +383,11 @@
     setTimeout(function () {
       try {
         writeBootLog("startup refresh begin");
-        refresh("\u542F\u52A8\u626B\u63CF");
+        refresh(t("reasonStartup"));
         hideBootStatusIfUiPainted();
         writeBootLog("startup refresh done");
       } catch (errRefresh) {
-        failBoot("HGScripts 启动扫描失败", errRefresh);
+        failBoot(t("bootScanFailed"), errRefresh);
       }
     }, 0);
     startPolling();
@@ -629,9 +397,15 @@
     }
   }
 
+  var panelMenuBound = false;
+
   function setupPanelMenu() {
     try {
-      cs.setPanelFlyoutMenu("<Menu><MenuItem Id=\"" + PANEL_MENU_SETTINGS_ID + "\" Label=\"&#35774;&#32622;\" Enabled=\"true\" Checked=\"false\"/><MenuItem Id=\"" + PANEL_MENU_ABOUT_ID + "\" Label=\"&#20851;&#20110;\" Enabled=\"true\" Checked=\"false\"/></Menu>");
+      cs.setPanelFlyoutMenu("<Menu><MenuItem Id=\"" + PANEL_MENU_SETTINGS_ID + "\" Label=\"" + escapeHtml(t("settings")) + "\" Enabled=\"true\" Checked=\"false\"/><MenuItem Id=\"" + PANEL_MENU_ABOUT_ID + "\" Label=\"" + escapeHtml(t("about")) + "\" Enabled=\"true\" Checked=\"false\"/></Menu>");
+      if (panelMenuBound) {
+        return;
+      }
+      panelMenuBound = true;
       cs.addEventListener("com.adobe.csxs.events.flyoutMenuClicked", function (event) {
         var data = event && event.data ? event.data : {};
         if (typeof data === "string") {
@@ -641,9 +415,9 @@
             data = { menuId: data };
           }
         }
-        if (data.menuId === PANEL_MENU_SETTINGS_ID || data.menuName === "\u8BBE\u7F6E") {
+        if (data.menuId === PANEL_MENU_SETTINGS_ID || data.menuName === t("settings")) {
           openSettingsView();
-        } else if (data.menuId === PANEL_MENU_ABOUT_ID || data.menuName === "\u5173\u4E8E") {
+        } else if (data.menuId === PANEL_MENU_ABOUT_ID || data.menuName === t("about")) {
           openAboutView();
         }
       });
@@ -654,17 +428,17 @@
     document.body.setAttribute("data-host", HOST_PROFILE.key);
     if (el.hostBadge) {
       el.hostBadge.textContent = HOST_PROFILE.shortLabel;
-      el.hostBadge.title = "\u5F53\u524D\u5BBF\u4E3B: " + HOST_PROFILE.label;
+      el.hostBadge.title = t("hostCurrent", { host: HOST_PROFILE.label });
     }
     if (el.hostIcon) {
       el.hostIcon.src = HOST_ICON_SRC[HOST_PROFILE.key] || HOST_ICON_SRC.illustrator;
       el.hostIcon.alt = HOST_PROFILE.shortLabel;
     }
     if (el.panelSizeBtn) {
-      el.panelSizeBtn.setAttribute("aria-label", "\u5F53\u524D\u5BBF\u4E3B: " + HOST_PROFILE.label + "\uFF0C\u70B9\u51FB\u5207\u6362\u5927/\u5C0F\u9762\u677F");
+      el.panelSizeBtn.setAttribute("aria-label", t("hostToggle", { host: HOST_PROFILE.label }));
     }
     if (el.openDocFolderBtn) {
-      el.openDocFolderBtn.title = "\u6253\u5F00\u5F53\u524D " + HOST_PROFILE.label + " \u6587\u6863\u6240\u5728\u6587\u4EF6\u5939";
+      el.openDocFolderBtn.title = t("hostOpenDocFolder", { host: HOST_PROFILE.label });
     }
   }
 
@@ -680,7 +454,7 @@
     } catch (err) {
       version = "0.3.7";
     }
-    document.title = "\u6D77\u54E5\u7684Adobe\u811A\u672C\u7BA1\u7406 v" + version;
+    document.title = t("appTitle", { version: version });
     if (el.appVersion) {
       el.appVersion.textContent = "v" + version;
     }
@@ -697,11 +471,11 @@
       el.shell.classList.toggle("panel-narrow", state.panelMode === "narrow");
     }
     if (el.panelSizeBtn) {
-      el.panelSizeBtn.title = state.panelMode === "wide" ? "\u5207\u6362\u5230\u5C0F\u9762\u677F" : "\u5207\u6362\u5230\u5927\u9762\u677F";
+      el.panelSizeBtn.title = state.panelMode === "wide" ? t("panelSwitchToNarrow") : t("panelSwitchToWide");
       el.panelSizeBtn.classList.toggle("panel-wide-active", state.panelMode === "wide");
     }
     if (el.panelSizeLabel) {
-      el.panelSizeLabel.textContent = state.panelMode === "wide" ? "\u6536\u8D77" : "\u5C55\u5F00";
+      el.panelSizeLabel.textContent = state.panelMode === "wide" ? t("collapse") : t("expand");
     }
     if (state.ace) {
       setTimeout(function () {
@@ -739,7 +513,7 @@
   }
 
   function setIdleStatus(leftText, rightText) {
-    state.idleCountText = leftText || state.idleCountText || "0 个脚本";
+    state.idleCountText = leftText || state.idleCountText || t("statusZeroScripts");
     if (typeof rightText === "string") {
       state.watchStatusText = rightText;
     }
@@ -753,6 +527,9 @@
   }
 
   function syncPanelModeFromWidth() {
+    if (state.startupSizing) {
+      return;
+    }
     var width = document.documentElement.clientWidth || document.body.clientWidth || 0;
     var nextMode = width >= WIDE_LAYOUT_THRESHOLD ? "wide" : "narrow";
     if (nextMode === state.panelMode) {
@@ -770,7 +547,7 @@
     try {
       setPanelContentSize(size);
       if (!silent) {
-        setToast(mode === "wide" ? "\u5DF2\u5207\u6362\u5230\u5927\u9762\u677F" : "\u5DF2\u5207\u6362\u5230\u5C0F\u9762\u677F", "ok");
+        setToast(mode === "wide" ? t("panelSwitchedWide") : t("panelSwitchedNarrow"), "ok");
       }
       setTimeout(function () {
         if (state.ace) {
@@ -779,24 +556,63 @@
       }, 120);
     } catch (err) {
       if (!silent) {
-        setToast("\u9762\u677F\u5C3A\u5BF8\u5207\u6362\u5931\u8D25: " + err.message, "error");
+        setToast(t("panelSwitchFailed", { error: err.message }), "error");
       }
     }
   }
 
+  // 启动尺寸恢复：Illustrator 把 resizeContent 参数当逻辑像素，并按系统 DPI 放大成
+  // 物理窗口（150% 屏 ×1.5）；而 CEF --force-device-scale-factor=1 下 clientWidth 读到
+  // 的是物理像素。两者不对称会让记住的尺寸每轮被放大一次。这里实测偏差并自校准
+  // 换算系数 dpiScale，存进 panel_sizes.json，换屏幕时能自动重校。
   function restoreStartupPanelSize() {
     applyPanelMode("narrow");
-    var size = getRememberedPanelSize("narrow");
-    try {
-      setPanelContentSize(size);
-    } catch (err) {}
+    state.startupSizing = true;
+    applyStartupSize(getRememberedPanelSize("narrow"), 0);
   }
 
+  function applyStartupSize(size, attempt) {
+    var k = getPanelDpiScale();
+    try {
+      setPanelContentSize(size);
+    } catch (err) {
+      writeBootLog("startup panel resize failed: " + (err && err.message));
+    }
+    setTimeout(function () {
+      var after = getPanelClientSize();
+      writeBootLog("startup panel size check: attempt=" + attempt + ", k=" + k.toFixed(3) + ", actual=" + after.width + "x" + after.height + ", target=" + size.width + "x" + size.height);
+      var ratio = after.width && size.width ? after.width / size.width : 1;
+      if (Math.abs(1 - ratio) > 0.1 && attempt < 2) {
+        setPanelDpiScale(k * ratio);
+        applyStartupSize(size, attempt + 1);
+        return;
+      }
+      state.startupSizing = false;
+      syncPanelModeFromWidth();
+    }, 600);
+  }
+
+  function getPanelDpiScale() {
+    var k = state.panelSizes && state.panelSizes.dpiScale;
+    return (typeof k === "number" && k >= 0.5 && k <= 4) ? k : 1;
+  }
+
+  function setPanelDpiScale(k) {
+    state.panelSizes = state.panelSizes || {};
+    state.panelSizes.dpiScale = k;
+    savePanelSizes(state.panelSizes);
+  }
+
+  // resizeContent 的参数会被 Illustrator 按系统 DPI 放大（150% 屏 ×1.5），
+  // 统一在这里按自校准系数换算，保证传入的 CSS 尺寸就是最终窗口尺寸。
   function setPanelContentSize(size) {
+    var k = getPanelDpiScale();
+    var width = Math.max(MIN_PANEL_WIDTH, Math.round(size.width / k));
+    var height = Math.max(MIN_PANEL_HEIGHT, Math.round(size.height / k));
     if (cs && typeof cs.resizeContent === "function") {
-      cs.resizeContent(size.width, size.height);
+      cs.resizeContent(width, height);
     } else if (window.__adobe_cep__ && window.__adobe_cep__.resizeContent) {
-      window.__adobe_cep__.resizeContent(size.width, size.height);
+      window.__adobe_cep__.resizeContent(width, height);
     }
   }
 
@@ -823,7 +639,32 @@
     var normalized = normalizePanelSize(size, fallback);
     state.panelSizes = state.panelSizes || {};
     state.panelSizes[mode] = normalized;
-    setStoredValue(PANEL_SIZES_KEY, state.panelSizes);
+    savePanelSizes(state.panelSizes);
+  }
+
+  function loadPanelSizes() {
+    try {
+      if (fs.existsSync(PANEL_SIZES_PATH)) {
+        var parsed = JSON.parse(fs.readFileSync(PANEL_SIZES_PATH, "utf8"));
+        if (parsed && typeof parsed === "object") {
+          return parsed;
+        }
+      }
+    } catch (err) {}
+    // 一次性迁移旧 localStorage 数据到文件。
+    var legacy = loadJson(PANEL_SIZES_KEY, null);
+    if (legacy && typeof legacy === "object") {
+      savePanelSizes(legacy);
+      return legacy;
+    }
+    return null;
+  }
+
+  function savePanelSizes(sizes) {
+    try {
+      ensureFolder(path.dirname(PANEL_SIZES_PATH));
+      fs.writeFileSync(PANEL_SIZES_PATH, JSON.stringify(sizes, null, 2), "utf8");
+    } catch (err) {}
   }
 
   function normalizePanelSize(size, fallback) {
@@ -844,7 +685,7 @@
 
   function bindEvents() {
     el.refreshBtn.addEventListener("click", function () {
-      refresh("\u624B\u52A8\u5237\u65B0");
+      refresh(t("reasonManual"));
     });
 
     if (el.panelSizeBtn) {
@@ -924,7 +765,7 @@
       el.uiZoomSelect.addEventListener("change", function () {
         setStoredValue(UI_ZOOM_KEY, normalizeUiZoom(el.uiZoomSelect.value));
         applyUiZoom();
-        setToast("界面缩放已调整为 " + (Number(el.uiZoomSelect.value) * 100) + "%", "ok");
+        setToast(t("uiZoomChanged", { percent: Number(el.uiZoomSelect.value) * 100 }), "ok");
       });
     }
     el.githubLink.addEventListener("click", function (event) {
@@ -992,7 +833,7 @@
         setStoredValue(CPP_MODE_KEY, state.cppMode);
         renderCppMode();
         render();
-        setToast("运行模式: " + getCppModeHint(state.cppMode), "ok");
+        setToast(t("modeChanged", { mode: getCppModeHint(state.cppMode) }), "ok");
       });
     }
 
@@ -1070,7 +911,7 @@
     }
     bindEditorTitleInput();
     el.clearConsoleBtn.addEventListener("click", function () {
-      el.consoleOutput.textContent = "控制台已清空。";
+      el.consoleOutput.textContent = t("consoleCleared");
     });
     el.copyConsoleBtn.addEventListener("click", copyConsole);
     el.copyErrorConsoleBtn.addEventListener("click", copyLatestError);
@@ -1381,7 +1222,7 @@
     loadScriptOnce("assets/js/ace/ace.js", function (okAce) {
       if (!okAce || !window.ace) {
         writeBootLog("legacy Ace lazy load failed: ace.js");
-        appendConsole("旧版模式: Ace 加载失败，继续使用兼容编辑器。");
+        appendConsole(t("legacyAceLoadFailed"));
         return;
       }
       loadScriptOnce("assets/js/ace/mode-javascript.js", function (okMode) {
@@ -1396,10 +1237,10 @@
               state.editorLoading = false;
             }
             writeBootLog("legacy Ace lazy load done: mode=" + okMode + ", theme=" + okTheme);
-            appendConsole("旧版模式: Ace 编辑器已延迟加载。");
+            appendConsole(t("legacyAceLoaded"));
           } catch (errAce) {
             writeBootLog("legacy Ace init failed: " + (errAce && errAce.stack ? errAce.stack : errAce));
-            appendConsole("旧版模式: Ace 初始化失败，继续使用兼容编辑器。");
+            appendConsole(t("legacyAceInitFailed"));
             initLegacyTextEditor();
           }
         });
@@ -1415,7 +1256,7 @@
 
     return [{
       id: makeId(),
-      name: "\u9ED8\u8BA4\u811A\u672C",
+      name: t("sourceDefaultName"),
       folder: DEFAULT_FOLDER,
       enabled: true
     }];
@@ -1429,14 +1270,14 @@
       }
       result.push({
         id: sources[i].id || makeId(),
-        name: isDefaultSource(sources[i]) ? "\u9ED8\u8BA4\u811A\u672C" : (sources[i].name || inferSourceName(sources[i].folder)),
+        name: isDefaultSource(sources[i]) ? t("sourceDefaultName") : (sources[i].name || inferSourceName(sources[i].folder)),
         folder: normalizeDefaultSourceFolder(sources[i]),
         enabled: sources[i].enabled !== false
       });
     }
     return result.length ? result : [{
       id: makeId(),
-      name: "\u9ED8\u8BA4\u811A\u672C",
+      name: t("sourceDefaultName"),
       folder: DEFAULT_FOLDER,
       enabled: true
     }];
@@ -1497,7 +1338,7 @@
         }
       }
     } catch (err) {
-      setToast("\u65E7\u811A\u672C\u76EE\u5F55\u8FC1\u79FB\u5931\u8D25: " + err.message, "warn");
+      setToast(t("sourceMigrateFailed", { error: err.message }), "warn");
     }
   }
 
@@ -1517,7 +1358,7 @@
     var activeSource = getActiveSource();
     var defaultSource = getDefaultSource() || state.sources[0];
     el.sourceTabs.innerHTML = "";
-    addSourceTab("all", "\u5168\u90E8", state.activeSourceId === "all");
+    addSourceTab("all", t("all"), state.activeSourceId === "all");
 
     for (var i = 0; i < state.sources.length; i++) {
       if (defaultSource && state.sources[i].id === defaultSource.id) {
@@ -1532,7 +1373,7 @@
     if (el.defaultSourceBtn) {
       el.defaultSourceBtn.classList.toggle("active", !!defaultSource && state.activeSourceId === defaultSource.id);
       el.defaultSourceBtn.disabled = !defaultSource;
-      el.defaultSourceBtn.title = defaultSource ? "\u5207\u6362\u5230: " + defaultSource.name : "\u6CA1\u6709\u53EF\u7528\u7684\u9ED8\u8BA4\u76EE\u5F55";
+      el.defaultSourceBtn.title = defaultSource ? t("sourceSwitchTo", { name: defaultSource.name }) : t("sourceNoDefault");
     }
 
     if (activeSource) {
@@ -1568,7 +1409,7 @@
   }
 
   function openCreateModal(defaultName, defaultSubdir) {
-    el.newScriptNameInput.value = defaultName || uniqueScriptBase((getActiveSource() || getDefaultSource() || state.sources[0]).folder, "\u65B0\u5EFA\u811A\u672C");
+    el.newScriptNameInput.value = defaultName || uniqueScriptBase((getActiveSource() || getDefaultSource() || state.sources[0]).folder, NEW_SCRIPT_FILENAME_BASE);
     el.newScriptDocInput.checked = true;
     el.createModal.classList.add("open");
     el.newScriptNameInput.focus();
@@ -1607,7 +1448,7 @@
       return;
     }
     var recent = loadJson(RECENT_SOURCES_KEY, []);
-    el.recentSourceSelect.innerHTML = "<option value=\"\">\u6700\u8FD1\u76EE\u5F55</option>";
+    el.recentSourceSelect.innerHTML = "<option value=\"\">" + escapeHtml(t("sourceRecentPlaceholder")) + "</option>";
     for (var i = 0; i < recent.length; i++) {
       var option = document.createElement("option");
       option.value = recent[i];
@@ -1624,7 +1465,7 @@
     if (!state.sources.length) {
       var empty = document.createElement("div");
       empty.className = "source-list-empty";
-      empty.textContent = "\u8FD8\u6CA1\u6709\u6DFB\u52A0\u811A\u672C\u76EE\u5F55";
+      empty.textContent = t("sourceEmpty");
       el.sourceList.appendChild(empty);
       return;
     }
@@ -1650,18 +1491,18 @@
       head.appendChild(name);
 
       if (isActive) {
-        head.appendChild(makeSourceBadge("\u5F53\u524D"));
+        head.appendChild(makeSourceBadge(t("badgeCurrent")));
       }
       if (isDefault) {
-        head.appendChild(makeSourceBadge("\u9ED8\u8BA4"));
+        head.appendChild(makeSourceBadge(t("badgeDefault")));
       }
       if (!exists) {
-        head.appendChild(makeSourceBadge("\u627E\u4E0D\u5230"));
+        head.appendChild(makeSourceBadge(t("badgeMissing")));
       }
 
       var meta = document.createElement("span");
       meta.className = "source-list-meta";
-      meta.textContent = String(counts[source.id] || 0) + " \u4E2A\u811A\u672C";
+      meta.textContent = t("sourceCount", { n: counts[source.id] || 0 });
       head.appendChild(meta);
 
       var pathText = document.createElement("span");
@@ -1705,13 +1546,16 @@
     settings.scanDepth = normalizeScanDepth(el.scanDepthInput.value, DEFAULT_SETTINGS.scanDepth);
     settings.ignoredDirs = parseIgnoredDirs(el.ignoredDirsInput.value);
     saveSettings();
-    refresh("设置已保存");
+    refresh(t("reasonSettingsSaved"));
     startWatchers();
   }
 
   function saveLanguageFromForm() {
     settings.languageMode = normalizeLanguageMode(el.languageSelect.value);
     effectiveLanguage = resolveEffectiveLanguage(settings.languageMode, hostLanguage);
+    if (HGI) {
+      HGI.setLanguage(effectiveLanguage);
+    }
     saveSettings();
     applyLanguageMode(true);
   }
@@ -1719,16 +1563,20 @@
   function applyLanguageMode(showNotice) {
     settings.languageMode = normalizeLanguageMode(settings.languageMode);
     effectiveLanguage = resolveEffectiveLanguage(settings.languageMode, hostLanguage);
+    if (HGI) {
+      HGI.setLanguage(effectiveLanguage);
+    }
     if (el.languageSelect) {
       el.languageSelect.value = settings.languageMode;
     }
     translateStaticUi();
     renderLanguageHint();
     renderCppMode();
+    setupPanelMenu();
     renderSources();
     refresh(t("languageRefreshReason"));
     if (showNotice) {
-      setToast(t("languageSaved") + (effectiveLanguage === "zh-CN" ? t("chinese") : "English"), "ok");
+      setToast(t("languageSavedTo", { lang: effectiveLanguage === "zh-CN" ? t("chinese") : t("english") }), "ok");
     }
   }
 
@@ -1736,9 +1584,9 @@
     if (!el.languageHint) {
       return;
     }
-    var hostText = hostLanguage === "zh-CN" ? t("chinese") : "English";
-    var modeText = settings.languageMode === "auto" ? t("auto") : (settings.languageMode === "zh-CN" ? t("chinese") : "English");
-    var effectiveText = effectiveLanguage === "zh-CN" ? t("chinese") : "English";
+    var hostText = hostLanguage === "zh-CN" ? t("chinese") : t("english");
+    var modeText = settings.languageMode === "auto" ? t("auto") : (settings.languageMode === "zh-CN" ? t("chinese") : t("english"));
+    var effectiveText = effectiveLanguage === "zh-CN" ? t("chinese") : t("english");
     el.languageHint.textContent = t("languageHintPrefix") + modeText + t("languageHintHost") + hostText + t("languageHintEffective") + effectiveText + t("languageHintSuffix");
   }
 
@@ -1777,6 +1625,7 @@
     setText(el.runCodeBtn, t("run"));
     setText(el.closeEditorBtn, t("close"));
     setAttr(el.closeEditorBtn, "title", t("closeEditorTitle"));
+    setAttr(el.editorTitleInput, "title", t("editorNameTitle"));
     setText(el.saveCodeBtn, t("save"));
     setText(el.saveRunCodeBtn, t("saveRun"));
     setText(el.reloadCodeBtn, t("reload"));
@@ -1787,7 +1636,7 @@
     setText(el.copyConsoleBtn, t("copyAll"));
     setText(el.copyErrorConsoleBtn, t("copyError"));
     setText(el.clearConsoleBtn, t("clear"));
-    if (el.consoleOutput && (el.consoleOutput.textContent === "等待运行结果。" || el.consoleOutput.textContent === "Waiting for run results.")) {
+    if (el.consoleOutput && (el.consoleOutput.textContent === t("waitingResult") || el.consoleOutput.textContent === "Waiting for run results.")) {
       el.consoleOutput.textContent = t("waitingResult");
     }
     setText(queryOne("#settingsView .view-head h2"), t("settings"));
@@ -1796,12 +1645,22 @@
     setAttr(el.closeSettingsViewBtn, "title", t("backTitle"));
     setText(queryOne(".settings-panel label[for='languageSelect']"), t("language"));
     syncLanguageLabels();
+    setText(queryOne(".settings-panel label[for='uiZoomSelect']"), t("uiZoom"));
+    setText(queryOne("#uiZoomSelect + p.setting-hint"), t("uiZoomHint"));
     setText(el.saveLanguageBtn, t("saveLanguage"));
     setText(queryOne("#aboutView .view-head h2"), t("about"));
     setText(el.closeAboutViewBtn, t("back"));
     setAttr(el.closeAboutViewBtn, "title", t("backTitle"));
     syncAboutLabels();
-    setText(el.toast, el.toast && (el.toast.textContent === "准备就绪" || el.toast.textContent === "Ready") ? t("ready") : el.toast.textContent);
+    if (state.appVersion) {
+      document.title = t("appTitle", { version: state.appVersion });
+    }
+    if (el.toast && HGI && HGI.TEXT && HGI.TEXT.ready) {
+      var readyPair = HGI.TEXT.ready;
+      if (!el.toast.textContent || el.toast.textContent === readyPair[0] || el.toast.textContent === readyPair[1]) {
+        setText(el.toast, t("ready"));
+      }
+    }
     if (!state.selectedPath) {
       setText(el.selectedMetaBar, t("noSelection"));
     }
@@ -1832,7 +1691,7 @@
     var button = document.createElement("button");
     button.className = "source-tab" + (active ? " active" : "");
     button.textContent = id === "all" ? t("all") : (id === "favorites" ? t("favorites") : label);
-    button.title = id === "all" ? (isEnglishUi() ? "Show all script folders" : "显示所有脚本目录") : (id === "favorites" ? t("favoritesTitle") : label);
+    button.title = id === "all" ? t("showAllFolders") : (id === "favorites" ? t("favoritesTitle") : label);
     button.addEventListener("click", function () {
       state.activeSourceId = id;
       saveSources();
@@ -1844,42 +1703,42 @@
 
   function chooseFolderWithWindowsDialog() {
     try {
-      var picked = openWindowsFolderDialog(getDialogStartPath(), "选择脚本文件夹");
+      var picked = openWindowsFolderDialog(getDialogStartPath(), t("sourcePickFolder"));
       if (picked) {
         setFolderInput(picked);
       }
     } catch (err) {
-      setToast("\u6253\u5F00\u76EE\u5F55\u9009\u62E9\u7A97\u53E3\u5931\u8D25: " + err.message, "error");
+      setToast(t("sourceOpenFolderFailed", { error: err.message }), "error");
     }
   }
 
   function chooseAndAddSourceWithWindowsDialog() {
     try {
-      var picked = openWindowsFolderDialog(getDialogStartPath(), "添加脚本目录");
+      var picked = openWindowsFolderDialog(getDialogStartPath(), t("sourceAddFolderTitle"));
       if (picked) {
         setFolderInput(picked);
         addSourceFromPath(picked);
       }
     } catch (err) {
-      setToast("\u6253\u5F00\u76EE\u5F55\u9009\u62E9\u7A97\u53E3\u5931\u8D25: " + err.message, "error");
+      setToast(t("sourceOpenFolderFailed", { error: err.message }), "error");
     }
   }
 
   function chooseScriptWithWindowsDialog() {
     try {
-      var picked = openWindowsFileDialog(getDialogStartPath(), "\u9009\u62E9\u4E00\u4E2A JSX \u811A\u672C", "JSX \u811A\u672C (*.jsx)|*.jsx|\u6240\u6709\u6587\u4EF6 (*.*)|*.*");
+      var picked = openWindowsFileDialog(getDialogStartPath(), t("sourcePickJsx"), t("sourceJsxFilter"));
       if (picked) {
         setFolderInput(path.dirname(picked));
       }
     } catch (err) {
-      setToast("\u6253\u5F00 JSX \u9009\u62E9\u7A97\u53E3\u5931\u8D25: " + err.message, "error");
+      setToast(t("sourceOpenJsxFailed", { error: err.message }), "error");
     }
   }
 
   function chooseCurrentDocumentFolder() {
     cs.evalScript("HGScripts.getActiveDocumentFolder()", function (resultPath) {
       if (!resultPath || String(resultPath).indexOf("ERROR:") === 0) {
-        setToast(resultPath || "\u5F53\u524D\u6587\u6863\u6CA1\u6709\u53EF\u7528\u76EE\u5F55", "warn");
+        setToast(resultPath || t("sourceNoDocFolder"), "warn");
         return;
       }
       setFolderInput(resultPath);
@@ -1944,11 +1803,11 @@
 
   function addSourceFromPath(folder) {
     if (!folder) {
-      setToast("\u811A\u672C\u76EE\u5F55\u4E0D\u80FD\u4E3A\u7A7A", "warn");
+      setToast(t("sourceFolderEmpty"), "warn");
       return;
     }
     if (!fs.existsSync(folder)) {
-      setToast("\u76EE\u5F55\u4E0D\u5B58\u5728\uFF0C\u8BF7\u5148\u786E\u8BA4\u8DEF\u5F84", "error");
+      setToast(t("sourceFolderMissing"), "error");
       return;
     }
     for (var i = 0; i < state.sources.length; i++) {
@@ -1958,7 +1817,7 @@
         saveSources();
         renderSources();
         render();
-        setToast("\u76EE\u5F55\u5DF2\u5B58\u5728\uFF0C\u5DF2\u5207\u6362\u5230\u8BE5\u76EE\u5F55\u6E90", "");
+        setToast(t("sourceFolderExists"), "");
         return;
       }
     }
@@ -1974,29 +1833,29 @@
     addRecentSource(folder);
     saveSources();
     renderSources();
-    refresh("\u6DFB\u52A0\u76EE\u5F55");
+    refresh(t("reasonFolderAdded"));
     startWatchers();
   }
 
   function saveActiveSourceFromInput() {
     var source = getActiveSource();
     if (!source) {
-      setToast("\u8BF7\u5148\u9009\u62E9\u4E00\u4E2A\u5177\u4F53\u76EE\u5F55\u6E90", "warn");
+      setToast(t("sourceNeedSpecific"), "warn");
       return;
     }
 
     var folder = normalizeInputPath(el.folderInput.value);
     if (!folder) {
-      setToast("\u811A\u672C\u76EE\u5F55\u4E0D\u80FD\u4E3A\u7A7A", "warn");
+      setToast(t("sourceFolderEmpty"), "warn");
       return;
     }
     if (!fs.existsSync(folder)) {
-      setToast("\u76EE\u5F55\u4E0D\u5B58\u5728\uFF0C\u8BF7\u5148\u786E\u8BA4\u8DEF\u5F84", "error");
+      setToast(t("sourceFolderMissing"), "error");
       return;
     }
     for (var i = 0; i < state.sources.length; i++) {
       if (state.sources[i].id !== source.id && makeFileKey(state.sources[i].folder) === makeFileKey(folder)) {
-        setToast("\u8FD9\u4E2A\u76EE\u5F55\u5DF2\u5728\u5217\u8868\u91CC\uFF0C\u4E0D\u9700\u8981\u91CD\u590D\u4FDD\u5B58", "warn");
+        setToast(t("sourceDuplicate"), "warn");
         return;
       }
     }
@@ -2005,18 +1864,18 @@
     addRecentSource(folder);
     saveSources();
     renderSources();
-    refresh("目录已保存");
+    refresh(t("reasonFolderSaved"));
     startWatchers();
   }
 
   function removeActiveSource() {
     var source = getActiveSource();
     if (!source || state.sources.length <= 1) {
-      setToast("至少保留一个脚本目录", "warn");
+      setToast(t("sourceKeepOne"), "warn");
       return;
     }
 
-    if (!window.confirm("从列表移除目录「" + source.name + "」？脚本文件仍保留在电脑里。")) {
+    if (!window.confirm(t("sourceConfirmRemove", { name: source.name }))) {
       return;
     }
 
@@ -2030,7 +1889,7 @@
     state.selectedPath = "";
     saveSources();
     renderSources();
-    refresh("\u79FB\u9664\u76EE\u5F55");
+    refresh(t("reasonFolderRemoved"));
     startWatchers();
   }
 
@@ -2042,7 +1901,7 @@
 
     var base = sanitizeBaseName(el.newScriptNameInput.value);
     if (!base) {
-      setToast("\u65B0\u811A\u672C\u540D\u4E0D\u80FD\u4E3A\u7A7A", "warn");
+      setToast(t("sourceNameEmpty"), "warn");
       el.newScriptNameInput.focus();
       return;
     }
@@ -2053,7 +1912,7 @@
     var enDocPath = path.join(targetFolder, base + ".en.md");
 
     if (fs.existsSync(scriptPath)) {
-      setToast("\u5DF2\u5B58\u5728\u540C\u540D JSX\uFF0C\u65B0\u5EFA\u5DF2\u53D6\u6D88", "error");
+      setToast(t("sourceScriptExists"), "error");
       return;
     }
 
@@ -2068,26 +1927,26 @@
       }
       el.newScriptNameInput.value = "";
       closeCreateModal();
-      setToast("\u5DF2\u65B0\u5EFA\u811A\u672C: " + base + ".jsx", "ok");
-      refresh("\u65B0\u5EFA\u811A\u672C");
+      setToast(t("sourceCreated", { name: base + ".jsx" }), "ok");
+      refresh(t("reasonScriptCreated"));
       selectItem(scriptPath);
       openCodeEditor(scriptPath);
     } catch (err) {
-      setToast("\u65B0\u5EFA\u811A\u672C\u5931\u8D25: " + err.message, "error");
+      setToast(t("sourceCreateFailed", { error: err.message }), "error");
     }
   }
 
   function quickCreateScript() {
     var source = getActiveSource() || getDefaultSource() || state.sources[0];
     if (!source) {
-      setToast("没有可用目录源", "warn");
+      setToast(t("noSourceAvailable"), "warn");
       return;
     }
-    openCreateModal(uniqueScriptBase(source.folder, "\u65B0\u5EFA\u811A\u672C"), "");
+    openCreateModal(uniqueScriptBase(source.folder, NEW_SCRIPT_FILENAME_BASE), "");
   }
 
   function uniqueScriptBase(folder, base) {
-    var candidate = sanitizeBaseName(base) || "\u65B0\u5EFA\u811A\u672C";
+    var candidate = sanitizeBaseName(base) || NEW_SCRIPT_FILENAME_BASE;
     var index = 1;
     var next = candidate;
     while (fs.existsSync(path.join(folder, next + ".jsx"))) {
@@ -2181,11 +2040,14 @@
     }
 
     if (!existingCount) {
-      el.folderHint.textContent = HOST_PROFILE.label + " / 没有可读取的脚本目录";
-      setToast("目录不存在，请重新选择", "error");
+      el.folderHint.textContent = t("folderHintNone", { host: HOST_PROFILE.label });
+      setToast(t("folderMissingChoose"), "error");
     } else {
-      el.folderHint.textContent = HOST_PROFILE.label + " / " + state.sources.length + " 个目录源，" + files.length + " 个脚本" +
-        (missing.length ? "，失效 " + missing.length + " 个" : "");
+      el.folderHint.textContent = t("folderHintSummary", {
+        host: HOST_PROFILE.label,
+        sources: state.sources.length,
+        files: files.length
+      }) + (missing.length ? t("folderHintMissing", { n: missing.length }) : "");
     }
 
     files.sort(compareByMtimeDesc);
@@ -2262,7 +2124,7 @@
         try {
           doc = fs.readFileSync(docPath, "utf8");
         } catch (errDoc) {
-          doc = (isEnglishUi() ? "Failed to read guide: " : "\u8BF4\u660E\u6587\u4EF6\u8BFB\u53D6\u5931\u8D25: ") + errDoc.message;
+          doc = t("docReadFailed", { error: errDoc.message });
         }
       }
       var item = {
@@ -2338,7 +2200,7 @@
       sortList(list);
     }
     state.filtered = list;
-    setIdleStatus(list.length + " / " + state.files.length + (isEnglishUi() ? " scripts" : " 个脚本"));
+    setIdleStatus(t("statusCount", { shown: list.length, total: state.files.length }));
     renderSourceList(getDefaultSource() || state.sources[0]);
     renderCommandCenter(activeSourceId, query);
     el.scriptList.innerHTML = "";
@@ -2375,21 +2237,15 @@
           this.src = DEFAULT_SCRIPT_ICON;
         });
       }
-      if (shouldShowScriptBoostBadge(item)) {
-        row.className += " script-accelerated";
-        var iconWrap = row.querySelector(".script-icon-wrap");
-        var boost = document.createElement("span");
-        boost.className = "script-boost-badge boost-" + normalizeCppMode(state.cppMode);
-        boost.textContent = "\u26A1";
-        boost.title = getCppBoostBadgeTitle();
-        iconWrap.appendChild(boost);
-      }
+      var showCppBoost = shouldShowScriptBoostBadge(item);
       var tags = row.querySelector(".script-tags");
       if (item.hasDoc) {
         var docButton = document.createElement("button");
         docButton.className = "doc-icon-btn";
-        docButton.title = t("editDoc");
-        docButton.innerHTML = "<img class=\"doc-icon-img\" src=\"" + DOC_ICON_SRC + "\" alt=\"\" aria-hidden=\"true\">";
+        docButton.title = showCppBoost
+          ? t("editDoc") + "\n" + t("cppDocBoost") + "\n" + getCppBoostBadgeTitle()
+          : t("editDoc");
+        docButton.innerHTML = "<img class=\"doc-icon-img\" src=\"" + (showCppBoost ? CPP_BOOST_ICON_SRC : DOC_ICON_SRC) + "\" alt=\"\" aria-hidden=\"true\">";
         docButton.addEventListener("click", function (event) {
           event.stopPropagation();
           if (selectItem(item.fullPath)) {
@@ -2401,7 +2257,7 @@
       var star = document.createElement("button");
       var favorited = !!state.favorites[item.key];
       star.className = "star" + (favorited ? " favorited" : "");
-      star.title = favorited ? "取消收藏" : "收藏脚本";
+      star.title = favorited ? t("starRemove") : t("starAdd");
       star.innerHTML = "<img alt=\"\" draggable=\"false\">";
       star.querySelector("img").src = favorited ? STAR_FILLED_ICON_SRC : STAR_OUTLINE_ICON_SRC;
       star.addEventListener("click", function (event) {
@@ -2432,7 +2288,7 @@
       if (stillExists) {
         showDetail(stillExists);
       } else {
-        clearDetail("脚本已被移动或删除");
+        clearDetail(t("scriptMoved"));
       }
     } else {
       clearDetail();
@@ -2534,7 +2390,7 @@
       var chip = document.createElement("button");
       chip.className = "scene-chip" + (state.activeSceneId === scene.id ? " active" : "");
       chip.setAttribute("data-scene-id", scene.id);
-      chip.title = (isEnglishUi() ? "Filter: " : "筛选: ") + getSceneLabel(scene.id);
+      chip.title = t("sceneFilter", { label: getSceneLabel(scene.id) });
       chip.innerHTML = "<span></span><em></em>";
       chip.querySelector("span").textContent = getSceneLabel(scene.id);
       chip.querySelector("em").textContent = counts[scene.id] || 0;
@@ -2557,7 +2413,7 @@
     if (!picks.length) {
       var hint = document.createElement("span");
       hint.className = "quick-empty";
-      hint.textContent = isEnglishUi() ? "Run or favorite scripts to show quick entries here" : "运行或收藏脚本后，这里会出现快捷入口";
+      hint.textContent = t("sceneQuickEmpty");
       el.quickPicks.appendChild(hint);
       return;
     }
@@ -2570,7 +2426,7 @@
       button.title = item.fullPath;
       button.innerHTML = "<strong></strong><span></span>";
       button.querySelector("strong").textContent = getScriptDisplayBase(item);
-      button.querySelector("span").textContent = state.favorites[item.key] ? t("favorites") : (stat.count ? (isEnglishUi() ? "Run " + stat.count + " times" : "运行 " + stat.count + " 次") : getSceneLabel(getItemSceneId(item)));
+      button.querySelector("span").textContent = state.favorites[item.key] ? t("favorites") : (stat.count ? t("sceneRunTimes", { n: stat.count }) : getSceneLabel(getItemSceneId(item)));
       el.quickPicks.appendChild(button);
     }
   }
@@ -2638,7 +2494,7 @@
 
   function getSceneSearchText(item) {
     var scene = getSceneConfig(getItemSceneId(item));
-    return scene ? getSceneLabel(scene.id) + " " + scene.label + " " + scene.aliases.join(" ") : "";
+    return scene ? getSceneLabel(scene.id) + " " + (scene.aliases || []).join(" ") : "";
   }
 
   function getItemSceneId(item) {
@@ -2691,24 +2547,7 @@
   }
 
   function getSceneLabel(sceneId) {
-    var scene = getSceneConfig(sceneId);
-    if (!scene) {
-      return isEnglishUi() ? "Script" : "脚本";
-    }
-    var labels = {
-      all: t("all"),
-      favorites: t("favorites"),
-      recent: isEnglishUi() ? "Recent" : "最近",
-      select: isEnglishUi() ? "Select" : "选择",
-      color: isEnglishUi() ? "Color" : "颜色",
-      size: isEnglishUi() ? "Size" : "尺寸",
-      align: isEnglishUi() ? "Align" : "对齐",
-      artboard: isEnglishUi() ? "Artboard" : "画板",
-      export: isEnglishUi() ? "Export" : "导出",
-      diagnostic: isEnglishUi() ? "Diagnostics" : "诊断",
-      photoshop: "PS"
-    };
-    return labels[scene.id] || scene.label;
+    return HGI ? HGI.sceneLabel(sceneId) : sceneId;
   }
 
   function getFavoriteTime(item) {
@@ -2745,7 +2584,7 @@
     if (!item || state.running) {
       return;
     }
-    setToast((isEnglishUi() ? "Selected script: " : "\u5DF2\u9009\u62E9\u811A\u672C: ") + getScriptDisplayName(item), "");
+    setToast(t("toastSelected", { name: getScriptDisplayName(item) }), "");
   }
 
   function renderListActiveOnly() {
@@ -2790,7 +2629,7 @@
     state.pendingSwitchCallback = callback || null;
     state.pendingSwitchKind = kind === "doc" ? "doc" : "code";
     if (el.switchTitle) {
-      el.switchTitle.textContent = state.pendingSwitchKind === "doc" ? "\u5F53\u524D\u8BF4\u660E\u672A\u4FDD\u5B58" : "\u5F53\u524D\u811A\u672C\u672A\u4FDD\u5B58";
+      el.switchTitle.textContent = state.pendingSwitchKind === "doc" ? t("unsavedDoc") : t("unsavedScript");
     }
     el.switchModal.classList.add("open");
   }
@@ -2811,7 +2650,7 @@
     }
     if (action === "cancel") {
       closeSwitchModal();
-      setToast("\u5DF2\u53D6\u6D88\u5207\u6362", "");
+      setToast(t("toastCancelledSwitch"), "");
       return;
     }
     if (action === "save") {
@@ -2853,7 +2692,7 @@
 
   function getRunText(item) {
     var stat = getRunStat(item.key);
-    return stat.lastRun ? (isEnglishUi() ? " / Last run " + formatTime(new Date(stat.lastRun)) + " / Run " + stat.count + " times" : " / 上次运行 " + formatTime(new Date(stat.lastRun)) + " / 运行 " + stat.count + " 次") : "";
+    return stat.lastRun ? t("metaLastRun", { time: formatTime(new Date(stat.lastRun)), n: stat.count }) : "";
   }
 
   function showDetail(item) {
@@ -2884,7 +2723,7 @@
 
   function clearDetail(message) {
     state.selectedPath = "";
-    el.detailTitle.textContent = message || "选择一个脚本";
+    el.detailTitle.textContent = message || t("selectScript");
     el.detailMeta.textContent = "";
     updateSelectedMeta(null);
     el.renameInput.value = "";
@@ -2895,7 +2734,7 @@
       el.favoriteBtn.textContent = "☆";
     }
     state.docLoading = true;
-    el.detailDoc.value = "同名 .md 会显示在这里。";
+    el.detailDoc.value = t("docPlaceholder");
     state.docLoading = false;
     state.docDirty = false;
     state.docPath = "";
@@ -2926,14 +2765,14 @@
   function setFavoriteForItem(item) {
     if (state.favorites[item.key]) {
       delete state.favorites[item.key];
-      setToast((isEnglishUi() ? "Removed from favorites: " : "\u5DF2\u53D6\u6D88\u6536\u85CF: ") + getScriptDisplayName(item), "");
+      setToast(t("toastUnfavorited", { name: getScriptDisplayName(item) }), "");
     } else {
       state.favorites[item.key] = {
         name: item.name,
         sourceName: item.sourceName,
         time: Date.now()
       };
-      setToast((isEnglishUi() ? "Added to favorites: " : "\u5DF2\u6536\u85CF: ") + getScriptDisplayName(item), "ok");
+      setToast(t("toastFavorited", { name: getScriptDisplayName(item) }), "ok");
     }
     setStoredValue(FAVORITES_KEY, state.favorites);
     showDetail(item);
@@ -2943,7 +2782,7 @@
   function saveSelectedDoc(callback) {
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       if (callback) {
         callback(false);
       }
@@ -2955,14 +2794,14 @@
       fs.writeFileSync(savePath, el.detailDoc.value, "utf8");
       state.docDirty = false;
       state.docPath = item.fullPath;
-      setToast((isEnglishUi() ? "Guide saved: " : "\u8BF4\u660E\u5DF2\u4FDD\u5B58: ") + path.basename(savePath), "ok");
-      refresh("\u4FDD\u5B58\u8BF4\u660E");
+      setToast(t("docSaved", { name: path.basename(savePath) }), "ok");
+      refresh(t("reasonDocSaved"));
       selectItem(item.fullPath, { force: true });
       if (callback) {
         callback(true);
       }
     } catch (err) {
-      setToast((isEnglishUi() ? "Failed to save guide: " : "\u8BF4\u660E\u4FDD\u5B58\u5931\u8D25: ") + err.message, "error");
+      setToast(t("docSaveFailed", { error: err.message }), "error");
       if (callback) {
         callback(false);
       }
@@ -2972,17 +2811,17 @@
   function renameSelected() {
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
 
     var nextName = sanitizeScriptFileName(el.renameInput.value, item.ext);
     if (!nextName.base) {
-      setToast("脚本名不能为空", "warn");
+      setToast(t("renameEmpty"), "warn");
       return;
     }
     if (nextName.name === item.name) {
-      setToast("脚本名没有变化", "");
+      setToast(t("renameUnchanged"), "");
       return;
     }
 
@@ -2991,15 +2830,15 @@
     var nextDocPath = path.join(targetFolder, nextName.base + ".md");
     var nextEnDocPath = path.join(targetFolder, nextName.base + ".en.md");
     if (fs.existsSync(nextScriptPath)) {
-      setToast("已存在同名脚本，重命名已取消", "error");
+      setToast(t("renameExists"), "error");
       return;
     }
     if (item.hasZhDoc && fs.existsSync(nextDocPath)) {
-      setToast("\u5DF2\u5B58\u5728\u540C\u540D\u8BF4\u660E\u6587\u4EF6\uFF0C\u91CD\u547D\u540D\u5DF2\u53D6\u6D88", "error");
+      setToast(t("renameDocExists"), "error");
       return;
     }
     if (item.hasEnDoc && fs.existsSync(nextEnDocPath)) {
-      setToast(isEnglishUi() ? "A matching English guide already exists. Rename canceled." : "\u5DF2\u5B58\u5728\u540C\u540D\u82F1\u6587\u8BF4\u660E\u6587\u4EF6\uFF0C\u91CD\u547D\u540D\u5DF2\u53D6\u6D88", "error");
+      setToast(t("renameEnDocExists"), "error");
       return;
     }
 
@@ -3020,11 +2859,11 @@
         el.editorPath.textContent = nextScriptPath;
         el.editorTitleInput.value = nextName.name;
       }
-      setToast("\u5DF2\u91CD\u547D\u540D\u4E3A: " + nextName.name, "ok");
-      refresh("重命名脚本");
+      setToast(t("renameDone", { name: nextName.name }), "ok");
+      refresh(t("reasonScriptRenamed"));
       selectItem(nextScriptPath);
     } catch (err) {
-      setToast("\u91CD\u547D\u540D\u5931\u8D25: " + err.message, "error");
+      setToast(t("renameFailed", { error: err.message }), "error");
     }
   }
 
@@ -3052,12 +2891,12 @@
   function duplicateSelectedScript() {
     var item = findByPath(state.editorPath || state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
 
     if (state.editorDirty) {
-      if (!window.confirm("\u5F53\u524D\u4EE3\u7801\u5C1A\u672A\u4FDD\u5B58\u3002\u662F\u5426\u5148\u4FDD\u5B58\u518D\u521B\u5EFA\u526F\u672C\uFF1F")) {
+      if (!window.confirm(t("duplicateUnsavedConfirm"))) {
         return;
       }
       saveCodeEditor(function (ok) {
@@ -3082,12 +2921,12 @@
       if (item.hasEnDoc && fs.existsSync(item.enDocPath)) {
         fs.copyFileSync(item.enDocPath, nextEnDocPath);
       }
-      setToast("\u5DF2\u521B\u5EFA\u526F\u672C: " + nextBase + item.ext, "ok");
-      refresh("\u521B\u5EFA\u526F\u672C");
+      setToast(t("duplicateCreated", { name: nextBase + item.ext }), "ok");
+      refresh(t("reasonDuplicate"));
       selectItem(nextScriptPath);
       openCodeEditor(nextScriptPath, true);
     } catch (err) {
-      setToast("\u521B\u5EFA\u526F\u672C\u5931\u8D25: " + err.message, "error");
+      setToast(t("duplicateFailed", { error: err.message }), "error");
     }
   }
 
@@ -3105,10 +2944,10 @@
   function renameSelectedWithPrompt() {
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
-    var nextBase = window.prompt("重命名脚本", item.name);
+    var nextBase = window.prompt(t("promptRename"), item.name);
     if (nextBase === null) {
       return;
     }
@@ -3145,7 +2984,7 @@
   function runContextAction(action) {
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
 
@@ -3164,7 +3003,7 @@
 
   function editSelectedScript(item) {
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
     var openScriptEditor = function () {
@@ -3183,7 +3022,7 @@
 
   function editSelectedDoc(item) {
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
     var openDocEditor = function () {
@@ -3196,7 +3035,7 @@
       showDetail(item);
       el.detailDoc.disabled = false;
       el.saveDocBtn.disabled = false;
-      setToast("\u6B63\u5728\u7F16\u8F91\u8BF4\u660E: " + item.name, "");
+      setToast(t("toastEditingDoc", { name: item.name }), "");
     };
 
     if (state.editorDirty) {
@@ -3209,7 +3048,7 @@
   function deleteSelectedScript() {
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
     try {
@@ -3223,23 +3062,22 @@
         moveToRecycleBin(item.enDocPath);
       }
       state.selectedPath = "";
-      var deletedText = (hadZhDoc || hadEnDoc) ? (isEnglishUi() ? "Script and guides moved to Recycle Bin: " : "脚本和说明已移到回收站: ") : (isEnglishUi() ? "Script moved to Recycle Bin: " : "脚本已移到回收站: ");
-      setToast(deletedText + getScriptDisplayName(item), "ok");
-      refresh("\u5220\u9664\u811A\u672C");
+      setToast(t(hadZhDoc || hadEnDoc ? "deletedWithGuides" : "deletedScript", { name: getScriptDisplayName(item) }), "ok");
+      refresh(t("reasonScriptDeleted"));
       clearDetail();
     } catch (err) {
-      setToast(friendlyError("\u5220\u9664\u5931\u8D25", err), "error");
+      setToast(friendlyError(t("deleteFailed"), err), "error");
     }
   }
 
   function runSelected() {
     if (state.running) {
-      setToast("\u811A\u672C\u6B63\u5728\u8FD0\u884C\uFF0C\u8BF7\u7A0D\u7B49", "warn");
+      setToast(t("runBusy"), "warn");
       return;
     }
     var item = findByPath(state.selectedPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
 
@@ -3254,10 +3092,10 @@
     state.runningPath = item.fullPath;
     prepareRunStatusFiles(runToken, item);
     setRunning(true);
-      setPriorityStatus((isEnglishUi() ? "Running: " : "\u8FD0\u884C\u4E2D: ") + getScriptDisplayName(item), formatSize(item.size), "running");
-      setToast((isEnglishUi() ? "Running: " : "\u6B63\u5728\u8FD0\u884C: ") + getScriptDisplayName(item), "running");
+    setPriorityStatus(t("runRunningStatus", { name: getScriptDisplayName(item) }), formatSize(item.size), "running");
+    setToast(t("runRunningToast", { name: getScriptDisplayName(item) }), "running");
     renderListActiveOnly();
-    appendConsole("\u25B6 " + (isEnglishUi() ? "Run " : "\u8FD0\u884C ") + getScriptDisplayName(item) + "\n" + displayPath);
+    appendConsole(t("runConsolePrefix", { name: getScriptDisplayName(item) }) + "\n" + displayPath);
     var script = "HGScripts.runScript(" + jsxString(scriptPath) + ", " + jsxString(state.cppMode) + ", " + jsxString(runToken) + ", " + jsxString(RUN_STATUS_PATH) + ", " + jsxString(RUN_REQUEST_PATH) + ", " + jsxString(effectiveLanguage) + ")";
     startRunStatusPolling(runToken, item, startedAt, displayPath);
     armRunUiFallback(runToken, item, startedAt);
@@ -3270,7 +3108,7 @@
         parsed.file = displayPath;
       }
       if (displayPath && scriptPath !== displayPath && parsed.ok) {
-        parsed.message = (isEnglishUi() ? "Executed " : "\u5DF2\u6267\u884C ") + getScriptDisplayName(item);
+        parsed.message = t("runExecuted", { name: getScriptDisplayName(item) });
       }
       finishRunFromParsed(runToken, item, parsed, startedAt, result);
     });
@@ -3278,12 +3116,12 @@
 
   function runFromEditor() {
     if (state.running) {
-      setToast("\u811A\u672C\u6B63\u5728\u8FD0\u884C\uFF0C\u8BF7\u7A0D\u7B49", "warn");
+      setToast(t("runBusy"), "warn");
       return;
     }
     var item = findByPath(state.editorPath || state.selectedPath);
     if (!item || !state.editorPath) {
-      setToast("请先打开一个脚本", "warn");
+      setToast(t("runNeedOpen"), "warn");
       return;
     }
 
@@ -3300,7 +3138,7 @@
       fs.writeFileSync(tempPath, getEditorValue(), "utf8");
       runScriptForItem(item, tempPath, state.editorPath);
     } catch (err) {
-      var message = friendlyError("\u4E34\u65F6\u8FD0\u884C\u5931\u8D25", err);
+      var message = friendlyError(t("runTempFailed"), err);
       appendConsole("ERROR: " + message);
       setToast(message, "error");
     }
@@ -3334,7 +3172,7 @@
       fs.writeFileSync(RUN_REQUEST_PATH, JSON.stringify(payload, null, 2), "utf8");
       fs.writeFileSync(RUN_STATUS_PATH, JSON.stringify(payload, null, 2), "utf8");
     } catch (err) {
-      appendConsole("WARN: \u5199\u5165\u8FD0\u884C\u72B6\u6001\u8BF7\u6C42\u5931\u8D25: " + err.message);
+      appendConsole("WARN: " + t("runStatusWriteFailed", { error: err.message }));
     }
   }
 
@@ -3362,7 +3200,7 @@
       return;
     }
     if (status.state === "running") {
-      setPriorityStatus("\u6B63\u5728\u8FD0\u884C: " + item.name, formatDuration(Date.now() - startedAt), "running");
+      setPriorityStatus(t("runRunningStatus", { name: item.name }), formatDuration(Date.now() - startedAt), "running");
       return;
     }
     if (status.state !== "done" && status.state !== "error") {
@@ -3399,7 +3237,7 @@
     if (status.message) {
       return decodeText(status.message);
     }
-    return status.state === "done" ? "\u5DF2\u5B8C\u6210: " + item.name : "\u8FD0\u884C\u5931\u8D25: " + item.name;
+    return status.state === "done" ? t("runStatusDone", { name: item.name }) : t("runStatusFailed", { name: item.name });
   }
 
   function finishRunFromParsed(runToken, item, parsed, startedAt, rawResult) {
@@ -3429,15 +3267,15 @@
       appendConsole(formatRunResult(parsed), true);
       if (parsed.ok) {
         clearEditorError();
-        setPriorityStatus("\u5DF2\u5B8C\u6210: " + item.name, formatDuration(parsed.elapsedMs), "ok", 5000);
+        setPriorityStatus(t("runStatusDone", { name: item.name }), formatDuration(parsed.elapsedMs), "ok", 5000);
         setToast(parsed.message, "ok");
       } else {
         state.latestErrorText = formatRunResultPlain(parsed);
         if (state.editorPath && makeFileKey(state.editorPath) === makeFileKey(item.fullPath)) {
           markEditorError(parseInt(parsed.line, 10), parsed.message);
         }
-        setPriorityStatus("\u8FD0\u884C\u5931\u8D25: " + item.name, formatDuration(parsed.elapsedMs), "error", 8000);
-        setToast(parsed.message || "\u811A\u672C\u6267\u884C\u5931\u8D25", "error");
+        setPriorityStatus(t("runStatusFailed", { name: item.name }), formatDuration(parsed.elapsedMs), "error", 8000);
+        setToast(parsed.message || t("scriptError"), "error");
       }
     } catch (errUi) {
       writePanelLog("finishRun completion UI failed: " + getErrorText(errUi));
@@ -3455,7 +3293,7 @@
   function openCodeEditor(fullPath, force) {
     var item = findByPath(fullPath);
     if (!item) {
-      setToast("找不到要编辑的脚本", "warn");
+      setToast(t("editorNotFound"), "warn");
       return;
     }
     if (state.editorDirty && !force && state.editorPath && state.editorPath !== fullPath) {
@@ -3490,9 +3328,9 @@
       el.codeEditor.classList.add("open");
       el.contentPanel.classList.add("editor-open");
       updateEditorState();
-      appendConsole("\u5DF2\u6253\u5F00\u7F16\u8F91\u811A\u672C: " + item.name);
-      setPriorityStatus("\u5DF2\u6253\u5F00\u7F16\u8F91: " + item.name, formatSize(item.size), "ok", 5000);
-      setToast("\u5DF2\u6253\u5F00\u7F16\u8F91\u811A\u672C: " + item.name, "ok");
+      appendConsole(t("openInEditor", { name: item.name }));
+      setPriorityStatus(t("openInEditor", { name: item.name }), formatSize(item.size), "ok", 5000);
+      setToast(t("openInEditor", { name: item.name }), "ok");
       setTimeout(function () {
         state.ace.resize(true);
         state.ace.focus();
@@ -3500,14 +3338,14 @@
       }, 0);
     } catch (err) {
       state.editorLoading = false;
-      var readMessage = friendlyError("\u8BFB\u53D6\u811A\u672C\u5931\u8D25", err);
+      var readMessage = friendlyError(t("readScriptFailed"), err);
       setToast(readMessage, "error");
       appendConsole("ERROR: " + readMessage);
     }
   }
 
   function closeCodeEditor() {
-    if (state.editorDirty && !window.confirm("当前代码尚未保存，确定关闭编辑器？")) {
+    if (state.editorDirty && !window.confirm(t("editorCloseConfirm"))) {
       return;
     }
     state.editorPath = "";
@@ -3523,7 +3361,7 @@
     el.reloadCodeBtn.disabled = true;
     el.duplicateCodeBtn.disabled = true;
     if (el.editorTitle) {
-      el.editorTitle.textContent = "脚本编辑器";
+      el.editorTitle.textContent = t("editorTitle");
     }
     el.editorTitleInput.value = "";
     el.editorTitleInput.disabled = true;
@@ -3535,13 +3373,13 @@
     if (item) {
       setSelectionToast(item);
     } else {
-      setToast("\u672A\u6253\u5F00\u7F16\u8F91\u811A\u672C", "");
+      setToast(t("editorNoEditTarget"), "");
     }
   }
 
   function saveCodeEditor(callback) {
     if (!state.editorPath) {
-      setToast("没有打开的脚本", "warn");
+      setToast(t("editorNotOpen"), "warn");
       if (callback) {
         callback(false);
       }
@@ -3553,15 +3391,15 @@
       state.editorDirty = false;
       clearEditorError();
       updateEditorState();
-      appendConsole("\u5DF2\u4FDD\u5B58: " + state.editorPath);
-      setToast("代码已保存", "ok");
+      appendConsole(t("codeSavedPath", { path: state.editorPath }));
+      setToast(t("codeSaved"), "ok");
       updateSavedScriptMetadata(state.editorPath);
       selectItem(state.editorPath);
       if (callback) {
         callback(true);
       }
     } catch (err) {
-      var saveMessage = friendlyError("\u4EE3\u7801\u4FDD\u5B58\u5931\u8D25", err);
+      var saveMessage = friendlyError(t("saveCodeFailed"), err);
       appendConsole("ERROR: " + saveMessage);
       setToast(saveMessage, "error");
       if (callback) {
@@ -3607,7 +3445,7 @@
       return;
     }
     var item = findByPath(state.selectedPath || state.runningPath);
-    setToast(item ? "\u5DF2\u9009\u62E9\u811A\u672C: " + item.name : "\u51C6\u5907\u5C31\u7EEA", "");
+    setToast(item ? t("toastSelected", { name: item.name }) : t("ready"), "");
   }
 
   function clearRunCompletionProbe() {
@@ -3644,7 +3482,7 @@
     clearRunCompletionProbe();
     var parsed = {
       ok: false,
-      message: "\u672A\u6536\u5230\u771F\u5B9E\u8FD0\u884C\u72B6\u6001: " + item.name,
+      message: t("runStaleState", { name: item.name }),
       file: item.fullPath,
       line: "",
       number: "RUN_STATUS_TIMEOUT",
@@ -3674,9 +3512,9 @@
       }
       state.runningPath = "";
       setRunning(false);
-      appendConsole("WARN: \u672A\u6536\u5230\u8FD0\u884C\u7ED3\u679C\u56DE\u8C03\uFF0C\u5DF2\u91CD\u7F6E\u8FD0\u884C\u72B6\u6001: " + item.name);
-      setPriorityStatus("\u8FD0\u884C\u72B6\u6001\u5DF2\u91CD\u7F6E: " + item.name, formatDuration(Date.now() - startedAt), "warn", 8000);
-      setToast("\u8FD0\u884C\u5DF2\u7ED3\u675F\uFF0C\u9762\u677F\u72B6\u6001\u5DF2\u91CD\u7F6E", "warn");
+      appendConsole("WARN: " + t("runProbeTimeout", { name: item.name }));
+      setPriorityStatus(t("runStateReset", { name: item.name }), formatDuration(Date.now() - startedAt), "warn", 8000);
+      setToast(t("runStateResetShort"), "warn");
     });
   }
 
@@ -3686,21 +3524,21 @@
   }
 
   function getCppModeLabel(mode) {
-    if (mode === "cpp") return isEnglishUi() ? "C++ only" : "仅 C++";
-    if (mode === "jsx") return isEnglishUi() ? "Force JSX" : "强制 JSX";
+    if (mode === "cpp") return t("modeCppOnly");
+    if (mode === "jsx") return t("modeForceJsx");
     return t("auto");
   }
 
   function getCppModeHint(mode) {
-    if (mode === "cpp") return isEnglishUi() ? "C++ mode: prefer AIP/C++ acceleration, then fall back to JSX" : "C++模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
-    if (mode === "jsx") return isEnglishUi() ? "Force JSX: do not call AIP/C++" : "强制 JSX: 不调用 AIP/C++";
-    return isEnglishUi() ? "Auto mode: prefer AIP/C++ acceleration, then fall back to JSX" : "自动模式: 优先 AIP/C++ 加速, 失败后回退 JSX";
+    if (mode === "cpp") return t("modeCppHint");
+    if (mode === "jsx") return t("modeJsxHint");
+    return t("modeAutoHint");
   }
 
   function getCppModeStatusText(mode) {
-    if (mode === "cpp") return isEnglishUi() ? "C++: AIP first" : "C++: AIP 优先";
-    if (mode === "jsx") return isEnglishUi() ? "JSX: no AIP" : "JSX: 不调用 AIP";
-    return isEnglishUi() ? "Auto: AIP first" : "自动: AIP 优先";
+    if (mode === "cpp") return t("modeCppStatus");
+    if (mode === "jsx") return t("modeJsxStatus");
+    return t("modeAutoStatus");
   }
 
   function renderCppMode() {
@@ -3708,9 +3546,14 @@
       return;
     }
     var mode = normalizeCppMode(state.cppMode);
+    var optionLabels = { auto: t("auto"), cpp: "C++", jsx: "JSX" };
     el.cppModeSelect.value = mode;
     el.cppModeSelect.className = "cpp-mode-select mode-" + mode;
     el.cppModeSelect.title = t("cppModeTitle") + ": " + getCppModeHint(mode);
+    for (var i = 0; i < el.cppModeSelect.options.length; i++) {
+      var option = el.cppModeSelect.options[i];
+      option.textContent = optionLabels[option.value] || option.textContent;
+    }
   }
 
   function setButtonRunning(button, isRunning) {
@@ -3721,7 +3564,7 @@
       if (!button.getAttribute("data-normal-text")) {
         button.setAttribute("data-normal-text", button.textContent);
       }
-      button.textContent = isEnglishUi() ? "Running..." : "\u8FD0\u884C\u4E2D...";
+      button.textContent = t("editorRunning");
       button.classList.add("running");
       button.disabled = true;
       return;
@@ -3750,7 +3593,7 @@
       el.editorState.textContent = t("noScriptOpen");
       return;
     }
-    el.editorState.textContent = state.editorDirty ? (isEnglishUi() ? "Unsaved" : "未保存") : (isEnglishUi() ? "Saved" : "已保存");
+    el.editorState.textContent = state.editorDirty ? t("editorUnsaved") : t("editorSaved");
     el.editorState.className = state.editorDirty ? "dirty" : "";
   }
 
@@ -3799,7 +3642,7 @@
     entry.innerHTML = trustedHtml
       ? escapeHtml("[" + time + "] ") + decoded.replace(/\n/g, "<br>")
       : escapeHtml("[" + time + "] " + decoded).replace(/\n/g, "<br>");
-    if (el.consoleOutput.textContent === "等待运行结果。" || el.consoleOutput.textContent === "控制台已清空。") {
+    if (el.consoleOutput.textContent === t("waitingResult") || el.consoleOutput.textContent === t("consoleCleared")) {
       el.consoleOutput.innerHTML = "";
     }
     el.consoleOutput.insertBefore(entry, el.consoleOutput.firstChild);
@@ -3843,7 +3686,7 @@
       var text = String(result || "");
       return {
         ok: text.indexOf("OK:") === 0,
-        message: decodeText(text || (isEnglishUi() ? "The script finished but returned no result" : "\u811A\u672C\u6267\u884C\u7ED3\u675F\uFF0C\u4F46\u6CA1\u6709\u8FD4\u56DE\u7ED3\u679C")),
+        message: decodeText(text || t("runNoResult")),
         file: "",
         line: "",
         number: "",
@@ -3860,26 +3703,26 @@
     if (!result.ok) {
       var hint = getRunErrorHint(result);
       if (hint) {
-        lines.push((isEnglishUi() ? "Hint: " : "\u63D0\u793A: ") + escapeHtml(hint));
+        lines.push(escapeHtml(t("runHintPrefix")) + escapeHtml(hint));
       }
     }
     if (result.file) {
-      lines.push((isEnglishUi() ? "File: " : "\u6587\u4EF6: ") + escapeHtml(result.file));
+      lines.push(escapeHtml(t("runFilePrefix")) + escapeHtml(result.file));
     }
     if (result.line) {
-      lines.push((isEnglishUi() ? "Line: " : "\u884C\u53F7: ") + result.line);
+      lines.push(escapeHtml(t("runLinePrefix", { n: result.line })));
     }
     if (result.context && result.context.length) {
       lines.push("<pre class=\"console-code\">" + formatErrorContext(result.context) + "</pre>");
     }
     if (result.line) {
-      lines.push("<button class=\"console-line-link\" data-line=\"" + result.line + "\">" + (isEnglishUi() ? "Jump to line " + result.line : "\u8DF3\u5230\u7B2C " + result.line + " \u884C") + "</button>");
+      lines.push("<button class=\"console-line-link\" data-line=\"" + result.line + "\">" + escapeHtml(t("runJumpToLine", { n: result.line })) + "</button>");
     }
     if (result.number) {
-      lines.push((isEnglishUi() ? "Error code: " : "\u9519\u8BEF\u7801: ") + result.number);
+      lines.push(escapeHtml(t("runErrorCode", { n: result.number })));
     }
     if (typeof result.elapsedMs === "number") {
-      lines.push((isEnglishUi() ? "Elapsed: " : "\u8017\u65F6: ") + formatDuration(result.elapsedMs));
+      lines.push(escapeHtml(t("runElapsed", { n: formatDuration(result.elapsedMs) })));
     }
     return lines.join("\n");
   }
@@ -3891,24 +3734,24 @@
     if (!result.ok) {
       var hint = getRunErrorHint(result);
       if (hint) {
-        lines.push((isEnglishUi() ? "Hint: " : "\u63D0\u793A: ") + hint);
+        lines.push(t("runHintPrefix") + hint);
       }
     }
     if (result.file) {
-      lines.push((isEnglishUi() ? "File: " : "\u6587\u4EF6: ") + result.file);
+      lines.push(t("runFilePrefix") + result.file);
     }
     if (result.line) {
-      lines.push((isEnglishUi() ? "Line: " : "\u884C\u53F7: ") + result.line);
+      lines.push(t("runLinePrefix", { n: result.line }));
     }
     if (result.context && result.context.length) {
       lines.push("");
       lines.push(formatErrorContextPlain(result.context));
     }
     if (result.number) {
-      lines.push((isEnglishUi() ? "Error code: " : "\u9519\u8BEF\u7801: ") + result.number);
+      lines.push(t("runErrorCode", { n: result.number }));
     }
     if (typeof result.elapsedMs === "number") {
-      lines.push((isEnglishUi() ? "Elapsed: " : "\u8017\u65F6: ") + formatDuration(result.elapsedMs));
+      lines.push(t("runElapsed", { n: formatDuration(result.elapsedMs) }));
     }
     return lines.join("\n");
   }
@@ -3917,18 +3760,18 @@
     var message = String(result.message || "");
     var number = String(result.number || "");
     if (number === "25" || /\u5E94\u4E3A|Expected|SyntaxError/i.test(message)) {
-      return isEnglishUi() ? "This is a syntax error. Check the highlighted line for missing brackets, quotes, semicolons, or a broken function name." : "这是语法错误，优先检查标出的行附近是否少了括号、引号、分号，或函数名被写断。";
+      return t("runHintSyntax");
     }
     if (/undefined|is not defined/i.test(message)) {
-      return isEnglishUi() ? "A variable or function is undefined. Check spelling, scope, or whether it is declared before use." : "有变量或函数未定义，检查名称拼写、作用域，或相关函数是否在运行前声明。";
+      return t("runHintUndefined");
     }
     if (/No such file|not found|does not exist/i.test(message)) {
-      return isEnglishUi() ? "A referenced file or folder does not exist. Check the path, file name, and disk access." : "脚本引用的文件或目录不存在，检查路径、文件名和磁盘是否可访问。";
+      return t("runHintMissing");
     }
     if (/permission|access|denied/i.test(message)) {
-      return isEnglishUi() ? "The current path may not be writable. Try a normal working folder." : "当前路径可能没有读写权限，可以换到普通工作目录后重试。";
+      return t("runHintPermission");
     }
-    return result.line ? (isEnglishUi() ? "Check the line number and context. The issue is usually on the highlighted line or nearby." : "查看行号和上下文，通常问题就在标出的行或上一两行。") : "";
+    return result.line ? t("runHintLine") : "";
   }
 
   function normalizeErrorContext(context) {
@@ -3983,11 +3826,11 @@
 
   function copyConsole() {
     var text = el.consoleOutput.innerText || el.consoleOutput.textContent || "";
-    copyTextToClipboard(text, "\u63A7\u5236\u53F0\u5185\u5BB9\u5DF2\u590D\u5236", "\u63A7\u5236\u53F0\u6CA1\u6709\u53EF\u590D\u5236\u5185\u5BB9");
+    copyTextToClipboard(text, t("consoleCopied"), t("consoleCopyEmpty"));
   }
 
   function copyLatestError() {
-    copyTextToClipboard(state.latestErrorText, "\u6700\u65B0\u62A5\u9519\u5DF2\u590D\u5236", "\u5F53\u524D\u6CA1\u6709\u53EF\u590D\u5236\u7684\u62A5\u9519");
+    copyTextToClipboard(state.latestErrorText, t("errorCopied"), t("errorCopyEmpty"));
   }
 
   function copyTextToClipboard(text, okMessage, emptyMessage) {
@@ -4005,12 +3848,12 @@
       navigator.clipboard.writeText(text).then(function () {
         setToast(okMessage, "ok");
       }).catch(function () {
-        setToast("\u590D\u5236\u5931\u8D25\uFF0C\u8BF7\u624B\u52A8\u9009\u4E2D\u5185\u5BB9\u590D\u5236", "error");
+        setToast(t("copyManual"), "error");
       });
       return;
     }
 
-    setToast("\u590D\u5236\u5931\u8D25\uFF0C\u8BF7\u624B\u52A8\u9009\u4E2D\u5185\u5BB9\u590D\u5236", "error");
+    setToast(t("copyManual"), "error");
   }
 
   function copyTextWithTextarea(text) {
@@ -4177,7 +4020,7 @@
   function startWatchers() {
     closeWatchers();
     if (!AUTO_REFRESH_ENABLED) {
-      setIdleStatus(state.idleCountText, "自动刷新已暂停");
+      setIdleStatus(state.idleCountText, t("watchPaused"));
       return;
     }
     var activeCount = 0;
@@ -4198,11 +4041,11 @@
     }
 
     if (!activeCount) {
-      setIdleStatus(state.idleCountText, "监听未启动");
+      setIdleStatus(state.idleCountText, t("statusWatchIdle"));
     } else if (watchedCount === activeCount) {
-      setIdleStatus(state.idleCountText, "自动监听中");
+      setIdleStatus(state.idleCountText, t("watchActive"));
     } else {
-      setIdleStatus(state.idleCountText, "部分目录监听受限，使用轮询");
+      setIdleStatus(state.idleCountText, t("watchPartial"));
     }
   }
 
@@ -4265,11 +4108,12 @@
     }
 
     if (added || changed || removed) {
-      setPriorityStatus(reason + ": \u65B0\u589E " + added + "\uFF0C\u4FEE\u6539 " + changed + "\uFF0C\u5220\u9664 " + removed, "", "ok", 5000);
-      setToast(reason + ": \u65B0\u589E " + added + "\uFF0C\u4FEE\u6539 " + changed + "\uFF0C\u5220\u9664 " + removed, "ok");
+      var changeText = t("changeSummary", { reason: reason, added: added, changed: changed, removed: removed });
+      setPriorityStatus(changeText, "", "ok", 5000);
+      setToast(changeText, "ok");
     } else {
-      setPriorityStatus(reason + ": 已是最新", "", "", 3000);
-      setToast(reason + ": 已是最新", "");
+      setPriorityStatus(t("changeUpToDate", { reason: reason }), "", "", 3000);
+      setToast(t("changeUpToDate", { reason: reason }), "");
     }
   }
 
@@ -4512,14 +4356,13 @@
 
   function getCppBoostBadgeTitle() {
     var mode = normalizeCppMode(state.cppMode);
-    var availableText = "已检测到 Illustrator 加速插件";
     if (mode === "cpp") {
-      return "C++模式: " + availableText + ", 失败后回退jsx";
+      return t("cppBoostCpp");
     }
     if (mode === "jsx") {
-      return "强制JSX: 当前不调用C++";
+      return t("cppBoostJsx");
     }
-    return "自动模式: " + availableText + ", 失败后回退jsx";
+    return t("cppBoostAuto");
   }
 
   function hasAvailableCppPlugin(item) {
@@ -4659,13 +4502,7 @@
   }
 
   function detectHostLanguage() {
-    try {
-      var host = cs.getHostEnvironment ? cs.getHostEnvironment() : cs.hostEnvironment;
-      var raw = String((host && (host.appUILocale || host.appLocale)) || navigator.language || "");
-      return /^zh/i.test(raw) ? "zh-CN" : "en-US";
-    } catch (err) {
-      return /^zh/i.test(String(navigator.language || "")) ? "zh-CN" : "en-US";
-    }
+    return HGI ? HGI.detectHostLanguage(cs) : (/^zh/i.test(String(navigator.language || "")) ? "zh-CN" : "en-US");
   }
 
   function detectHostProfile() {
@@ -4715,19 +4552,11 @@
   }
 
   function normalizeLanguageMode(value) {
-    value = String(value || "auto");
-    if (value === "zh-CN" || value === "en-US" || value === "auto") {
-      return value;
-    }
-    return "auto";
+    return HGI ? HGI.normalizeMode(value) : (String(value || "auto") === "zh-CN" || String(value || "auto") === "en-US" ? String(value) : "auto");
   }
 
   function resolveEffectiveLanguage(mode, detected) {
-    mode = normalizeLanguageMode(mode);
-    if (mode === "auto") {
-      return detected === "zh-CN" ? "zh-CN" : "en-US";
-    }
-    return mode;
+    return HGI ? HGI.resolve(mode, detected) : (normalizeLanguageMode(mode) === "auto" ? detected : normalizeLanguageMode(mode));
   }
 
   function saveSettings() {
@@ -4735,7 +4564,7 @@
       ensureFolder(path.dirname(SETTINGS_PATH));
       fs.writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2), "utf8");
     } catch (err) {
-      setToast("\u8BBE\u7F6E\u4FDD\u5B58\u5931\u8D25: " + err.message, "error");
+      setToast(t("settingsSaveFailed", { error: err.message }), "error");
     }
   }
 
@@ -4799,7 +4628,7 @@
     if (!sources.length) {
       sources = [{
         id: makeId(),
-        name: "\u9ED8\u8BA4\u811A\u672C",
+        name: t("sourceDefaultName"),
         folder: DEFAULT_FOLDER,
         enabled: true
       }];
@@ -4939,16 +4768,16 @@
   function openFolder(folderPath) {
     var normalized = normalizeFsPath(folderPath);
     if (!normalized) {
-      setToast("文件夹路径为空", "warn");
+      setToast(t("folderPathEmpty"), "warn");
       return;
     }
     if (!fs.existsSync(normalized)) {
-      setToast("\u6587\u4EF6\u5939\u4E0D\u5B58\u5728: " + normalized, "warn");
+      setToast(t("folderMissing", { path: normalized }), "warn");
       return;
     }
     childProcess.execFile("cmd.exe", ["/c", "start", "", normalized], { windowsHide: true }, function (err) {
       if (err) {
-        setToast(friendlyError("打开文件夹失败", err), "error");
+        setToast(friendlyError(t("openFolderFailed"), err), "error");
       }
     });
   }
@@ -4957,7 +4786,7 @@
     var scriptPath = state.editorPath || state.selectedPath;
     var item = findByPath(scriptPath);
     if (!item) {
-      setToast("请先选择一个脚本", "warn");
+      setToast(t("needScript"), "warn");
       return;
     }
     openFolder(item.scriptFolder || path.dirname(item.fullPath));
@@ -4967,7 +4796,7 @@
     cs.evalScript("HGScripts.getActiveDocumentFolder()", function (resultPath) {
       var folderPath = normalizeFsPath(decodeText(resultPath || ""));
       if (!folderPath || folderPath.indexOf("ERROR:") === 0) {
-        setToast(folderPath || "\u5F53\u524D\u6587\u6863\u6CA1\u6709\u53EF\u7528\u76EE\u5F55", "warn");
+        setToast(folderPath || t("sourceNoDocFolder"), "warn");
         return;
       }
       openFolder(folderPath);
@@ -5007,7 +4836,7 @@
 
     var result = childProcess.execFileSync(pickerExe, [
       startPath || DEFAULT_FOLDER,
-      title || "\u9009\u62E9\u6587\u4EF6\u5939"
+      title || t("sourcePickFolder")
     ], {
       encoding: "utf8",
       windowsHide: true
@@ -5134,7 +4963,7 @@
 
   function inferSourceName(folder) {
     var normalized = normalizeInputPath(folder);
-    return path.basename(normalized) || "\u811A\u672C\u76EE\u5F55";
+    return path.basename(normalized) || t("sourceScriptFolder");
   }
 
   function sanitizeBaseName(value) {
@@ -5187,7 +5016,7 @@
     if (ms < 1000) {
       return ms + " ms";
     }
-    return Math.round(ms / 100) / 10 + (isEnglishUi() ? " sec" : " 秒");
+    return t("durationSeconds", { n: Math.round(ms / 100) / 10 });
   }
 
   function formatSize(bytes) {
@@ -5207,24 +5036,24 @@
     var raw = err && err.message ? String(err.message) : String(err || "");
     var detail = raw;
     if (code === "ENOENT") {
-      detail = "\u8DEF\u5F84\u4E0D\u5B58\u5728\u6216\u6587\u4EF6\u5DF2\u88AB\u79FB\u52A8";
+      detail = t("errorNotFound");
     } else if (code === "EACCES" || code === "EPERM") {
-      detail = "\u6CA1\u6709\u6743\u9650\u8BBF\u95EE\u8BE5\u8DEF\u5F84\uFF0C\u6216\u6587\u4EF6\u6B63\u5728\u88AB\u5360\u7528";
+      detail = t("errorNoAccess");
     } else if (code === "EBUSY") {
-      detail = "文件正在被其它程序占用";
+      detail = t("errorBusy");
     }
     return prefix + (detail ? ": " + detail : "");
   }
 
   function isEnglishUi() {
-    return effectiveLanguage !== "zh-CN";
+    return HGI ? HGI.isEnglish() : effectiveLanguage !== "zh-CN";
   }
 
-  function t(key) {
-    var lang = isEnglishUi() ? "en-US" : "zh-CN";
-    return (UI_TEXT[lang] && UI_TEXT[lang][key]) ||
-      (UI_TEXT["zh-CN"] && UI_TEXT["zh-CN"][key]) ||
-      key;
+  function t(key, params) {
+    if (HGI) {
+      return HGI.t(key, params);
+    }
+    return key;
   }
 
   function setText(node, value) {
@@ -5294,6 +5123,13 @@
     if (!el.scanDepthInput) {
       return;
     }
+    var label = el.scanDepthInput.parentNode;
+    if (label && label.tagName === "LABEL") {
+      label.innerHTML = "";
+      label.appendChild(document.createTextNode(t("scanDepth") + " "));
+      label.appendChild(el.scanDepthInput);
+    }
+    el.scanDepthInput.title = t("scanDepthTitle");
     for (var i = 0; i < el.scanDepthInput.options.length; i++) {
       var opt = el.scanDepthInput.options[i];
       if (opt.value === "0") {
@@ -5341,6 +5177,7 @@
     }
     var dds = document.querySelectorAll("#aboutView dd");
     if (dds.length >= 8) {
+      dds[0].textContent = t("aboutProductName");
       dds[7].textContent = t("aboutDescription");
     }
   }
@@ -5349,10 +5186,7 @@
     if (!item) {
       return "";
     }
-    if (isEnglishUi() && EN_SCRIPT_TITLES[item.base]) {
-      return EN_SCRIPT_TITLES[item.base];
-    }
-    return item.base || "";
+    return HGI ? HGI.scriptTitle(item.base || "") : (item.base || "");
   }
 
   function getScriptDisplayName(item) {
@@ -5373,7 +5207,7 @@
     try {
       init();
     } catch (errInit) {
-      failBoot("HGScripts 初始化失败", errInit);
+      failBoot(t("bootInitFailed"), errInit);
     }
   }, 0);
 })();

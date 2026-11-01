@@ -1,15 +1,151 @@
 {
+  "选择对象黑白互换.jsx": {
+    "default": "script.svg",
+    "icon": "black-white-swap.svg"
+  },
+  "单一色转其它色.jsx": {
+    "default": "script.svg",
+    "icon": "sample-color-custom.svg"
+  },
+  "单一色转自定义色_其它转自定义色.jsx": {
+    "default": "script.svg",
+    "icon": "sample-others-custom.svg"
+  },
+  "同色转白其余转黑.jsx": {
+    "default": "script.svg",
+    "icon": "sample-white-mask.svg"
+  },
+  "同色转黑其余转白.jsx": {
+    "default": "script.svg",
+    "icon": "sample-black-mask.svg"
+  },
+  "选择对象转白色.jsx": {
+    "default": "script.svg",
+    "icon": "selected-white.svg"
+  },
+  "选择对象转自定义颜色.jsx": {
+    "default": "script.svg",
+    "icon": "selected-custom-color.svg"
+  },
+  "选择对象转黑色.jsx": {
+    "default": "script.svg",
+    "icon": "selected-black.svg"
+  },
+  "选择转白其余转黑.jsx": {
+    "default": "script.svg",
+    "icon": "selection-white-mask.svg"
+  },
+  "选择转黑其余转白.jsx": {
+    "default": "script.svg",
+    "icon": "selection-black-mask.svg"
+  },
+  "填充色同步到描边色.jsx": {
+    "default": "script.svg",
+    "icon": "fill-to-stroke.svg"
+  },
+  "描边色同步到填充色.jsx": {
+    "default": "script.svg",
+    "icon": "stroke-to-fill.svg"
+  },
+  "选择同色对象-严格版.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-strict.svg"
+  },
+  "选择同色对象-宽松版.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-loose.svg"
+  },
+  "选择空对象_极速版.jsx": {
+    "default": "script.svg",
+    "icon": "select-empty.svg"
+  },
+  "清理真正无用的空对象.jsx": {
+    "default": "script.svg",
+    "icon": "clean-empty.svg"
+  },
+  "手选基准对齐画板-右对齐.jsx": {
+    "default": "script.svg",
+    "icon": "align-right.svg"
+  },
+  "手选基准对齐画板-垂直居中.jsx": {
+    "default": "script.svg",
+    "icon": "align-vertical-center.svg"
+  },
+  "手选基准对齐画板-左对齐.jsx": {
+    "default": "script.svg",
+    "icon": "align-left.svg"
+  },
+  "手选基准对齐画板-底部对齐.jsx": {
+    "default": "script.svg",
+    "icon": "align-bottom.svg"
+  },
+  "手选基准对齐画板-水平居中.jsx": {
+    "default": "script.svg",
+    "icon": "align-horizontal-center.svg"
+  },
+  "手选基准对齐画板-顶部对齐.jsx": {
+    "default": "script.svg",
+    "icon": "align-top.svg"
+  },
+  "手选基准缩放.jsx": {
+    "default": "script.svg",
+    "icon": "basis-scale.svg"
+  },
+  "尺寸无小数.jsx": {
+    "default": "script.svg",
+    "icon": "round-size-up.svg"
+  },
+  "选择对象长边设为1024.jsx": {
+    "default": "script.svg",
+    "icon": "long-edge-1024.svg"
+  },
+  "六个对象两行三列最大化.jsx": {
+    "default": "script.svg",
+    "icon": "six-grid.svg"
+  },
+  "记录对象中心相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "record-position.svg"
+  },
+  "应用对象中心相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "apply-position.svg"
+  },
+  "ai坐标转其它_gemini.jsx": {
+    "default": "script.svg",
+    "icon": "coordinates-legacy.svg"
+  },
+  "AI坐标转换工具.jsx": {
+    "default": "script.svg",
+    "icon": "coordinates.svg"
+  },
+  "为选择对象创建外框.jsx": {
+    "default": "script.svg",
+    "icon": "selection-frame.svg"
+  },
+  "选择对象上方创建白色矩形.jsx": {
+    "default": "script.svg",
+    "icon": "white-overlay.svg"
+  },
   "当前画板创建黑色背景矩形.jsx": {
     "default": "script.svg",
-    "icon": "artboard-black-bg.svg"
-  },
-  "导出选择对象为长边1024AI.jsx": {
-    "default": "script.svg",
-    "icon": "export-selection-long-edge-1024.svg"
+    "icon": "black-background.svg"
   },
   "复制选择对象到新画板.jsx": {
     "default": "script.svg",
-    "icon": "copy-selection-to-artboard.svg"
+    "icon": "copy-new-artboard.svg"
+  },
+  "导出选择对象为长边1024AI.jsx": {
+    "default": "script.svg",
+    "icon": "export-ai-1024.svg"
+  },
+  "纸杯展开.jsx": {
+    "default": "script.svg",
+    "icon": "paper-cup.svg"
+  },
+  "生成UPC-A条形码.jsx": {
+    "default": "script.svg",
+    "icon": "upca-barcode.svg"
   },
   "记录对象相对画板位置.jsx": {
     "default": "script.svg",
@@ -19,54 +155,6 @@
     "default": "script.svg",
     "icon": "record-visual-position.svg"
   },
-  "描边色同步到填充色.jsx": {
-    "default": "script.svg",
-    "icon": "stroke-to-fill.svg"
-  },
-  "生成UPC-A条形码.jsx": {
-    "default": "script.svg",
-    "icon": "barcode-upc-a.svg"
-  },
-  "填充色同步到描边色.jsx": {
-    "default": "script.svg",
-    "icon": "fill-to-stroke.svg"
-  },
-  "同色转白其余转黑.jsx": {
-    "default": "script.svg",
-    "icon": "same-color-white-others-black.svg"
-  },
-  "同色转黑其余转白.jsx": {
-    "default": "script.svg",
-    "icon": "same-color-black-others-white.svg"
-  },
-  "为选择对象创建外框.jsx": {
-    "default": "script.svg",
-    "icon": "selection-outline-rectangle.svg"
-  },
-  "选择对象转白色.jsx": {
-    "default": "script.svg",
-    "icon": "selection-to-white.svg"
-  },
-  "选择对象转黑色.jsx": {
-    "default": "script.svg",
-    "icon": "selection-to-black.svg"
-  },
-  "选择同色对象.jsx": {
-    "default": "script.svg",
-    "icon": "select-same-color.svg"
-  },
-  "选择空对象_极速版.jsx": {
-    "default": "script.svg",
-    "icon": "select-empty-paths.svg"
-  },
-  "选择转白其余转黑.jsx": {
-    "default": "script.svg",
-    "icon": "selection-white-others-black.svg"
-  },
-  "选择转黑其余转白.jsx": {
-    "default": "script.svg",
-    "icon": "selection-black-others-white.svg"
-  },
   "应用相对画板位置到选择对象.jsx": {
     "default": "script.svg",
     "icon": "apply-artboard-position.svg"
@@ -75,12 +163,8 @@
     "default": "script.svg",
     "icon": "apply-visual-position.svg"
   },
-  "AI坐标转换工具.jsx": {
+  "选择同色对象.jsx": {
     "default": "script.svg",
-    "icon": "ai-coordinate-converter.svg"
-  },
-  "ai坐标转其它_gemini.jsx": {
-    "default": "script.svg",
-    "icon": "ai-coordinate-export.svg"
+    "icon": "select-same-color.svg"
   }
 }

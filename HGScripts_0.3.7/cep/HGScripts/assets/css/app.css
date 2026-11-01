@@ -736,67 +736,6 @@ body::-webkit-scrollbar {
   opacity: 0.5;
 }
 
-.script-boost-badge {
-  position: absolute;
-  right: -4px;
-  top: -5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 11px;
-  height: 11px;
-  border: 1px solid #2d2210;
-  background: #d8b83f;
-  color: #29200d;
-  font-size: 8px;
-  line-height: 1;
-  font-weight: 700;
-  pointer-events: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
-}
-
-.script-boost-badge.boost-auto {
-  background: #f2cf3d;
-  color: #251b00;
-  border-color: #5d4310;
-}
-
-.script-boost-badge.boost-jsx {
-  background: #696969;
-  color: #cfcfcf;
-  border-color: #3f3f3f;
-  opacity: 0.72;
-  box-shadow: none;
-}
-
-.script-boost-badge.boost-cpp {
-  width: 12px;
-  height: 12px;
-  top: -6px;
-  right: -5px;
-  background: #ffbf1e;
-  color: #130d00;
-  border-color: #ffe08a;
-  font-size: 9px;
-  font-weight: 900;
-  box-shadow: 0 0 0 1px #4a3300, 0 0 5px rgba(255, 191, 30, 0.55);
-}
-
-.script-item.active .script-boost-badge {
-  background: #f0cf4a;
-  color: #211900;
-}
-
-.script-item.active .script-boost-badge.boost-jsx {
-  background: #7a7a7a;
-  color: #e0e0e0;
-}
-
-.script-item.active .script-boost-badge.boost-cpp {
-  background: #ffd34d;
-  color: #100a00;
-}
-
 .script-title {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1552,5 +1491,47 @@ body::-webkit-scrollbar {
 
   .detail {
     display: none;
+  }
+}
+
+/* English labels run longer than Chinese; give the English UI more room and avoid clipped buttons. */
+body[data-language="en-US"] .topbar-main {
+  grid-template-columns: minmax(0, 1fr) 58px 64px 30px;
+}
+
+body[data-language="en-US"] #refreshBtn {
+  width: auto;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+body[data-language="en-US"] .topbar-actions button {
+  padding-left: 6px;
+  padding-right: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body[data-language="en-US"] .selected-meta {
+  direction: ltr;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  body[data-language="en-US"] .topbar-actions {
+    grid-template-columns: repeat(4, minmax(0, max-content));
+    justify-content: space-between;
+  }
+
+  body[data-language="en-US"] .topbar-actions .sort-control {
+    grid-column: 1 / -1;
+    justify-self: start;
+    width: auto;
+  }
+
+  body[data-language="en-US"] .sort-menu-btn {
+    width: auto;
+    min-width: 140px;
   }
 }

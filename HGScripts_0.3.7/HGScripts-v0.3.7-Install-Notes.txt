@@ -4,7 +4,7 @@
 
 请优先运行：
 
-安装-海哥的Adobe脚本管理器v0.3.7.exe
+HGScripts-v0.3.7-Setup.exe
 
 安装器使用现代 Windows 界面，会复制 HGScripts 面板、开启 Adobe CEP 支持，并可安装 Windows Illustrator C++ 加速插件。
 
@@ -17,7 +17,7 @@ CEP 面板位置、统一 HGScriptsNative.aip 的完整目标路径、CSXS 调�
 安装步骤
 
 1. 关闭 Illustrator。
-2. 双击运行 安装-海哥的Adobe脚本管理器v0.3.7.exe。
+2. 双击运行 HGScripts-v0.3.7-Setup.exe。
 3. 按安装器提示完成安装。
 4. 重新打开 Illustrator。
 5. 在菜单中打开：窗口 > 扩展 > 海哥的Adobe脚本管理器
@@ -61,7 +61,7 @@ macOS 暂不支持；Windows .aip 加速插件也不能用于 macOS。
 卸载方法
 
 1. 关闭 Illustrator。
-2. 双击运行 卸载-海哥的Adobe脚本管理器.exe。
+2. 双击运行 HGScripts-Uninstall.exe。
 3. 按卸载器提示完成卸载。
 
 卸载器会先显示“卸载目标确认”页面，并优先使用安装记录中的真实管理器目录。

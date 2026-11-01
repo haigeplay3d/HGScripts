@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>HGScripts 2023 safe</title>
+  <title>HGScripts v0.3.7</title>
   <style>
     html, body {
       width: 100%;
@@ -138,20 +138,21 @@
   <div class="bar">
     <div class="title">HGScripts v0.3.7</div>
     <div class="row">
-      <input id="search" type="text" placeholder="搜索脚本">
-      <button id="refreshBtn">刷新</button>
+      <input id="search" type="text" placeholder="搜索脚本" data-i18n-placeholder="searchPlaceholder">
+      <button id="refreshBtn" data-i18n="refresh">刷新</button>
     </div>
   </div>
-  <div id="status" class="status">正在启动兼容面板...</div>
+  <div id="status" class="status" data-i18n="safeBoot">正在启动兼容面板...</div>
   <div id="list" class="list"></div>
   <div class="footer">
     <div class="row">
-      <button id="runBtn" class="primary">运行选中脚本</button>
-      <button id="copyBtn">复制结果</button>
+      <button id="runBtn" class="primary" data-i18n="runSelectedBtn">运行选中脚本</button>
+      <button id="copyBtn" data-i18n="copyResult">复制结果</button>
     </div>
-    <div id="output" class="output">等待操作</div>
+    <div id="output" class="output" data-i18n="safeWaiting">等待操作</div>
   </div>
   <script src="assets/js/CSInterface.js"></script>
+  <script src="assets/js/hg_i18n.js?v=0.3.7-release-20261023"></script>
   <script src="assets/js/pinyin_dict.js?v=0.3.7-release-20261023"></script>
   <script src="assets/js/app_2023_safe.js?v=0.3.7-release-20261023"></script>
 </body>

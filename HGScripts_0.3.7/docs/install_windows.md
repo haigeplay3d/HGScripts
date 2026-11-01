@@ -8,7 +8,7 @@
 Windows 用户优先使用同目录里的 EXE 安装包：
 
 ```text
-安装-海哥的Adobe脚本管理器v0.3.6.exe
+HGScripts-v0.3.7-Setup.exe
 ```
 
 安装器使用新版现代界面，会安装 CEP 面板、开启 Adobe CEP 支持，并默认安装 Illustrator C++ 加速插件。安装完成后重新打开 Illustrator，在菜单中打开：
@@ -36,7 +36,7 @@ Illustrator 2021 可以使用 HGScripts CEP 面板和普通 JSX 脚本；C++ 加
 关闭 Illustrator 后，运行同目录里的卸载工具：
 
 ```text
-卸载-海哥的Adobe脚本管理器.exe
+HGScripts-Uninstall.exe
 ```
 
 卸载器会删除正式版 CEP 面板目录、管理器目录和安装器放入 Illustrator `Plug-ins\HGScripts` 的 HGScripts `.aip` 文件；不会删除你自己添加的外部脚本目录。

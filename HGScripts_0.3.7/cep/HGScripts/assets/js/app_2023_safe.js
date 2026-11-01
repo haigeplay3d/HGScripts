@@ -8,33 +8,7 @@
     var selectedIndex = -1;
     var lastResult = "";
     var language = "zh-CN";
-    var EN_SCRIPT_TITLES = {
-        "AI坐标转换工具": "AI Coordinate Converter",
-        "为选择对象创建外框": "Create Frame Around Selection",
-        "六个对象两行三列最大化": "Maximize 6 Objects in 2x3 Grid",
-        "单一色转其它色": "Single Color to Another Color",
-        "同色转白其余转黑": "Same Color to White, Others to Black",
-        "同色转黑其余转白": "Same Color to Black, Others to White",
-        "填充色同步到描边色": "Sync Fill Color to Stroke",
-        "复制选择对象到新画板": "Copy Selection to New Artboard",
-        "导出选择对象为长边1024AI": "Export Selection as 1024 Long-Edge AI",
-        "尺寸无小数": "Remove Decimal Dimensions",
-        "纸杯展开": "Paper Cup Template",
-        "手选基准缩放": "Manual Reference Scale",
-        "描边色同步到填充色": "Sync Stroke Color to Fill",
-        "清理真正无用的空对象": "Clean Truly Useless Empty Objects",
-        "生成UPC-A条形码": "Generate UPC-A Barcode",
-        "选择同色对象-严格版": "Select Same-Color Objects - Strict",
-        "选择同色对象-宽松版": "Select Same-Color Objects - Loose",
-        "选择对象黑白互换": "Swap Black and White in Selection",
-        "选择对象转白色": "Turn Selection White",
-        "选择对象转自定义颜色": "Turn Selection to Custom Color",
-        "选择对象转黑色": "Turn Selection Black",
-        "选择对象长边设为1024": "Set Selection Long Edge to 1024",
-        "选择空对象_极速版": "Select Empty Objects - Fast",
-        "选择转白其余转黑": "Selection to White, Others to Black",
-        "选择转黑其余转白": "Selection to Black, Others to White"
-    };
+    var HGI = window.HGI18N || null;
 
     function byId(id) {
         return document.getElementById(id);
@@ -76,13 +50,13 @@
         return language === "en-US";
     }
 
-    function text(zh, en) {
-        return isEnglish() ? en : zh;
+    function text(key, params) {
+        return HGI ? HGI.t(key, params) : key;
     }
 
     function displayName(item) {
         var base = String((item && item.base) || "").replace(/\.(jsx?|JSX?)$/, "");
-        return isEnglish() && EN_SCRIPT_TITLES[base] ? EN_SCRIPT_TITLES[base] + ".jsx" : item.name;
+        return isEnglish() && HGI ? HGI.scriptTitle(base) + ".jsx" : item.name;
     }
 
     function escapeHtml(value) {
@@ -115,7 +89,7 @@
 
     function getSources() {
         var fallback = [{
-            name: text("默认脚本", "Default Scripts"),
+            name: text("sourceDefaultName"),
             folder: path.join(root, "user_scripts", "illustrator"),
             enabled: true
         }];
@@ -130,7 +104,7 @@
             for (var i = 0; i < parsed.length; i++) {
                 if (parsed[i] && parsed[i].enabled !== false && parsed[i].folder) {
                     result.push({
-                        name: parsed[i].name || text("脚本来源", "Script Source"),
+                        name: parsed[i].name || text("sourceScriptSource"),
                         folder: parsed[i].folder,
                         enabled: true
                     });
@@ -149,18 +123,19 @@
 
     function refreshLanguage() {
         var settings = getSettings();
-        var mode = String(settings.languageMode || "auto");
-        if (mode === "en-US") {
-            language = "en-US";
-        } else if (mode === "zh-CN") {
-            language = "zh-CN";
-        } else {
-            language = /^zh/i.test(String(navigator.language || "")) ? "zh-CN" : "en-US";
+        var mode = HGI ? HGI.normalizeMode(settings.languageMode) : "zh-CN";
+        var detected = HGI ? HGI.detectHostLanguage(cs) : (/^zh/i.test(String(navigator.language || "")) ? "zh-CN" : "en-US");
+        language = HGI ? HGI.resolve(mode, detected) : "zh-CN";
+        if (HGI) {
+            HGI.setLanguage(language);
+            if (HGI.applyStatic) {
+                HGI.applyStatic();
+            }
         }
-        byId("search").placeholder = text("搜索脚本", "Search scripts");
-        byId("refreshBtn").textContent = text("刷新", "Refresh");
-        byId("runBtn").textContent = text("运行选中脚本", "Run Selected");
-        byId("copyBtn").textContent = text("复制结果", "Copy Result");
+        byId("search").placeholder = text("searchPlaceholder");
+        byId("refreshBtn").textContent = text("refresh");
+        byId("runBtn").textContent = text("runSelectedBtn");
+        byId("copyBtn").textContent = text("copyResult");
     }
 
     function getScanDepth() {
@@ -247,7 +222,7 @@
             walk(sources[i].folder, sources[i].name, 0, scanDepth);
         }
         applyFilter();
-        setStatus(text("已加载 ", "Loaded ") + scripts.length + text(" 个 Illustrator 脚本", " Illustrator scripts"));
+        setStatus(text("safeLoaded", { n: scripts.length }));
     }
 
     function pinyinMatch(item, q) {
@@ -284,7 +259,7 @@
         var list = byId("list");
         var html = "";
         if (!filtered.length) {
-            list.innerHTML = '<div style="padding:12px;color:#aeb7bd;">' + text("没有找到脚本", "No scripts found") + '</div>';
+            list.innerHTML = '<div style="padding:12px;color:#aeb7bd;">' + escapeHtml(text("safeNoScripts")) + '</div>';
             return;
         }
         for (var i = 0; i < filtered.length; i++) {
@@ -300,7 +275,7 @@
             buttons[b].onclick = function () {
                 selectedIndex = parseInt(this.getAttribute("data-index"), 10);
                 renderList();
-                setStatus(text("已选中: ", "Selected: ") + displayName(filtered[selectedIndex]));
+                setStatus(text("safeSelected", { name: displayName(filtered[selectedIndex]) }));
             };
             buttons[b].ondblclick = function () {
                 selectedIndex = parseInt(this.getAttribute("data-index"), 10);
@@ -315,10 +290,10 @@
             var message = obj.message || raw;
             if (!obj.ok) {
                 if (obj.file) {
-                    message += "\n" + text("文件: ", "File: ") + obj.file;
+                    message += "\n" + text("runFilePrefix") + obj.file;
                 }
                 if (obj.line) {
-                    message += "\n" + text("行号: ", "Line: ") + obj.line;
+                    message += "\n" + text("runLinePrefix", { n: obj.line });
                 }
             }
             return message;
@@ -329,23 +304,23 @@
 
     function runSelected() {
         if (selectedIndex < 0 || !filtered[selectedIndex]) {
-            setStatus(text("请先选择一个脚本", "Please select a script first"));
+            setStatus(text("needScript"));
             return;
         }
         var item = filtered[selectedIndex];
-        setStatus(text("正在运行: ", "Running: ") + displayName(item));
-        setOutput(text("运行中...", "Running...") + "\n" + item.fullPath);
+        setStatus(text("runRunningStatus", { name: displayName(item) }));
+        setOutput(text("editorRunning") + "\n" + item.fullPath);
         writeLog("run: " + item.fullPath);
         try {
             cs.evalScript("HGScripts.runScript(" + jsxString(item.fullPath) + ", \"auto\", \"\", \"\", \"\", " + jsxString(language) + ")", function (result) {
-                var text = parseResult(result);
-                setOutput(text);
-                setStatus(text("运行完成: ", "Run finished: ") + displayName(item));
+                var message = parseResult(result);
+                setOutput(message);
+                setStatus(text("runStatusDone", { name: displayName(item) }));
                 writeLog("result: " + result);
             });
         } catch (err) {
-            setOutput(text("运行失败: ", "Run failed: ") + err);
-            setStatus(text("运行失败: ", "Run failed: ") + displayName(item));
+            setOutput(text("runStatusFailed", { name: displayName(item) }) + "\n" + err);
+            setStatus(text("runStatusFailed", { name: displayName(item) }));
             writeLog("run failed: " + err);
         }
     }
@@ -359,9 +334,9 @@
             ta.select();
             document.execCommand("copy");
             document.body.removeChild(ta);
-            setStatus(text("结果已复制", "Result copied"));
+            setStatus(text("resultCopied"));
         } catch (err) {
-            setStatus(text("复制失败: ", "Copy failed: ") + err);
+            setStatus(text("copyFailed", { error: err }));
         }
     }
 
@@ -378,10 +353,10 @@
             byId("copyBtn").onclick = copyResult;
             byId("search").oninput = applyFilter;
             scanScripts();
-            setOutput(text("安全面板已启动。双击脚本也可以运行。", "Safe panel started. Double-click a script to run it."));
+            setOutput(text("safeStarted"));
             writeLog("boot done");
         } catch (err) {
-            setStatus(text("安全面板启动失败", "Safe panel failed to start"));
+            setStatus(text("safeStartFailed"));
             setOutput(String(err && err.stack ? err.stack : err));
             try {
                 if (fs && path && root) {
