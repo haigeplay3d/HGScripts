@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64">
+<polyline points="7,7 57,7 57,57 7,57 7,7" fill="none" stroke="#C9D8D0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="10,12 20,12 20,22 10,22" fill="#56B982"/>
+<polyline points="10,12 20,12 20,22 10,22 10,12" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="24,12 34,12 34,22 24,22" fill="#56B982"/>
+<polyline points="24,12 34,12 34,22 24,22 24,12" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="38,12 48,12 48,22 38,22" fill="#56B982"/>
+<polyline points="38,12 48,12 48,22 38,22 38,12" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="10,31 20,31 20,41 10,41" fill="#56B982"/>
+<polyline points="10,31 20,31 20,41 10,41 10,31" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="24,31 34,31 34,41 24,41" fill="#56B982"/>
+<polyline points="24,31 34,31 34,41 24,41 24,31" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="38,31 48,31 48,41 38,41" fill="#56B982"/>
+<polyline points="38,31 48,31 48,41 38,41 38,31" fill="none" stroke="#56B982" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="32,12 32,8" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="34.4207,11.1843 32,8 29.5793,11.1843" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="32,52 32,56" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="29.5793,52.8157 32,56 34.4207,52.8157" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="10,32 7,32" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="10.1843,29.5793 7,32 10.1843,34.4207" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="54,32 57,32" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="53.8157,34.4207 57,32 53.8157,29.5793" fill="none" stroke="#8BD8AE" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
