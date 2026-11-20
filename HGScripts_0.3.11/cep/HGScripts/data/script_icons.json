@@ -1,0 +1,130 @@
+{
+  "选择对象黑白互换.jsx": {
+    "default": "script.svg",
+    "icon": "black-white-swap.svg"
+  },
+  "单色转自定义颜色.jsx": {
+    "default": "script.svg",
+    "icon": "sample-color-custom.svg"
+  },
+  "单色转自定义颜色-其它转自定义颜色.jsx": {
+    "default": "script.svg",
+    "icon": "sample-others-custom.svg"
+  },
+  "选择转自定义颜色-其余转自定义颜色.jsx": {
+    "default": "script.svg",
+    "icon": "sample-others-custom.svg"
+  },
+  "选择对象改颜色_排除一些.jsx": {
+    "default": "script.svg",
+    "icon": "selected-custom-color.svg"
+  },
+  "选择对象转自定义颜色.jsx": {
+    "default": "script.svg",
+    "icon": "selected-custom-color.svg"
+  },
+  "填充颜色同步到描边颜色.jsx": {
+    "default": "script.svg",
+    "icon": "fill-to-stroke.svg"
+  },
+  "描边颜色同步到填充颜色.jsx": {
+    "default": "script.svg",
+    "icon": "stroke-to-fill.svg"
+  },
+  "选择同色对象-严格版.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-strict.svg"
+  },
+  "选择同色对象-宽松版.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-loose.svg"
+  },
+  "选择-真正无用的空对象.jsx": {
+    "default": "script.svg",
+    "icon": "select-empty.svg"
+  },
+  "子对象对齐画板-整组移动.jsx": {
+    "default": "script.svg",
+    "icon": "align-pick.svg"
+  },
+  "子对象改尺寸-整组缩放.jsx": {
+    "default": "script.svg",
+    "icon": "basis-scale.svg"
+  },
+  "子对象改坐标-整组移动.jsx": {
+    "default": "script.svg",
+    "icon": "basis-move-xy.svg"
+  },
+  "尺寸无小数.jsx": {
+    "default": "script.svg",
+    "icon": "round-size-up.svg"
+  },
+
+
+  "记录对象中心相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "record-position.svg"
+  },
+  "应用对象中心相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "apply-position.svg"
+  },
+  "illustrator坐标转换器.jsx": {
+    "default": "script.svg",
+    "icon": "coordinates.svg"
+  },
+  "为选择对象创建外框.jsx": {
+    "default": "script.svg",
+    "icon": "selection-frame.svg"
+  },
+  "选择对象上方创建白色矩形.jsx": {
+    "default": "script.svg",
+    "icon": "white-overlay.svg"
+  },
+  "当前画板创建黑色背景矩形.jsx": {
+    "default": "script.svg",
+    "icon": "black-background.svg"
+  },
+
+
+  "纸杯展开.jsx": {
+    "default": "script.svg",
+    "icon": "paper-cup.svg"
+  },
+  "生成UPC-A条形码.jsx": {
+    "default": "script.svg",
+    "icon": "upca-barcode.svg"
+  },
+  "记录对象相对画板位置.jsx": {
+    "default": "script.svg",
+    "icon": "record-artboard-position.svg"
+  },
+  "记录对象相对画板位置_视觉中心.jsx": {
+    "default": "script.svg",
+    "icon": "record-visual-position.svg"
+  },
+  "应用相对画板位置到选择对象.jsx": {
+    "default": "script.svg",
+    "icon": "apply-artboard-position.svg"
+  },
+  "应用相对画板位置到选择对象_视觉中心.jsx": {
+    "default": "script.svg",
+    "icon": "apply-visual-position.svg"
+  },
+  "选择同色对象.jsx": {
+    "default": "script.svg",
+    "icon": "select-same-color.svg"
+  },
+  "选择文字转曲.jsx": {
+    "default": "script.svg",
+    "icon": "text-outlines.svg"
+  },
+  "字体还原.jsx": {
+    "default": "script.svg",
+    "icon": "text-outlines.svg"
+  },
+  "复制选中对象按原图层分组.jsx": {
+    "default": "script.svg",
+    "icon": "copy-group-by-layer.svg"
+  }
+}
