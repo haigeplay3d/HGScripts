@@ -1,0 +1,1914 @@
+:root {
+  --bg: #535353;
+  --panel: #4b4b4b;
+  --panel-2: #5a5a5a;
+  --panel-3: #3f3f3f;
+  --text: #ececec;
+  --muted: #c7c7c7;
+  --muted-2: #a5a5a5;
+  --line: #3d3d3d;
+  --line-soft: rgba(0, 0, 0, 0.16);
+  --accent: #56b982;
+  --accent-soft: rgba(86, 185, 130, 0.22);
+  --accent-2: #5f6a76;
+  --warn: #d7b24a;
+  --error: #d86767;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  /* 布局最小宽度要与宿主闸门（manifest MinSize 252×321 逻辑 ≈ 381×485 物理）保持余量，
+     写大了会在窄面板把右侧内容裁掉，写小了会让网格在窗口到达最小前先塌。 */
+  min-width: 200px;
+  min-height: 260px;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 12px/1.35 "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  min-height: 23px;
+  padding: 2px 9px;
+  border: 0;
+  background: #5f5f5f;
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover:not(:disabled) {
+  background: #6a6a6a;
+}
+
+button:disabled {
+  color: #8e8e8e;
+  background: #505050;
+  cursor: default;
+}
+
+button.running {
+  color: var(--text);
+  opacity: 0.85;
+}
+
+button.running::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  vertical-align: -1px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+input,
+select {
+  min-height: 23px;
+  padding: 2px 8px;
+  border: 0;
+  background: #3f3f3f;
+  color: var(--text);
+  outline: none;
+  border-radius: 4px;
+}
+
+input:focus,
+select:focus {
+  background: #363636;
+  box-shadow: 0 0 0 2px rgba(86, 185, 130, 0.26);
+}
+
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+
+::-webkit-scrollbar-track {
+  background: #424242;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8a8a8a;
+  border: 3px solid #424242;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9a9a9a;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-resizer {
+  background: transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.shell {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  height: 100%;
+  min-width: 200px;
+  min-height: 260px;
+}
+
+.shell.settings-view-open .topbar,
+.shell.settings-view-open .sourcebar,
+.shell.settings-view-open .statusline,
+.shell.settings-view-open .content,
+.shell.about-view-open .topbar,
+.shell.about-view-open .sourcebar,
+.shell.about-view-open .statusline,
+.shell.about-view-open .content {
+  display: none;
+}
+
+/* 设置 / 关于页的状态栏必须落底。
+   主视图的 grid-template-rows: auto auto 1fr auto 是给「顶栏 / 目录栏 / 内容 / 状态栏」
+   四个元素排的。视图页把前三个都 display:none 后，剩下的「视图 + 状态栏」被自动放进
+   前两行，1fr 那行空着却照样吃满剩余高度 —— 面板越高、界面缩放越大，状态栏下面空得
+   越多（实测 150% 缩放、378x780 下空 214px）。元素多一个（升级提示条）又会碰巧落底，
+   所以这不是内容高度问题，是行模型用错了。
+   视图页改用纵向 flex：视图 flex:1 吃掉剩余高度并自己滚动，状态栏 margin-top:auto
+   明确落底，不依赖可见子元素的个数与顺序。 */
+.shell.settings-view-open,
+.shell.about-view-open {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell.settings-view-open .footerbar,
+.shell.about-view-open .footerbar {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+
+.shell.panel-narrow .content {
+  grid-template-columns: 1fr;
+}
+
+.shell.panel-narrow .main-splitter,
+.shell.panel-narrow .detail,
+.shell.panel-narrow .code-editor {
+  display: none !important;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  padding: 6px 7px 4px;
+  border-bottom: 1px solid var(--line);
+  background: #4a4a4a;
+  position: relative;
+  z-index: 20;
+}
+
+.topbar-main,
+.topbar-actions {
+  display: grid;
+  align-items: center;
+  min-width: 0;
+}
+
+.topbar-main {
+  grid-template-columns: minmax(0, 1fr) 62px 40px 30px;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.topbar-actions {
+  grid-template-columns: minmax(0, 1fr) max-content max-content max-content max-content;
+  gap: 4px;
+  overflow: visible;
+}
+
+.topbar-main > *,
+.topbar-actions > * {
+  min-width: 0;
+}
+
+.topbar-status {
+  display: none;
+}
+
+.topbar #searchInput,
+.topbar-actions select {
+  min-width: 0;
+  width: 100%;
+}
+
+.sort-control {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+}
+
+.sort-menu-btn {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  justify-self: stretch;
+  padding-right: 18px;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  /* 缺 nowrap 时英文长标签（如 Last used）会在按钮内折行，导致整排按钮高低不齐；
+     箭头是绝对定位，不受影响。中文按钮本就由 .topbar button 的 nowrap 约束，无视觉变化。 */
+  white-space: nowrap;
+}
+
+.sort-menu-btn::after {
+  content: "";
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  margin-top: -2px;
+  border-width: 4px 4px 0;
+  border-style: solid;
+  border-color: var(--muted) transparent transparent;
+}
+
+.sort-menu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 3px);
+  z-index: 1100;
+  display: none;
+  min-width: 112px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  background: #4a4a4a;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+}
+
+.sort-menu.open {
+  display: grid;
+  gap: 2px;
+}
+
+/* 300px 级最小面板：顶栏整条降一档字号与边距。
+   注意：Illustrator 2026 把面板钳在 450 宽左右，这一档目前不会触发；
+   保留它是为了 Photoshop / InDesign 或将来宿主放宽最小宽度时不用重写布局。 */
+@media (max-width: 360px) {
+  .topbar {
+    gap: 3px;
+    padding: 5px 6px 3px;
+  }
+  .topbar-main {
+    grid-template-columns: minmax(0, 1fr) 50px 34px 26px;
+    gap: 3px;
+  }
+  .topbar-actions {
+    gap: 3px;
+  }
+  .topbar #searchInput,
+  .topbar select,
+  .topbar-main button:not(#panelSizeBtn),
+  .topbar-actions button {
+    font-size: 11px;
+    min-height: 22px;
+    padding: 2px 5px;
+  }
+  .topbar .sort-menu-btn {
+    padding-right: 14px;
+  }
+  /* 11px 字号下「最近使用」文字 44px + 内边距 5px + 箭头 14px = 63px，
+     这里不再给排序控件封顶（封顶会在宽面板留下空隙），
+     只保证按钮本身在极窄宽度下仍能压缩。 */
+  .topbar-actions button {
+    min-width: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .panel-actions button {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+  .statusline {
+    font-size: 11px;
+  }
+}
+
+.sort-menu button {
+  width: 100%;
+  min-height: 24px;
+  padding: 3px 8px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.sort-menu button:hover,
+.sort-menu button.active {
+  color: #7df0a3;
+  background: #2f513d;
+}
+
+.host-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid #6cd891;
+  color: #7df0a3;
+  background: #303b34;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cpp-mode-select {
+  width: 62px;
+  height: 26px;
+  min-height: 26px;
+  padding: 0 4px;
+  background: #365243;
+  color: var(--text);
+}
+
+.cpp-mode-select.mode-auto {
+  color: #7df0a3;
+  background: #2f513d;
+}
+
+.cpp-mode-select.mode-cpp {
+  color: #ffe08a;
+  background: #4b4328;
+}
+
+.cpp-mode-select.mode-jsx {
+  color: #c8dcff;
+  background: #303846;
+}
+
+.topbar button {
+  justify-self: start;
+  white-space: nowrap;
+}
+
+.primary-create {
+  color: var(--text);
+  background: #616161;
+}
+
+.quick-filter-btn.active,
+#toggleSourcesBtn.active {
+  color: #7df0a3;
+  background: #2f513d;
+}
+
+.host-toggle-btn {
+  width: 30px;
+  height: 28px;
+  min-height: 28px;
+  padding: 3px;
+  justify-self: end;
+  background: transparent;
+  overflow: hidden;
+}
+
+#refreshBtn {
+  width: 40px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.topbar-actions button {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.host-toggle-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.host-toggle-btn.panel-wide-active {
+  background: rgba(86, 185, 130, 0.14);
+}
+
+.host-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+.sourcebar,
+.filters,
+.statusline {
+  display: grid;
+  gap: 3px;
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--line);
+  background: #4b4b4b;
+}
+
+.sourcebar {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+}
+
+.source-tabs {
+  display: flex;
+  gap: 3px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 1px;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 24px;
+}
+
+.source-tools {
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) auto auto auto auto;
+  gap: 3px;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.source-tab {
+  flex: 0 0 auto;
+  min-width: 46px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #5b5b5b;
+}
+
+.source-tab.active {
+  color: #70d996;
+  background: #2f4738;
+  box-shadow: none;
+}
+
+.source-form {
+  display: grid;
+  grid-template-columns: minmax(120px, 170px) minmax(0, 1fr) 92px 96px 118px;
+  gap: 6px;
+}
+
+.settings-form {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 0 10px 10px;
+  color: var(--muted);
+}
+
+.settings-form label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.settings-form #scanDepthInput {
+  width: 172px;
+}
+
+.settings-form .inline-hint {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.create-form {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) auto 78px;
+  gap: 6px;
+  padding: 0 10px 10px;
+  align-items: center;
+}
+
+.create-form label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.filters {
+  grid-template-columns: 1fr auto 140px;
+  align-items: center;
+}
+
+.check-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 30px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.check-filter input {
+  min-height: auto;
+}
+
+.statusline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  color: var(--muted);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background: #484848;
+}
+
+.statusline.priority.running #countLabel,
+.statusline.priority.ok #countLabel {
+  color: var(--accent);
+}
+
+.statusline.priority.error #countLabel {
+  color: #ff9a9a;
+}
+
+.statusline.priority.warn #countLabel {
+  color: #f0c36a;
+}
+
+#countLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#watchLabel {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(180px, 44%) 7px minmax(0, 1fr);
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+}
+
+.main-splitter {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 7px;
+  cursor: col-resize;
+  background: #3f3f3f;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+.main-splitter:hover,
+.resizing-main-split .main-splitter {
+  background: #6f6f6f;
+}
+
+.resizing-main-split {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.app-view {
+  display: none;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: #4b4b4b;
+}
+
+.shell.settings-view-open #settingsView,
+.shell.about-view-open #aboutView {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  /* 视图页是纵向 flex（见 .shell 注释）：撑满剩余高度，超出时由自己 overflow:auto 滚动。 */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.view-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  background: #454545;
+}
+
+.view-head h2 {
+  margin: 0 0 2px;
+  font-size: 15px;
+}
+
+.view-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.view-body {
+  min-width: 0;
+  padding: 12px;
+}
+
+.settings-panel {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.settings-panel label {
+  color: var(--muted);
+}
+
+.settings-panel select {
+  width: 100%;
+}
+
+.setting-hint {
+  margin: 0;
+  color: var(--warn);
+}
+
+.about-panel dl {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 8px 12px;
+  margin: 0;
+}
+
+.about-panel dt {
+  color: var(--muted);
+}
+
+.about-panel dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.about-panel a {
+  color: #9bd2b4;
+  text-decoration: none;
+}
+
+.about-panel a:hover {
+  color: #c5efd8;
+  text-decoration: underline;
+}
+
+.script-list {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid var(--line);
+  background: #464646;
+}
+
+.script-item {
+  display: grid;
+  grid-template-columns: 22px 17px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px 2px 1px;
+  border-bottom: 1px solid var(--line-soft);
+  cursor: pointer;
+  min-width: 0;
+  border-left: 2px solid transparent;
+  min-height: 26px;
+}
+
+.script-item:hover {
+  background: #515151;
+}
+
+.script-item.active {
+  border-left-color: var(--accent);
+  background: #4f6257;
+  box-shadow: none;
+}
+
+.script-item.running-item {
+  border-left-color: var(--error);
+  background: #7a3d3d;
+}
+
+.script-item.running-item .script-title,
+.script-item.running-item .script-index {
+  color: #ffffff;
+}
+
+.script-list.has-running .script-item.running-dim {
+  opacity: 0.46;
+}
+
+.script-item.active .script-title {
+  color: #ffffff;
+}
+
+.script-main {
+  min-width: 0;
+  align-self: center;
+}
+
+.script-index {
+  align-self: center;
+  padding-top: 0;
+  color: var(--muted-2);
+  font-size: 11px;
+  line-height: 1;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.script-item.active .script-index {
+  color: var(--accent);
+}
+
+.script-icon-wrap {
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  opacity: 0.95;
+  position: relative;
+}
+
+.script-icon {
+  display: block;
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.script-icon-inline {
+  display: block;
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
+}
+
+.script-list.has-running .script-item.running-dim .script-icon-wrap {
+  opacity: 0.5;
+}
+
+.script-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.16;
+  font-weight: 500;
+}
+
+.script-item:not(.active) .script-title {
+  color: #eeeeee;
+}
+
+.script-meta {
+  display: none;
+}
+
+.script-tags {
+  display: flex;
+  align-items: center;
+  justify-items: end;
+  gap: 4px;
+  width: auto;
+}
+
+.star,
+.doc-icon-btn,
+.cpp-boost-badge,
+.doc-icon-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
+  width: 22px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  opacity: 0.82;
+}
+
+.doc-icon-placeholder {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.star,
+.doc-icon-btn {
+  cursor: pointer;
+}
+
+.star img,
+.doc-icon-img,
+.cpp-boost-img {
+  display: block;
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+}
+
+.star img,
+.doc-icon-img,
+.cpp-boost-img {
+  object-fit: contain;
+}
+
+.star img {
+  filter: invert(80%) sepia(5%) saturate(134%) hue-rotate(169deg) brightness(86%) contrast(82%);
+}
+
+.star.favorited img {
+  filter: invert(76%) sepia(87%) saturate(932%) hue-rotate(354deg) brightness(105%) contrast(102%);
+}
+
+.star:hover,
+.doc-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  opacity: 1;
+}
+
+.star.favorited:hover {
+  background: rgba(255, 190, 42, 0.12);
+}
+
+/* 详情栏只声明了行，隐式列是 auto —— 它的最小尺寸会被「最长的不可断内容」
+   （Windows 长路径、没有空格的 Markdown 行、textarea 的固有宽度）撑到 572px 左右。
+   面板一窄，这一整列就比可见区域宽：右端的「保存说明」按钮、textarea 的滚动条、
+   路径和说明文字全被推到视口外，看起来像「按钮不显示 / 文字不换行 / 没有滚动条」。
+   把列钉成 minmax(0, 1fr)，让内容按实际可用宽度换行，而不是让列跟着内容变宽。 */
+.detail {
+  grid-column: 3;
+  grid-row: 1;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  background: #4b4b4b;
+}
+
+.detail > * {
+  min-width: 0;
+}
+
+.code-editor {
+  grid-column: 3;
+  grid-row: 1;
+  display: none;
+  grid-template-rows: auto auto minmax(160px, 1fr) 7px minmax(80px, 24%);
+  min-width: 0;
+  min-height: 0;
+  background: #4b4b4b;
+}
+
+.code-editor.open {
+  display: grid;
+}
+
+.content.editor-open .detail {
+  display: none;
+}
+
+.editor-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.editor-head h2 {
+  margin: 0 0 3px;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.editor-title-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 25px;
+  padding: 2px 6px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.editor-title-input:not(:disabled):hover,
+.editor-title-input:not(:disabled):focus {
+  border-color: #8f8f8f;
+  background: var(--panel-3);
+}
+
+.editor-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.editor-toolbar,
+.console-toolbar {
+  display: grid;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.editor-toolbar {
+  grid-template-columns: repeat(6, auto) minmax(0, 1fr);
+}
+
+.editor-toolbar span {
+  justify-self: end;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.editor-toolbar span.dirty {
+  color: var(--warn);
+}
+
+.ace-editor {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  background: #2b2b2b;
+  font: 12px/1.55 Consolas, "Microsoft YaHei UI", monospace;
+}
+
+.legacy-text-editor {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: #1f1f1f;
+  color: #f0f0f0;
+  font: 12px/1.45 Consolas, "Courier New", monospace;
+  white-space: pre;
+  overflow: auto;
+}
+
+.ace-error-line {
+  position: absolute;
+  background: rgba(239, 107, 115, 0.22);
+}
+
+.console-panel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+  border-top: 1px solid var(--line);
+}
+
+.console-resizer {
+  height: 7px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #444444;
+  cursor: ns-resize;
+}
+
+.console-resizer:hover,
+.resizing-console .console-resizer {
+  background: #696969;
+}
+
+.console-toolbar {
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  color: var(--muted);
+}
+
+.console-toolbar span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.console-toolbar button {
+  min-width: 44px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.console-output {
+  margin: 0;
+  padding: 9px 10px;
+  overflow: auto;
+  color: #eeeeee;
+  background: #2f2f2f;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font: 12px/1.5 Consolas, "Microsoft YaHei UI", monospace;
+}
+
+.console-entry {
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.console-code {
+  margin: 6px 0 0;
+  padding: 7px 9px;
+  overflow-x: auto;
+  border-left: 3px solid var(--error);
+  background: rgba(216, 103, 103, 0.18);
+  color: #f1d7d9;
+  white-space: pre;
+  font: 12px/1.5 Consolas, "Microsoft YaHei UI", monospace;
+}
+
+.console-code-line {
+  cursor: pointer;
+}
+
+.console-code-line:hover {
+  color: #ffffff;
+}
+
+.console-line-link {
+  min-height: 24px;
+  margin-top: 5px;
+  padding: 2px 8px;
+  color: var(--warn);
+  background: transparent;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 58px 16px 16px;
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.source-modal {
+  width: min(760px, 100%);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  background: #4b4b4b;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+}
+
+.create-modal {
+  width: min(720px, 100%);
+  border: 1px solid var(--line);
+  background: #4b4b4b;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+}
+
+.switch-modal {
+  width: min(420px, 100%);
+  border: 1px solid var(--line);
+  background: #4b4b4b;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-head h2 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.switch-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+}
+
+.drop-zone {
+  margin: 10px;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  text-align: center;
+}
+
+.drop-zone.dragging {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(86, 185, 130, 0.12);
+}
+
+.source-modal .source-form {
+  padding: 0 10px 10px;
+}
+
+.added-sources {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 6px;
+  min-height: 92px;
+  padding: 0 10px 10px;
+  overflow: hidden;
+}
+
+.added-sources-title {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.source-list {
+  display: grid;
+  gap: 4px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.source-list-empty {
+  padding: 10px;
+  color: var(--muted);
+  background: #424242;
+  border-radius: 4px;
+}
+
+.source-list-item {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 3px;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 8px;
+  background: #424242;
+  text-align: left;
+}
+
+.source-list-item:hover {
+  background: #505050;
+}
+
+.source-list-item.active {
+  background: #2f4738;
+}
+
+.source-list-item.missing {
+  background: #4d3f3f;
+}
+
+.source-list-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.source-list-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.source-list-badge {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #88dca8;
+  font-size: 11px;
+}
+
+.source-list-meta {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.source-list-path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--muted);
+  direction: rtl;
+  text-align: left;
+}
+
+.detail-head {
+  min-width: 0;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.detail h2 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* 完整路径里没有空格，默认只在 CJK 字符处断行，前半段 ASCII 会整段溢出被裁掉。 */
+#detailMeta {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.meta-info {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+}
+
+.panel-actions {
+  display: none !important;
+}
+
+.rename-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 64px;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+#renameInput {
+  min-width: 0;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+#runBtn {
+  background: var(--accent-2);
+  border-color: #78828e;
+}
+
+.doc-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.doc-toolbar span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#saveDocBtn {
+  width: 96px;
+  min-width: 0;
+  justify-self: end;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.doc {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  resize: none;
+  background: #4b4b4b;
+  color: #d8dde5;
+  font: 12px/1.55 "Microsoft YaHei UI", "Microsoft YaHei", Consolas, monospace;
+}
+
+.toast {
+  min-width: 0;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.footerbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 2px 26px 2px 10px; /* 右侧多留，避开宿主右下角的 resize gripper */
+  border-top: 1px solid var(--line);
+  background: #424242;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.footerbar.status-running { background: #7a4a1e; }
+.footerbar.status-ok { background: #2c5a3a; }
+.footerbar.status-error { background: #7a2e2e; }
+.footerbar.status-warn { background: #7a6a1e; }
+
+.status-hint {
+  min-width: 0;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.update-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-top: 1px solid var(--line);
+  background: #24422f;
+  color: #9fe1cb;
+  cursor: pointer;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.update-bar-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.update-bar-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.update-bar-close:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.update-bar-busy {
+  background: #2b3a46;
+  color: #a9d0ea;
+  cursor: default;
+}
+
+.update-bar-ok {
+  background: #24422f;
+  color: #9fe1cb;
+  cursor: default;
+}
+
+.update-bar-warn {
+  background: #4a3326;
+  color: #f0c9a8;
+  cursor: default;
+}
+
+.update-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1;
+  color: #b9c1cb;
+  cursor: pointer;
+  user-select: none;
+}
+
+.about-version-cell {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 18px;
+}
+
+.about-version-cell .update-toggle {
+  margin-left: 0;
+}
+
+.update-toggle input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.update-bar[hidden] {
+  display: none;
+}
+
+.selected-meta {
+  min-width: 0;
+  color: #b9c1cb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+@media (max-width: 620px) {
+  .footerbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px;
+    padding: 3px 26px 3px 10px;
+  }
+
+  .selected-meta {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+.toast.ok {
+  color: var(--accent);
+}
+
+.toast.running {
+  color: #ff6f6f;
+}
+
+.toast.warn {
+  color: var(--warn);
+}
+
+.toast.error {
+  color: var(--error);
+}
+
+.context-menu {
+  position: fixed;
+  z-index: 1000;
+  display: none;
+  min-width: 176px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  background: #4a4a4a;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+}
+
+.context-menu.open {
+  display: grid;
+  gap: 2px;
+}
+
+/* 自定义悬浮提示，替掉浏览器原生的 title tooltip。
+   原生提示由宿主渲染，字号固定，不跟随 body{zoom} —— 界面缩放 150% 时它比周围文字
+   明显小一圈。这个节点挂在 body 内、用同一套 12px 字体，zoom 会连字号一起放大；
+   定位与最大宽高按 showTip() 里的换算给的是局部坐标（见 app.js 的 fixed 浮层说明）。
+   z-index 1300 高于排序菜单(1100)、右键菜单(1000)、弹窗(900)。 */
+.hg-tip {
+  position: fixed;
+  z-index: 1300;
+  display: none;
+  max-width: 320px;
+  padding: 5px 8px;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  background: #303030;
+  color: #f0f0f0;
+  font: 12px/1.45 "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  white-space: normal;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.hg-tip.open {
+  display: block;
+}
+
+/* 拖文件进面板时的全局提示。用四条边归零的 fixed 层，不用 JS 算坐标，
+   避免 body{zoom} 下 fixed 浮层的物理坐标 / 局部坐标混用（见 cep_panel.md 第 7 条）。
+   pointer-events:none 保证它自己不会抢走 drop 事件。 */
+.hg-file-drop-hint {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1250;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 3px dashed var(--accent);
+  background: rgba(22, 27, 31, 0.78);
+  color: var(--text);
+  font: 600 13px/1.5 "Microsoft YaHei UI", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+  text-align: center;
+  pointer-events: none;
+}
+
+body.hg-file-drag-active .hg-file-drop-hint {
+  display: flex;
+}
+
+.context-menu button {
+  width: 100%;
+  min-height: 26px;
+  padding: 4px 10px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.context-menu button:hover {
+  background: #5a5a5a;
+  border-color: transparent;
+}
+
+.context-menu hr {
+  width: 100%;
+  height: 1px;
+  margin: 4px 0;
+  border: 0;
+  background: var(--line);
+}
+
+@media (max-width: 820px) {
+  .topbar {
+    gap: 6px;
+    padding: 4px 8px;
+  }
+
+  .topbar-actions {
+    grid-template-columns: minmax(0, 1fr) max-content max-content max-content max-content;
+  }
+
+  .sourcebar,
+  .statusline {
+    padding: 4px 8px;
+  }
+
+  .sourcebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .source-tabs {
+    scrollbar-width: thin;
+  }
+
+  #watchLabel {
+    display: none;
+  }
+
+  .editor-toolbar {
+    grid-template-columns: repeat(6, auto);
+    overflow-x: auto;
+    padding: 5px 8px;
+  }
+
+  .editor-toolbar span {
+    display: none;
+  }
+
+  .editor-head {
+    padding: 6px 8px;
+  }
+
+  .console-toolbar {
+    padding: 5px 8px;
+  }
+
+  .source-form {
+    grid-template-columns: minmax(0, 1fr) 92px 96px 118px;
+  }
+
+  .source-form #sourceNameInput,
+  .source-form #folderInput {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .topbar-main {
+    grid-template-columns: minmax(0, 1fr) 62px 40px 30px;
+    gap: 2px;
+  }
+
+  .topbar-actions {
+    grid-template-columns: minmax(0, 1fr) 31px 31px 31px 55px;
+    gap: 2px;
+  }
+
+  .topbar-actions button {
+    justify-self: stretch;
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: center;
+  }
+
+  .topbar-actions select {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .source-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .source-form #sourceNameInput,
+  .source-form #folderInput {
+    grid-column: 1 / -1;
+  }
+
+  .source-form button {
+    justify-self: stretch;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .settings-form {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-form #scanDepthInput {
+    width: 100%;
+  }
+
+  .added-sources {
+    min-height: 120px;
+  }
+
+  .create-form {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .detail {
+    display: none;
+  }
+}
+
+/* English labels run longer than Chinese; give the English UI more room and avoid clipped buttons. */
+body[data-language="en-US"] .topbar-main {
+  grid-template-columns: minmax(0, 1fr) 58px 64px 30px;
+}
+
+body[data-language="en-US"] #refreshBtn {
+  width: auto;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* 英文按钮标签普遍比中文长：全面板宽度区间（252px 最小档到宽面板）统一单行、
+   等高、超出省略号。所有规则都带 en-US 限定，中文界面零影响。
+   选择器限定 .topbar，避免波及弹窗内其它按钮。 */
+body[data-language="en-US"] .topbar-actions button {
+  padding-left: 6px;
+  padding-right: 6px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body[data-language="en-US"] .topbar-main button,
+body[data-language="en-US"] .topbar-main select {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body[data-language="en-US"] .sort-control {
+  min-width: 0;
+}
+
+body[data-language="en-US"] .sort-menu-btn {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+body[data-language="en-US"] .selected-meta {
+  direction: ltr;
+  text-align: right;
+}
+
+/* 英文模式沿用与中文同构的单行 5 列网格：排序控件留在弹性首列，后四个按钮
+   按内容靠左成组，绝不拆行、不用 space-between 把按钮撑到整行两端；
+   长词在词条层缩写（favoritesShort / addFolderShort），不靠改布局迁就。 */
+@media (max-width: 700px) {
+  body[data-language="en-US"] .topbar-actions {
+    gap: 3px;
+  }
+}
+
+/* 极窄档（≤520px）基础规则把后四列钉成 31/55px 固定宽，会截断英文按钮；
+   英文模式改按内容自适应，排序弹性列吸收剩余空间。选择器带 en-US，中文零影响。 */
+@media (max-width: 520px) {
+  body[data-language="en-US"] .topbar-actions {
+    grid-template-columns: minmax(0, 1fr) auto auto auto auto;
+  }
+
+  body[data-language="en-US"] .topbar-actions button {
+    justify-self: start;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+
+/* ---- 脚本目录：三段式（2026-11-03） ---- */
+.source-section { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.source-section-hint { margin: 0 0 10px; color: var(--muted); font-size: 12px; }
+.source-section-hint b { color: var(--text); font-weight: 600; }
+.source-section-hint em { color: var(--muted-2); font-style: normal; }
+.source-list { display: grid; gap: 5px; max-height: 210px; overflow-y: auto; }
+.source-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 3px 8px;
+  width: 100%;
+  min-height: 46px;
+  padding: 7px 9px;
+  background: #424242;
+  border: 1px solid transparent;
+  border-left: 2px solid transparent;
+  text-align: left;
+  color: var(--text);
+}
+.source-list-item:hover { background: #505050; }
+.source-list-item.active { background: #2f4738; border-color: var(--accent); border-left-color: var(--accent); }
+.source-list-item.missing { background: #4d3f3f; }
+.source-list-head { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; }
+.source-list-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: var(--text); }
+.source-list-meta { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted-2); font-size: 11px; }
+.source-list-path { grid-column: 1; font-size: 11px; color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.source-list-open {
+  align-self: center;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.source-list-open:hover { color: var(--text); border-color: #8a8a8a; }
+.source-list-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.source-drop-zone { margin-top: 8px; padding: 8px; border: 1px dashed var(--line); border-radius: 6px; color: var(--muted-2); font-size: 11px; text-align: center; }
+.source-drop-zone.dragging { border-color: var(--accent); color: var(--text); background: var(--accent-soft); }
+.source-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.source-primary-btn { background: #2f6f4c; border-color: #3d8a5f; color: #eafff2; }
+.source-detail-grid { display: flex; gap: 10px; margin-bottom: 10px; }
+.source-field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.source-field-narrow { flex: 0 0 180px; }
+.source-field > span { font-size: 11px; color: var(--muted-2); }
+.source-field input, .source-field select { width: 100%; }
+.source-path-line { display: flex; gap: 8px; align-items: center; }
+.source-path-line input { flex: 1 1 auto; min-width: 0; }
+.source-path-line > button { flex: 0 0 auto; white-space: nowrap; }
+#folderInput[readonly] { background: #3f3f3f; color: var(--muted); cursor: copy; text-overflow: ellipsis; }
+#folderInput:not([readonly]) { background: var(--text); color: #222; }
+.source-empty-note { margin-top: 10px; padding: 9px 10px; border: 1px solid #6b5330; border-radius: 6px; background: #4a3c28; color: #f0d9a8; font-size: 12px; }
+.source-adv-head { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0; border: 0; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; text-align: left; }
+.source-adv-body { display: none; margin-top: 10px; }
+.source-adv-body.open { display: block; }
+.source-adv-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.source-adv-hint { color: var(--muted-2); font-size: 11px; }
+.source-footer { display: flex; justify-content: flex-end; padding: 10px 14px; border-top: 1px solid var(--line); }
+.source-remove-btn { background: transparent; border-color: transparent; color: var(--error); }
+.source-remove-btn:hover { background: rgba(216, 103, 103, 0.12); }
+@media (max-width: 520px) {
+  .source-detail-grid { flex-direction: column; }
+  .source-field-narrow { flex: 1 1 auto; }
+  .source-path-line { flex-wrap: wrap; }
+  .source-drop-zone { display: none; }
+  .source-list-path { display: none; }
+}
